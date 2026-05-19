@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giải Mã QR Code & Ứng Dụng Trên Động Cơ Điện</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        /* CSS Scroll Snap for page-by-page scrolling */
+        .scroll-container {
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+            height: 100vh;
+            scroll-behavior: smooth;
+        }
+        .slide {
+            scroll-snap-align: start;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .scroll-container::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .scroll-container {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        /* Custom dot indicator active class */
+        .dot-active {
+            background-color: #10B981 !important;
+            transform: scale(1.3);
+        }
+        /* Custom styling for realistic simulator grid */
+        .qr-pixel {
+            transition: all 0.2s ease;
+        }
+        .qr-pixel.damaged {
+            background-color: #EF4444 !important;
+            opacity: 0.8;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 antialiased overflow-hidden">
+
+    <!-- Side Dot Indicators -->
+    <div class="fixed right-6 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-4">
+        <button onclick="scrollToSlide(0)" class="nav-dot w-3 h-3 rounded-full bg-slate-600 transition-all hover:bg-emerald-400 dot-active" title="Trang chủ"></button>
+        <button onclick="scrollToSlide(1)" class="nav-dot w-3 h-3 rounded-full bg-slate-600 transition-all hover:bg-emerald-400" title="Cấu trúc QR"></button>
+        <button onclick="scrollToSlide(2)" class="nav-dot w-3 h-3 rounded-full bg-slate-600 transition-all hover:bg-emerald-400" title="Cơ chế sửa lỗi"></button>
+        <button onclick="scrollToSlide(3)" class="nav-dot w-3 h-3 rounded-full bg-slate-600 transition-all hover:bg-emerald-400" title="Trình mô phỏng"></button>
+        <button onclick="scrollToSlide(4)" class="nav-dot w-3 h-3 rounded-full bg-slate-600 transition-all hover:bg-emerald-400" title="Thách thức động cơ"></button>
+        <button onclick="scrollToSlide(5)" class="nav-dot w-3 h-3 rounded-full bg-slate-600 transition-all hover:bg-emerald-400" title="Bộ tính kích thước"></button>
+        <button onclick="scrollToSlide(6)" class="nav-dot w-3 h-3 rounded-full bg-slate-600 transition-all hover:bg-emerald-400" title="Tổng kết"></button>
+    </div>
+
+    <!-- Main Scrollable Container -->
+    <div id="scrollContainer" class="scroll-container">
+
+        <!-- ================= SLIDE 1: INTRO ================= -->
+        <section class="slide bg-gradient-to-br from-slate-950 via-slate-900 to-emerald-950 p-6 md:p-12">
+            <!-- Header -->
+            <div class="flex justify-between items-center w-full max-w-7xl mx-auto">
+                <span class="text-xs tracking-widest text-emerald-400 font-bold uppercase">Công nghệ mã QR & Công nghiệp</span>
+                <span class="text-sm text-slate-400">Trang 1 / 7</span>
+            </div>
+
+            <!-- Content -->
+            <div class="max-w-4xl mx-auto text-center my-auto flex flex-col justify-center items-center">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs mb-6 font-medium animate-pulse">
+                    <i class="fa-solid fa-bolt"></i> Chuyên đề: Động Cơ Điện & Thiết Bị Công Nghiệp
+                </div>
+                <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-200 to-emerald-400 bg-clip-text text-transparent leading-tight">
+                    Giải Mã QR Code & Tối Ưu Nhãn Động Cơ Điện
+                </h1>
+                <p class="text-base md:text-lg text-slate-300 mt-6 max-w-2xl leading-relaxed">
+                    Khám phá cơ chế <strong>tự khôi phục dữ liệu siêu việt</strong> của QR Code và phương pháp tính toán kích thước in ấn nhãn kỹ thuật tối ưu nhất cho thiết bị cơ điện công nghiệp.
+                </p>
+                
+                <div class="flex flex-wrap gap-4 mt-8 justify-center">
+                    <button onclick="scrollToSlide(1)" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-6 py-3 rounded-lg shadow-lg shadow-emerald-500/20 transition-all flex items-center gap-2">
+                        Bắt đầu khám phá <i class="fa-solid fa-arrow-down"></i>
+                    </button>
+                    <button onclick="scrollToSlide(5)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold px-6 py-3 rounded-lg border border-slate-700 transition-all flex items-center gap-2">
+                        Bộ tính kích thước QR <i class="fa-solid fa-calculator"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="w-full max-w-7xl mx-auto flex justify-between items-center text-xs text-slate-500 border-t border-slate-800/60 pt-4">
+                <span>Dùng chuột cuộn hoặc dùng các nút điều hướng để di chuyển slide</span>
+                <div class="flex gap-2">
+                    <span class="px-2 py-1 rounded bg-slate-900 border border-slate-800"><i class="fa-solid fa-keyboard"></i> SỬ DỤNG PHÍM MŨI TÊN</span>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= SLIDE 2: QR CODE STRUCTURE ================= -->
+        <section class="slide bg-slate-950 p-6 md:p-12">
+            <!-- Header -->
+            <div class="flex justify-between items-center w-full max-w-7xl mx-auto">
+                <span class="text-xs tracking-widest text-emerald-400 font-bold uppercase">Cơ sở lý thuyết</span>
+                <span class="text-sm text-slate-400">Trang 2 / 7</span>
+            </div>
+
+            <!-- Content -->
+            <div class="max-w-6xl mx-auto my-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <span class="text-emerald-500 text-sm font-semibold uppercase tracking-wider block mb-2">Giải phẫu Mã QR</span>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">Tại sao QR Code có thể bị mất một phần mà vẫn quét được?</h2>
+                    <p class="text-slate-300 text-sm md:text-base leading-relaxed mb-6">
+                        Khác với mã vạch truyền thống (1D) chỉ quét theo chiều ngang, mã QR là mã ma trận hai chiều (2D). Nó chứa các cấu trúc định vị và các phân khu dữ liệu được lập trình đặc biệt, giúp camera điện thoại nhanh chóng "chụp" và phân tích dữ liệu ở bất kỳ góc quay nào.
+                    </p>
+                    
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3">
+                            <span class="flex-shrink-0 w-6 h-6 rounded bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold text-xs">1</span>
+                            <div>
+                                <strong class="text-slate-200">Định vị ba góc (Finder Patterns):</strong> Ba ô vuông lớn ở các góc giúp camera xác định chiều xoay của mã, cho phép quét 360 độ.
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="flex-shrink-0 w-6 h-6 rounded bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold text-xs">2</span>
+                            <div>
+                                <strong class="text-slate-200">Định hình quy chuẩn (Alignment Patterns):</strong> Giúp tái dựng hình ảnh QR ngay cả khi bề mặt nhãn dán bị cong hoặc méo mó (rất phổ biến trên vỏ động cơ tròn).
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="flex-shrink-0 w-6 h-6 rounded bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold text-xs">3</span>
+                            <div>
+                                <strong class="text-slate-200">Khối mã sửa lỗi Reed-Solomon:</strong> Vùng phân tán thông tin dự phòng đặc biệt chống chịu trầy xước.
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Visual Element: Interactive QR diagram representation -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col items-center justify-center relative overflow-hidden">
+                    <div class="absolute inset-0 bg-emerald-500/5 pointer-events-none"></div>
+                    
+                    <!-- Diagram Container -->
+                    <div class="relative w-64 h-64 bg-slate-950 p-4 rounded-xl border-2 border-slate-800 flex flex-wrap justify-between gap-1">
+                        <!-- Simulated QR Structure Visual -->
+                        <!-- Finder Pattern 1 (Top Left) -->
+                        <div class="absolute top-2 left-2 w-16 h-16 border-[6px] border-emerald-500 bg-slate-950 p-2 flex items-center justify-center">
+                            <div class="w-full h-full bg-emerald-400"></div>
+                        </div>
+                        <!-- Finder Pattern 2 (Top Right) -->
+                        <div class="absolute top-2 right-2 w-16 h-16 border-[6px] border-emerald-500 bg-slate-950 p-2 flex items-center justify-center">
+                            <div class="w-full h-full bg-emerald-400"></div>
+                        </div>
+                        <!-- Finder Pattern 3 (Bottom Left) -->
+                        <div class="absolute bottom-2 left-2 w-16 h-16 border-[6px] border-emerald-500 bg-slate-950 p-2 flex items-center justify-center">
+                            <div class="w-full h-full bg-emerald-400"></div>
+                        </div>
+                        <!-- Alignment Pattern (Bottom Right) -->
+                        <div class="absolute bottom-6 right-6 w-6 h-6 border-[3px] border-sky-400 bg-slate-950 p-0.5 flex items-center justify-center">
+                            <div class="w-full h-full bg-sky-400"></div>
+                        </div>
+                        
+                        <!-- Decorative binary data fill -->
+                        <div class="w-full h-full grid grid-cols-8 grid-rows-8 opacity-40 gap-1 pt-12 pb-12 px-2">
+                            <!-- Loop generated via js inside but placeholder grid is here -->
+                            <div class="bg-slate-800 rounded-sm"></div><div class="bg-emerald-500 rounded-sm"></div>
+                            <div class="bg-slate-800 rounded-sm"></div><div class="bg-slate-800 rounded-sm"></div>
+                            <div class="bg-emerald-500 rounded-sm"></div><div class="bg-slate-800 rounded-sm"></div>
+                            <div class="bg-emerald-500 rounded-sm"></div><div class="bg-emerald-500 rounded-sm"></div>
+                            <div class="bg-slate-800 rounded-sm"></div><div class="bg-emerald-500 rounded-sm"></div>
+                            <div class="bg-slate-800 rounded-sm"></div><div class="bg-slate-800 rounded-sm"></div>
+                            <div class="bg-emerald-500 rounded-sm"></div><div class="bg-slate-800 rounded-sm"></div>
+                            <div class="bg-emerald-500 rounded-sm"></div><div class="bg-slate-800 rounded-sm"></div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 flex gap-4 text-xs font-semibold">
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-emerald-500 rounded-sm inline-block"></span> Định Vị (Finder)</span>
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-sky-400 rounded-sm inline-block"></span> Căn Chỉnh (Alignment)</span>
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-slate-700 rounded-sm inline-block"></span> Dữ Liệu & Sửa Lỗi</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="w-full max-w-7xl mx-auto flex justify-between items-center text-xs text-slate-500 border-t border-slate-800/60 pt-4">
+                <button onclick="scrollToSlide(0)" class="hover:text-emerald-400"><i class="fa-solid fa-arrow-up"></i> Trang trước</button>
+                <button onclick="scrollToSlide(2)" class="hover:text-emerald-400">Trang sau <i class="fa-solid fa-arrow-down"></i></button>
+            </div>
+        </section>
+
+
+        <!-- ================= SLIDE 3: ERROR CORRECTION EXPLAINED ================= -->
+        <section class="slide bg-slate-900 p-6 md:p-12">
+            <!-- Header -->
+            <div class="flex justify-between items-center w-full max-w-7xl mx-auto">
+                <span class="text-xs tracking-widest text-emerald-400 font-bold uppercase">Thuật toán sửa lỗi Reed-Solomon</span>
+                <span class="text-sm text-slate-400">Trang 3 / 7</span>
+            </div>
+
+            <!-- Content -->
+            <div class="max-w-6xl mx-auto my-auto">
+                <div class="text-center max-w-3xl mx-auto mb-8">
+                    <span class="text-emerald-500 text-sm font-semibold uppercase tracking-wider">Cơ Chế Sửa Lỗi Tự Động</span>
+                    <h2 class="text-3xl md:text-4xl font-bold mt-1 mb-3 text-white">4 Mức Độ Sửa Lỗi Của QR Code</h2>
+                    <p class="text-slate-300 text-sm md:text-base">
+                        Sử dụng thuật toán toán học thông minh <strong>Reed-Solomon</strong>, mã QR tự tạo ra mã dự phòng. Nếu một phần nhãn mã QR bị xước hoặc mòn, trình quét vẫn có thể tái cấu trúc dữ liệu bị mất dựa trên phần dự phòng còn nguyên vẹn.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- LEVEL L -->
+                    <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800/80 hover:border-emerald-500/50 transition-all flex flex-col justify-between">
+                        <div>
+                            <div class="text-emerald-400 text-3xl font-extrabold mb-2">L <span class="text-sm font-normal text-slate-400">Low</span></div>
+                            <div class="text-2xl font-bold text-white mb-2">~ 7%</div>
+                            <p class="text-xs text-slate-400 leading-relaxed">
+                                Khôi phục tối đa 7% dữ liệu bị mất. Thích hợp cho các bề mặt sạch sẽ, phẳng hoàn hảo và không bị trầy xước.
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-900 text-[11px] text-slate-500 flex justify-between items-center">
+                            <span>Sản lượng dữ liệu tối đa</span>
+                            <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400">Rất Cao</span>
+                        </div>
+                    </div>
+
+                    <!-- LEVEL M -->
+                    <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800/80 hover:border-emerald-500/50 transition-all flex flex-col justify-between">
+                        <div>
+                            <div class="text-emerald-400 text-3xl font-extrabold mb-2">M <span class="text-sm font-normal text-slate-400">Medium</span></div>
+                            <div class="text-2xl font-bold text-white mb-2">~ 15%</div>
+                            <p class="text-xs text-slate-400 leading-relaxed">
+                                Khôi phục tối đa 15% dữ liệu bị mất. Là mức cấu hình mặc định phổ biến nhất cho nhãn mác tiêu dùng thông dụng.
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-900 text-[11px] text-slate-500 flex justify-between items-center">
+                            <span>Mức độ phổ biến nhất</span>
+                            <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400">Tiêu Chuẩn</span>
+                        </div>
+                    </div>
+
+                    <!-- LEVEL Q -->
+                    <div class="bg-slate-950 p-6 rounded-2xl border border-emerald-500/20 hover:border-emerald-500/50 transition-all flex flex-col justify-between relative shadow-lg shadow-emerald-500/5">
+                        <div class="absolute -top-3 right-6 bg-emerald-500 text-slate-950 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Đề xuất công nghiệp</div>
+                        <div>
+                            <div class="text-emerald-400 text-3xl font-extrabold mb-2">Q <span class="text-sm font-normal text-slate-400">Quarter</span></div>
+                            <div class="text-2xl font-bold text-white mb-2">~ 25%</div>
+                            <p class="text-xs text-slate-400 leading-relaxed">
+                                Khôi phục tối đa 25% dữ liệu bị mất. Khuyến cáo hàng đầu cho nhãn mác kỹ thuật, động cơ điện, chống dầu mỡ và bụi nhẹ.
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-900 text-[11px] text-emerald-400 flex justify-between items-center">
+                            <span>Độ bền cao & cân bằng</span>
+                            <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400">Tối ưu</span>
+                        </div>
+                    </div>
+
+                    <!-- LEVEL H -->
+                    <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800/80 hover:border-emerald-500/50 transition-all flex flex-col justify-between">
+                        <div>
+                            <div class="text-emerald-400 text-3xl font-extrabold mb-2">H <span class="text-sm font-normal text-slate-400">High</span></div>
+                            <div class="text-2xl font-bold text-white mb-2">~ 30%</div>
+                            <p class="text-xs text-slate-400 leading-relaxed">
+                                Khôi phục lên đến 30% dữ liệu bị rách hoặc tẩy xóa hoàn toàn. Bắt buộc cho môi trường hóa chất, nhiệt độ cực cao.
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-900 text-[11px] text-slate-500 flex justify-between items-center">
+                            <span>Kích thước QR sẽ lớn hơn</span>
+                            <span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-400">Mật Độ Cao</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="w-full max-w-7xl mx-auto flex justify-between items-center text-xs text-slate-500 border-t border-slate-800/60 pt-4">
+                <button onclick="scrollToSlide(1)" class="hover:text-emerald-400"><i class="fa-solid fa-arrow-up"></i> Trang trước</button>
+                <button onclick="scrollToSlide(3)" class="hover:text-emerald-400">Trang sau <i class="fa-solid fa-arrow-down"></i></button>
+            </div>
+        </section>
+
+
+        <!-- ================= SLIDE 4: SIMULATOR ================= -->
+        <section class="slide bg-slate-950 p-6 md:p-12">
+            <!-- Header -->
+            <div class="flex justify-between items-center w-full max-w-7xl mx-auto">
+                <span class="text-xs tracking-widest text-emerald-400 font-bold uppercase">Trải nghiệm tương tác thực tế</span>
+                <span class="text-sm text-slate-400">Trang 4 / 7</span>
+            </div>
+
+            <!-- Content -->
+            <div class="max-w-6xl mx-auto my-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <!-- Control Panel -->
+                <div class="lg:col-span-5">
+                    <span class="text-emerald-500 text-xs font-semibold uppercase tracking-wider">Trình mô phỏng lỗi</span>
+                    <h2 class="text-2xl md:text-3xl font-bold text-white mt-1 mb-4">Cào xước, xé rách thử QR!</h2>
+                    <p class="text-xs md:text-sm text-slate-300 leading-relaxed mb-6">
+                        Chọn một cấp độ sửa lỗi, sau đó thực hiện mô phỏng phá hoại mã QR (mô phỏng nhãn động cơ bị bôi bẩn, trầy xước do cơ học trong nhà máy) để xem mức độ nào mã sẽ chính thức mất khả năng quét.
+                    </p>
+
+                    <!-- Steps / controls -->
+                    <div class="space-y-4">
+                        <!-- Step 1: Select level -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Bước 1: Chọn Cấp Độ Sửa Lỗi (L / M / Q / H)</label>
+                            <div class="grid grid-cols-4 gap-2">
+                                <button onclick="selectSimLevel('L', 7)" id="btn-sim-L" class="py-2 rounded-lg bg-slate-900 border border-slate-800 text-xs font-bold hover:bg-slate-800 hover:text-white transition-all">L (7%)</button>
+                                <button onclick="selectSimLevel('M', 15)" id="btn-sim-M" class="py-2 rounded-lg bg-slate-900 border border-slate-800 text-xs font-bold hover:bg-slate-800 hover:text-white transition-all">M (15%)</button>
+                                <button onclick="selectSimLevel('Q', 25)" id="btn-sim-Q" class="py-2 rounded-lg bg-emerald-500/10 border border-emerald-500 text-emerald-400 text-xs font-bold transition-all">Q (25%)</button>
+                                <button onclick="selectSimLevel('H', 30)" id="btn-sim-H" class="py-2 rounded-lg bg-slate-900 border border-slate-800 text-xs font-bold hover:bg-slate-800 hover:text-white transition-all">H (30%)</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Simulate physical damage -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Bước 2: Chọn Diện Tích Nhãn Bị Hư Hại</label>
+                            <div class="grid grid-cols-3 gap-2">
+                                <button onclick="simulateDamage(5)" class="py-2 rounded-lg bg-slate-900 border border-slate-800 text-xs font-semibold hover:border-slate-600 transition-all flex items-center justify-center gap-1">
+                                    <i class="fa-solid fa-oil-can text-amber-500"></i> Xước nhẹ (5%)
+                                </button>
+                                <button onclick="simulateDamage(18)" class="py-2 rounded-lg bg-slate-900 border border-slate-800 text-xs font-semibold hover:border-slate-600 transition-all flex items-center justify-center gap-1">
+                                    <i class="fa-solid fa-fire text-orange-500"></i> Bám bẩn (18%)
+                                </button>
+                                <button onclick="simulateDamage(32)" class="py-2 rounded-lg bg-slate-900 border border-slate-800 text-xs font-semibold hover:border-slate-600 transition-all flex items-center justify-center gap-1">
+                                    <i class="fa-solid fa-scissors text-red-500"></i> Rách góc (32%)
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Reset button -->
+                        <div class="pt-2 flex gap-2">
+                            <button onclick="resetSimulator()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs py-2 rounded-lg font-bold transition-all">
+                                <i class="fa-solid fa-arrows-rotate mr-1"></i> Thiết Lập Lại Nhãn QR Sạch
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Visual simulator board -->
+                <div class="lg:col-span-7 bg-slate-900 border border-slate-800 rounded-3xl p-6 flex flex-col items-center justify-center">
+                    <div class="w-full flex justify-between items-center mb-4">
+                        <span class="text-xs text-slate-400 font-medium">Bản Đồ Điểm Ảnh QR Lập Trình</span>
+                        <div id="scan-status" class="px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold flex items-center gap-1">
+                            <i class="fa-solid fa-circle-check"></i> ĐỌC THÀNH CÔNG (QUÉT TỐT)
+                        </div>
+                    </div>
+
+                    <!-- Simulator grid layout -->
+                    <div class="relative w-full max-w-[280px] aspect-square bg-slate-950 p-3 rounded-2xl border border-slate-800/80 grid grid-cols-12 gap-0.5" id="sim-grid">
+                        <!-- Finder Pattern Top-Left -->
+                        <div class="col-start-1 col-end-4 row-start-1 row-end-4 border-2 border-emerald-500 bg-slate-950 p-1 flex items-center justify-center z-10">
+                            <div class="w-full h-full bg-emerald-400"></div>
+                        </div>
+                        <!-- Finder Pattern Top-Right -->
+                        <div class="col-start-10 col-end-13 row-start-1 row-end-4 border-2 border-emerald-500 bg-slate-950 p-1 flex items-center justify-center z-10">
+                            <div class="w-full h-full bg-emerald-400"></div>
+                        </div>
+                        <!-- Finder Pattern Bottom-Left -->
+                        <div class="col-start-1 col-end-4 row-start-10 row-end-13 border-2 border-emerald-500 bg-slate-950 p-1 flex items-center justify-center z-10">
+                            <div class="w-full h-full bg-emerald-400"></div>
+                        </div>
+                        <!-- Alignment Pattern -->
+                        <div class="col-start-9 col-end-11 row-start-9 row-end-11 border border-sky-400 bg-slate-950 p-0.5 flex items-center justify-center z-10">
+                            <div class="w-full h-full bg-sky-400"></div>
+                        </div>
+
+                        <!-- Grid cells will be programmatically populated here via script for a dense modular feel -->
+                    </div>
+
+                    <!-- Simulator Statistics -->
+                    <div class="w-full mt-6 grid grid-cols-3 gap-4 border-t border-slate-800/80 pt-4">
+                        <div class="text-center">
+                            <span class="text-[10px] text-slate-500 block uppercase font-bold">Mức Sửa Lỗi Chọn</span>
+                            <span id="stat-level" class="text-lg font-bold text-white">Q</span>
+                        </div>
+                        <div class="text-center">
+                            <span class="text-[10px] text-slate-500 block uppercase font-bold">Dung Lượng Bù Lỗi</span>
+                            <span id="stat-capacity" class="text-lg font-bold text-emerald-400">25.0%</span>
+                        </div>
+                        <div class="text-center">
+                            <span class="text-[10px] text-slate-500 block uppercase font-bold">Tỉ Lệ Hỏng Hiện Tại</span>
+                            <span id="stat-damage" class="text-lg font-bold text-slate-300">0.0%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="w-full max-w-7xl mx-auto flex justify-between items-center text-xs text-slate-500 border-t border-slate-800/60 pt-4">
+                <button onclick="scrollToSlide(2)" class="hover:text-emerald-400"><i class="fa-solid fa-arrow-up"></i> Trang trước</button>
+                <button onclick="scrollToSlide(4)" class="hover:text-emerald-400">Trang sau <i class="fa-solid fa-arrow-down"></i></button>
+            </div>
+        </section>
+
+
+        <!-- ================= SLIDE 5: INDUSTRIAL MOTOR CHALLENGES ================= -->
+        <section class="slide bg-slate-900 p-6 md:p-12">
+            <!-- Header -->
+            <div class="flex justify-between items-center w-full max-w-7xl mx-auto">
+                <span class="text-xs tracking-widest text-emerald-400 font-bold uppercase">Nhãn mác thiết bị công nghiệp</span>
+                <span class="text-sm text-slate-400">Trang 5 / 7</span>
+            </div>
+
+            <!-- Content -->
+            <div class="max-w-6xl mx-auto my-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <span class="text-emerald-500 text-sm font-semibold uppercase tracking-wider block mb-2">Thử Thách Trên Động Cơ Điện</span>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">Tại sao động cơ điện đòi hỏi QR Code cấu hình cao?</h2>
+                    <p class="text-slate-300 text-sm md:text-base leading-relaxed mb-6">
+                        Động cơ điện hoạt động trong môi trường cực kỳ khắc nghiệt: rung lắc liên tục, bụi mịn nhà xưởng bám bẩn, hơi dầu bôi trơn rò rỉ, nhiệt độ vỏ động cơ gia tăng liên tục (có thể đạt từ 70°C - 95°C).
+                    </p>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80">
+                            <i class="fa-solid fa-oil-can text-amber-500 text-xl mb-2"></i>
+                            <h4 class="text-sm font-bold text-white mb-1">Dầu mỡ & Bụi bẩn</h4>
+                            <p class="text-xs text-slate-400">Các vết dầu bôi trơn loang lỗ có thể che khuất các phần của mã QR, khiến trình quét camera thông thường bị mù mắt dữ liệu.</p>
+                        </div>
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80">
+                            <i class="fa-solid fa-screwdriver-wrench text-sky-400 text-xl mb-2"></i>
+                            <h4 class="text-sm font-bold text-white mb-1">Va quệt cơ khí</h4>
+                            <p class="text-xs text-slate-400">Quá trình bảo dưỡng, di chuyển động cơ dễ làm sứt mẻ nhãn nhôm/nhựa decal phủ mã QR.</p>
+                        </div>
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80">
+                            <i class="fa-solid fa-temperature-high text-red-500 text-xl mb-2"></i>
+                            <h4 class="text-sm font-bold text-white mb-1">Tác động của Nhiệt</h4>
+                            <p class="text-xs text-slate-400">Nhiệt phát sinh từ cuộn dây stator làm bong tróc nhãn, bay màu mực in nhiệt thông thường.</p>
+                        </div>
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80">
+                            <i class="fa-solid fa-compress text-emerald-400 text-xl mb-2"></i>
+                            <h4 class="text-sm font-bold text-white mb-1">Diện tích in hạn chế</h4>
+                            <p class="text-xs text-slate-400">Nhãn mác kim loại đính kèm của động cơ có kích thước nhỏ, đòi hỏi QR Code cực kỳ gọn gàng nhưng phải sắc nét.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Industrial visual concept -->
+                <div class="relative bg-slate-950 rounded-2xl border border-slate-800 p-8 flex flex-col items-center justify-center overflow-hidden h-full min-h-[350px]">
+                    <div class="absolute inset-0 opacity-15 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                    
+                    <!-- Motor Graphic (Constructed with Tailwind & FontAwesome) -->
+                    <div class="relative z-10 w-44 h-44 bg-slate-900 border-2 border-slate-700 rounded-full flex items-center justify-center shadow-2xl">
+                        <!-- Motor Core Axle -->
+                        <div class="w-10 h-10 rounded-full bg-slate-800 border-4 border-emerald-500 flex items-center justify-center">
+                            <div class="w-2 h-2 rounded-full bg-slate-950"></div>
+                        </div>
+                        <!-- Fan Fins representation -->
+                        <div class="absolute top-1/2 left-0 w-full h-1 bg-slate-700 -translate-y-1/2 rotate-45"></div>
+                        <div class="absolute top-1/2 left-0 w-full h-1 bg-slate-700 -translate-y-1/2 -rotate-45"></div>
+                        <div class="absolute top-1/2 left-0 w-full h-1 bg-slate-700 -translate-y-1/2 rotate-90"></div>
+                        <div class="absolute top-1/2 left-0 w-full h-1 bg-slate-700 -translate-y-1/2"></div>
+                        
+                        <!-- Mini Nameplate on Motor -->
+                        <div class="absolute -bottom-2 bg-slate-950 border border-slate-700 px-3 py-1.5 rounded-lg flex items-center gap-2 shadow-lg">
+                            <div class="w-6 h-6 bg-white p-0.5 rounded flex items-center justify-center">
+                                <i class="fa-solid fa-qrcode text-slate-950 text-base"></i>
+                            </div>
+                            <div class="text-[9px]">
+                                <p class="text-slate-400 font-bold leading-none">MÃ QR BẢO TRÌ</p>
+                                <p class="text-emerald-400 leading-none mt-0.5 font-semibold">Cấp sửa lỗi: H</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 text-center max-w-sm z-10">
+                        <p class="text-xs text-slate-400 italic">
+                            "Trên động cơ điện, mã QR đóng vai trò cổng thông tin bảo dưỡng nhanh: chỉ cần một lần quét để truy cập Catalog linh kiện, lý lịch bảo trì và sơ đồ đấu dây hộp cực."
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="w-full max-w-7xl mx-auto flex justify-between items-center text-xs text-slate-500 border-t border-slate-800/60 pt-4">
+                <button onclick="scrollToSlide(3)" class="hover:text-emerald-400"><i class="fa-solid fa-arrow-up"></i> Trang trước</button>
+                <button onclick="scrollToSlide(5)" class="hover:text-emerald-400">Trang sau <i class="fa-solid fa-arrow-down"></i></button>
+            </div>
+        </section>
+
+
+        <!-- ================= SLIDE 6: QR CODE CALCULATOR ================= -->
+        <section class="slide bg-slate-950 p-6 md:p-12">
+            <!-- Header -->
+            <div class="flex justify-between items-center w-full max-w-7xl mx-auto">
+                <span class="text-xs tracking-widest text-emerald-400 font-bold uppercase">Công cụ phân tích độc quyền</span>
+                <span class="text-sm text-slate-400">Trang 6 / 7</span>
+            </div>
+
+            <!-- Content -->
+            <div class="max-w-6xl mx-auto my-auto w-full">
+                <div class="mb-6">
+                    <span class="text-emerald-500 text-xs font-semibold uppercase tracking-wider">CÔNG CỤ TÍNH KÍCH THƯỚC QR</span>
+                    <h2 class="text-2xl md:text-3xl font-bold text-white">Nhãn Động Cơ Điện Sử Dụng Mã QR Nào Phù Hợp?</h2>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                    
+                    <!-- Calculator Inputs -->
+                    <div class="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
+                        <div class="flex items-center gap-2 pb-2 border-b border-slate-800">
+                            <i class="fa-solid fa-sliders text-emerald-400"></i>
+                            <h3 class="text-sm font-bold text-white uppercase">Thông Số Kỹ Thuật Nhãn</h3>
+                        </div>
+
+                        <!-- Custom URL Input Field -->
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <label class="text-xs font-medium text-slate-400">Nhập thử đường dẫn hoặc nội dung mã QR</label>
+                                <span id="char-count-badge" class="text-[10px] px-1.5 py-0.2 bg-slate-800 text-slate-300 rounded font-mono">45 ký tự</span>
+                            </div>
+                            <div class="relative flex items-center">
+                                <input type="text" id="calc-custom-url" oninput="updateCalc()" value="https://company.com/motor/model-1234" class="w-full bg-slate-950 border border-slate-800 rounded-lg py-2.5 pl-3 pr-32 text-xs text-slate-200 focus:border-emerald-500 outline-none placeholder-slate-650" placeholder="Ví dụ: https://example.com/spec">
+                                <div class="absolute right-1.5 flex gap-1">
+                                    <button onclick="fillDemoUrl('https://m.co/a')" class="text-[9px] px-1.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded transition-all font-semibold">Link ngắn</button>
+                                    <button onclick="fillDemoUrl('https://company.com/industrial-motor/specs/v3/serial-99281290-datasheet')" class="text-[9px] px-1.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded transition-all font-semibold">Link dài</button>
+                                </div>
+                            </div>
+                            <p class="text-[10px] text-slate-500 mt-1">Hãy gõ thử đường dẫn của bạn! Độ dài thực tế sẽ làm thay đổi độ dày đặc của mã QR.</p>
+                        </div>
+
+                        <!-- Scan Distance Input -->
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <label class="text-xs font-medium text-slate-400">Khoảng cách quét thực tế tối đa</label>
+                                <span id="dist-val-badge" class="text-xs font-bold text-emerald-400">50 cm</span>
+                            </div>
+                            <input type="range" id="calc-distance" min="20" max="200" step="10" value="50" oninput="updateCalc()" class="w-full accent-emerald-500 h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer">
+                            <div class="flex justify-between text-[10px] text-slate-500 mt-1">
+                                <span>Gần (20 cm)</span>
+                                <span>Xa (200 cm)</span>
+                            </div>
+                        </div>
+
+                        <!-- Operating Environment -->
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Môi trường vận hành động cơ</label>
+                            <select id="calc-env" onchange="updateCalc()" class="w-full bg-slate-950 border border-slate-800 rounded-lg py-2 px-3 text-xs text-slate-200 focus:border-emerald-500 outline-none">
+                                <option value="standard">Môi trường sạch (Trong phòng điện điều hòa - Cấp sửa lỗi M 15%)</option>
+                                <option value="dusty" selected>Nhà xưởng cơ khí thông thường (Khói bụi nhẹ - Cấp sửa lỗi Q 25%)</option>
+                                <option value="extreme">Hầm mỏ, Hóa chất, Hơi dầu nặng (Nguy cơ bám bẩn cực cao - Cấp sửa lỗi H 30%)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Calculator Results -->
+                    <div class="lg:col-span-7 bg-slate-900 border-2 border-emerald-500/30 rounded-2xl p-5 flex flex-col justify-between h-full">
+                        <div class="flex items-center gap-2 pb-2 border-b border-slate-800 mb-4">
+                            <i class="fa-solid fa-square-poll-vertical text-emerald-400 animate-pulse"></i>
+                            <h3 class="text-sm font-bold text-white uppercase">Khuyến Nghị & Kích Thước In Ấn</h3>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Physical Dimension Recommendation -->
+                            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-center">
+                                <span class="text-[10px] text-slate-500 uppercase font-bold block mb-1">Kích Thước Mã QR Tối Thiểu Nên In</span>
+                                <div class="flex items-baseline gap-1">
+                                    <span id="res-print-size" class="text-3xl md:text-4xl font-extrabold text-emerald-400">18 x 18</span>
+                                    <span class="text-sm text-slate-400 font-bold">mm</span>
+                                </div>
+                                <span class="text-[10px] text-slate-400 mt-2 block">Dành cho thấu kính máy ảnh phổ thông (Tỷ lệ 1:10 và 1:8 cho môi trường bụi).</span>
+                            </div>
+
+                            <!-- Recommended QR Specification -->
+                            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+                                <div class="flex justify-between items-center text-xs">
+                                    <span class="text-slate-400">Cấp sửa lỗi đề xuất:</span>
+                                    <span id="res-ec-level" class="font-bold text-white px-2 py-0.5 rounded bg-amber-500/10 text-amber-400">Q (25%)</span>
+                                </div>
+                                <div class="flex justify-between items-center text-xs">
+                                    <span class="text-slate-400">Phiên bản QR phù hợp:</span>
+                                    <span id="res-qr-version" class="font-bold text-white">Version 3 (29x29)</span>
+                                </div>
+                                <div class="flex justify-between items-center text-xs">
+                                    <span class="text-slate-400">Số lượng mô-đun (hàng x cột):</span>
+                                    <span id="res-modules" class="font-bold text-slate-300">29 x 29 ô vuông</span>
+                                </div>
+                                <div class="flex justify-between items-center text-xs">
+                                    <span class="text-slate-400">Quiet Zone (Viền trắng):</span>
+                                    <span class="font-bold text-emerald-400">≥ 2.0 mm (4 ô)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Technical Warning Note dynamically updated -->
+                        <div id="calc-warning-box" class="mt-4 p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-300 flex items-start gap-2">
+                            <i class="fa-solid fa-circle-exclamation flex-shrink-0 mt-0.5 text-amber-400"></i>
+                            <span id="res-warning-text">Lưu ý: Bạn đang sử dụng URL dài tiêu chuẩn. Nếu có thể, hãy dùng kỹ thuật "Rút gọn link" để đưa về đường dẫn siêu ngắn, giúp QR Code thưa hơn, cải thiện tốc độ quét rõ rệt trên động cơ nhỏ.</span>
+                        </div>
+                        
+                        <!-- Mini visual preview representing calculated size compared to real life -->
+                        <div class="mt-4 flex items-center gap-4 bg-slate-950 p-3 rounded-xl border border-slate-850">
+                            <div id="preview-square" class="bg-white rounded p-1 flex items-center justify-center transition-all" style="width: 60px; height: 60px;">
+                                <i class="fa-solid fa-qrcode text-slate-950 text-4xl"></i>
+                            </div>
+                            <div class="text-xs">
+                                <p class="text-slate-200 font-bold mb-0.5">Mô phỏng kích thước in thực tế</p>
+                                <p class="text-[10px] text-slate-400 leading-normal" id="preview-scale-text">Hình vuông tương quan tỉ lệ thực tế tại độ phân giải màn hình trung bình.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="w-full max-w-7xl mx-auto flex justify-between items-center text-xs text-slate-500 border-t border-slate-800/60 pt-4">
+                <button onclick="scrollToSlide(4)" class="hover:text-emerald-400"><i class="fa-solid fa-arrow-up"></i> Trang trước</button>
+                <button onclick="scrollToSlide(6)" class="hover:text-emerald-400">Trang sau <i class="fa-solid fa-arrow-down"></i></button>
+            </div>
+        </section>
+
+
+        <!-- ================= SLIDE 7: RECOMMENDATIONS & BEST PRACTICES ================= -->
+        <section class="slide bg-gradient-to-tr from-slate-950 to-slate-900 p-6 md:p-12">
+            <!-- Header -->
+            <div class="flex justify-between items-center w-full max-w-7xl mx-auto">
+                <span class="text-xs tracking-widest text-emerald-400 font-bold uppercase">Khuyến nghị công nghiệp</span>
+                <span class="text-sm text-slate-400">Trang 7 / 7</span>
+            </div>
+
+            <!-- Content -->
+            <div class="max-w-4xl mx-auto my-auto text-center">
+                <span class="text-emerald-500 text-sm font-semibold uppercase tracking-wider block mb-2">Quy tắc vàng in nhãn QR động cơ</span>
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-white">Cẩm Nang Triển Khai Trong Nhà Máy</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left mb-8">
+                    <div class="bg-slate-900/50 p-5 rounded-2xl border border-slate-800">
+                        <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold mb-3"><i class="fa-solid fa-shield"></i></div>
+                        <h4 class="text-sm font-bold text-white mb-2">Chất liệu siêu bền</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Tuyệt đối không sử dụng tem giấy thường. Hãy dùng <strong>nhãn nhôm Anodized</strong> khắc laser hoặc decal nhựa cao cấp chuyên dụng chịu được nhiệt trên 90°C và kháng hóa chất, dung môi tẩy rửa.
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-900/50 p-5 rounded-2xl border border-slate-800">
+                        <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold mb-3"><i class="fa-solid fa-eye"></i></div>
+                        <h4 class="text-sm font-bold text-white mb-2">Sử dụng liên kết rút gọn</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Cấu hình link hướng tới máy chủ quản lý dạng <code class="text-emerald-300">https://q.myplant.com/d74</code>. Nội dung siêu ngắn cho phép in mã QR mật độ thưa, dễ quét trong ánh sáng kém của phân xưởng.
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-900/50 p-5 rounded-2xl border border-slate-800">
+                        <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold mb-3"><i class="fa-solid fa-border-all"></i></div>
+                        <h4 class="text-sm font-bold text-white mb-2">Đảm bảo Quiet Zone</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Chừa khoảng trống lề ngoài của mã QR ít nhất bằng chiều rộng của 4 ô vuông ma trận. Việc bóp nghẹt lề nhãn sẽ làm hư hại khả năng nhận diện mép quét của thấu kính camera.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="inline-flex flex-col items-center gap-2">
+                    <button onclick="scrollToSlide(5)" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-6 py-3 rounded-lg shadow-lg shadow-emerald-500/10 transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-calculator"></i> Tính lại kích thước nhãn của bạn
+                    </button>
+                    <button onclick="scrollToSlide(0)" class="text-xs text-slate-400 hover:text-white mt-4 transition-all">
+                        Trở lại trang bìa để thuyết trình lại từ đầu
+                    </button>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="w-full max-w-7xl mx-auto flex justify-between items-center text-xs text-slate-500 border-t border-slate-800/60 pt-4">
+                <span>© 2026 Cẩm Nang Số QR Code trong Bảo Trì & Vận Hành Động Cơ Điện</span>
+                <span class="text-slate-400">Thiết kế bởi Gemini 3 Flash</span>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // Configuration and State
+        let currentSlide = 0;
+        const totalSlides = 7;
+        const scrollContainer = document.getElementById('scrollContainer');
+        const navDots = document.querySelectorAll('.nav-dot');
+
+        // Error Correction Simulator State
+        let simSelectedLevel = 'Q';
+        let simMaxDamage = 25;
+        let simCurrentDamage = 0;
+
+        // Handle scrolling state updates
+        scrollContainer.addEventListener('scroll', () => {
+            const slideHeight = window.innerHeight;
+            const scrollTop = scrollContainer.scrollTop;
+            const computedSlide = Math.round(scrollTop / slideHeight);
+            
+            if (computedSlide !== currentSlide && computedSlide >= 0 && computedSlide < totalSlides) {
+                currentSlide = computedSlide;
+                updateNavigationDots();
+            }
+        });
+
+        // Keyboard arrow key navigation support
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                navigateSlide(1);
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                navigateSlide(-1);
+            }
+        });
+
+        function scrollToSlide(index) {
+            if (index < 0 || index >= totalSlides) return;
+            currentSlide = index;
+            scrollContainer.scrollTo({
+                top: index * window.innerHeight,
+                behavior: 'smooth'
+            });
+            updateNavigationDots();
+        }
+
+        function navigateSlide(direction) {
+            const target = currentSlide + direction;
+            scrollToSlide(target);
+        }
+
+        function updateNavigationDots() {
+            navDots.forEach((dot, idx) => {
+                if (idx === currentSlide) {
+                    dot.classList.add('dot-active');
+                } else {
+                    dot.classList.remove('dot-active');
+                }
+            });
+        }
+
+        // ERROR CORRECTION SIMULATOR ENGINE
+        function buildSimulatorGrid() {
+            const gridContainer = document.getElementById('sim-grid');
+            
+            // Remove previous dynamically generated pixels but preserve finder patterns
+            const dynamicPixels = gridContainer.querySelectorAll('.dynamic-pixel');
+            dynamicPixels.forEach(el => el.remove());
+
+            // We fill a 12x12 grid. Finder patterns are absolutely positioned over it,
+            // we will spawn basic pixel blocks at open areas to make it look realistic.
+            for (let r = 1; r <= 12; r++) {
+                for (let c = 1; c <= 12; c++) {
+                    // Skip positioning overlap with Finder Top-Left
+                    if (r <= 3 && c <= 3) continue;
+                    // Skip Finder Top-Right
+                    if (r <= 3 && c >= 10) continue;
+                    // Skip Finder Bottom-Left
+                    if (r >= 10 && c <= 3) continue;
+                    // Skip Alignment pattern
+                    if ((r >= 9 && r <= 10) && (c >= 9 && c <= 10)) continue;
+
+                    // Create dynamic pixel representation
+                    const pixel = document.createElement('div');
+                    // Randomly assign standard QR pattern colors (black / white)
+                    const isBlack = Math.random() > 0.45;
+                    pixel.className = `dynamic-pixel qr-pixel rounded-sm ${isBlack ? 'bg-slate-300' : 'bg-slate-950'} col-start-${c} row-start-${r}`;
+                    pixel.dataset.row = r;
+                    pixel.dataset.col = c;
+                    
+                    gridContainer.appendChild(pixel);
+                }
+            }
+        }
+
+        function selectSimLevel(level, maxDmg) {
+            simSelectedLevel = level;
+            simMaxDamage = maxDmg;
+            
+            // Update UI highlight
+            ['L', 'M', 'Q', 'H'].forEach(lvl => {
+                const btn = document.getElementById(`btn-sim-${lvl}`);
+                if (lvl === level) {
+                    btn.className = "py-2 rounded-lg bg-emerald-500/10 border border-emerald-500 text-emerald-400 text-xs font-bold transition-all";
+                } else {
+                    btn.className = "py-2 rounded-lg bg-slate-900 border border-slate-800 text-xs font-bold hover:bg-slate-800 hover:text-white transition-all";
+                }
+            });
+
+            // Update stats
+            document.getElementById('stat-level').innerText = level;
+            document.getElementById('stat-capacity').innerText = `${maxDmg}.0%`;
+            
+            // Re-evaluate readability status
+            checkScanStatus();
+        }
+
+        function simulateDamage(percentage) {
+            simCurrentDamage = percentage;
+            
+            // Re-draw clean grid first
+            buildSimulatorGrid();
+
+            const allPixels = Array.from(document.querySelectorAll('.dynamic-pixel'));
+            // Shuffle pixels array to damage them randomly
+            const shuffled = allPixels.sort(() => 0.5 - Math.random());
+            
+            // Determine how many pixels to turn red (damage)
+            const countToDamage = Math.round(allPixels.length * (percentage / 100));
+            
+            for (let i = 0; i < countToDamage; i++) {
+                if (shuffled[i]) {
+                    shuffled[i].classList.add('damaged');
+                    shuffled[i].classList.remove('bg-slate-300', 'bg-slate-950');
+                }
+            }
+
+            // Update stats
+            document.getElementById('stat-damage').innerText = `${percentage}.0%`;
+
+            // Check if still scan-ready
+            checkScanStatus();
+        }
+
+        function checkScanStatus() {
+            const statusBox = document.getElementById('scan-status');
+            const isReadSuccessful = simCurrentDamage <= simMaxDamage;
+
+            if (isReadSuccessful) {
+                statusBox.className = "px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold flex items-center gap-1";
+                statusBox.innerHTML = `<i class="fa-solid fa-circle-check"></i> ĐỌC THÀNH CÔNG (QUÉT TỐT)`;
+            } else {
+                statusBox.className = "px-3 py-1 rounded-full bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-semibold flex items-center gap-1";
+                statusBox.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> HỎNG NẶNG - KHÔNG THỂ ĐỌC`;
+            }
+        }
+
+        function resetSimulator() {
+            simCurrentDamage = 0;
+            document.getElementById('stat-damage').innerText = '0.0%';
+            buildSimulatorGrid();
+            checkScanStatus();
+        }
+
+
+        // QR MOTOR PRINTING SIZE CALCULATOR LOGIC
+        function fillDemoUrl(text) {
+            const urlInput = document.getElementById('calc-custom-url');
+            if (urlInput) {
+                urlInput.value = text;
+                updateCalc();
+            }
+        }
+
+        function updateCalc() {
+            const customUrl = document.getElementById('calc-custom-url').value;
+            const distance = parseInt(document.getElementById('calc-distance').value);
+            const env = document.getElementById('calc-env').value;
+
+            // Character count & version evaluation
+            let charCount = customUrl.length || 1;
+            let recommendedVersion = "Version 2 (25x25)";
+            let recommendedModules = "25 x 25";
+            let defaultEcLevel = "M (15%)";
+            let envModifier = 10; // Standard ratio (1:10)
+
+            // Update Char count UI badge
+            document.getElementById('char-count-badge').innerText = `${charCount} ký tự`;
+            document.getElementById('dist-val-badge').innerText = `${distance} cm`;
+
+            // Environment specific processing
+            if (env === 'standard') {
+                defaultEcLevel = "M (15%)";
+                envModifier = 10; // Standard clean ratio
+                // Version assignment based on data density & Level M
+                if (charCount <= 25) {
+                    recommendedVersion = "Version 1 (21x21)";
+                    recommendedModules = "21 x 21";
+                } else if (charCount <= 50) {
+                    recommendedVersion = "Version 2 (25x25)";
+                    recommendedModules = "25 x 25";
+                } else if (charCount <= 100) {
+                    recommendedVersion = "Version 4 (33x33)";
+                    recommendedModules = "33 x 33";
+                } else {
+                    recommendedVersion = "Version 7 (45x45)";
+                    recommendedModules = "45 x 45";
+                }
+            } else if (env === 'dusty') {
+                defaultEcLevel = "Q (25%)";
+                envModifier = 8; // Extra padding ratio for poor visibility
+                // Version assignment based on data density & Level Q
+                if (charCount <= 25) {
+                    recommendedVersion = "Version 2 (25x25)";
+                    recommendedModules = "25 x 25";
+                } else if (charCount <= 50) {
+                    recommendedVersion = "Version 3 (29x29)";
+                    recommendedModules = "29 x 29";
+                } else if (charCount <= 100) {
+                    recommendedVersion = "Version 5 (37x37)";
+                    recommendedModules = "37 x 37";
+                } else {
+                    recommendedVersion = "Version 8 (49x49)";
+                    recommendedModules = "49 x 49";
+                }
+            } else if (env === 'extreme') {
+                defaultEcLevel = "H (30%)";
+                envModifier = 7.5; // High contrast margin ratios
+                // Version assignment based on data density & Level H
+                if (charCount <= 25) {
+                    recommendedVersion = "Version 2 (25x25)";
+                    recommendedModules = "25 x 25";
+                } else if (charCount <= 50) {
+                    recommendedVersion = "Version 4 (33x33)";
+                    recommendedModules = "33 x 33";
+                } else if (charCount <= 100) {
+                    recommendedVersion = "Version 6 (41x41)";
+                    recommendedModules = "41 x 41";
+                } else {
+                    recommendedVersion = "Version 9 (53x53)";
+                    recommendedModules = "53 x 53";
+                }
+            }
+
+            // Calculate Physical Print Size (mm)
+            // Industrial QR size standard formula: Size = Distance / Ratio
+            // We convert cm distance to mm, then divide by the environment modifier factor
+            const distanceInMm = distance * 10;
+            let finalPrintSizeMm = Math.round(distanceInMm / envModifier);
+
+            // Set minimum printing constraints for reliability (at least 15mm is standard)
+            if (finalPrintSizeMm < 15) {
+                finalPrintSizeMm = 15;
+            }
+
+            // Update result UI elements
+            document.getElementById('res-print-size').innerText = `${finalPrintSizeMm} x ${finalPrintSizeMm}`;
+            document.getElementById('res-ec-level').innerText = defaultEcLevel;
+            document.getElementById('res-qr-version').innerText = recommendedVersion;
+            document.getElementById('res-modules').innerText = recommendedModules;
+
+            // Manage warning box contents dynamically based on length
+            const warningBox = document.getElementById('calc-warning-box');
+            const warningText = document.getElementById('res-warning-text');
+            
+            if (charCount > 100) {
+                warningBox.className = "mt-4 p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-xs text-red-300 flex items-start gap-2";
+                warningText.innerHTML = "<strong>Chú ý nguy cơ:</strong> Nội dung nhập quá dài (" + charCount + " ký tự). Ở môi trường công nghiệp, mã QR này sẽ vô cùng dày đặc, cực kỳ khó quét bằng điện thoại di động khi nhãn dính bụi dầu. Đề nghị rút gọn link để giữ QR thưa thớt hơn.";
+            } else if (charCount > 40 && env === 'extreme') {
+                warningBox.className = "mt-4 p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-300 flex items-start gap-2";
+                warningText.innerHTML = "<strong>Đề xuất tối ưu:</strong> Ở môi trường khắc nghiệt với độ dài link trung bình (" + charCount + " ký tự), hãy thử rút gọn đường dẫn xuống dưới 20 ký tự để giảm tải mật độ ma trận, giúp thiết bị dễ quét hơn.";
+            } else {
+                warningBox.className = "mt-4 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-300 flex items-start gap-2";
+                warningText.innerHTML = "<strong>Tuyệt vời:</strong> Mật độ dữ liệu (" + charCount + " ký tự) và môi trường đã chọn có sự cân bằng lý tưởng. Nhãn in kích thước này sẽ có khả năng đọc mượt mà và quét thành công rất cao.";
+            }
+
+            // Adjust preview visual box to match scaling ratio
+            const previewBox = document.getElementById('preview-square');
+            // Basic pixel scale formula mapping physical mm to visual width px
+            const targetVisualSize = Math.max(40, Math.min(130, finalPrintSizeMm * 2.5));
+            previewBox.style.width = `${targetVisualSize}px`;
+            previewBox.style.height = `${targetVisualSize}px`;
+        }
+
+        window.onload = function() {
+            // Initial render setups
+            buildSimulatorGrid();
+            selectSimLevel('Q', 25);
+            updateCalc();
+        };
+    </script>
+</body>
+</html>
