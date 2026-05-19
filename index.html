@@ -2,374 +2,424 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đề xuất Cấu trúc Serial Number - HEM EMM</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tra Cứu Bảo Hành - HEM EMM</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- HTML5 QR Code Library -->
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        hem: {
+                            blue: '#073763',
+                            light: '#0b5394',
+                            accent: '#3b82f6'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6;
-            margin: 0;
-            overflow: hidden; /* Prevent scrolling */
-        }
-        
-        .slide {
-            display: none;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-        }
-        
-        .slide.active {
-            display: flex;
-            opacity: 1;
-        }
-
-        .slide-content {
-            animation: slideUp 0.6s ease-out forwards;
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        /* HEM EMM Theme Colors */
-        .text-hem-blue { color: #073763; }
-        .bg-hem-blue { background-color: #073763; }
-        .border-hem-blue { border-color: #073763; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6; }
+        .glass-panel { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+        /* Style for QR Scanner */
+        #qr-reader { width: 100%; border-radius: 0.75rem; overflow: hidden; border: 2px solid #073763; display: none; }
+        #qr-reader video { object-fit: cover; }
     </style>
 </head>
-<body class="h-screen w-screen relative bg-white text-gray-800 selection:bg-blue-200">
+<body class="min-h-screen flex flex-col items-center p-4 sm:p-8">
 
-    <!-- Global Header -->
-    <div class="absolute top-0 right-0 p-6 z-50 pointer-events-none">
-        <p class="text-sm font-bold text-gray-400 tracking-wider">HEM EMM | INTERNAL USE ONLY</p>
-    </div>
+    <!-- Header -->
+    <header class="w-full max-w-2xl mb-8 text-center mt-4">
+        <div class="inline-flex items-center justify-center w-20 h-20 bg-hem-blue text-white rounded-2xl shadow-lg mb-4">
+            <i class="fas fa-industry text-4xl"></i>
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-bold text-hem-blue tracking-tight">HEM EMM</h1>
+        <p class="text-gray-500 mt-2 font-medium">Hệ thống Tra cứu Bảo hành & Xuất xứ Điện tử</p>
+    </header>
 
-    <!-- Global Footer (Page Number) -->
-    <div class="absolute bottom-0 right-0 p-6 z-50 pointer-events-none">
-        <p id="pageNumber" class="text-lg font-semibold text-gray-500">Trang 1 / 6</p>
-    </div>
-
-    <!-- Navigation Controls (Visible on hover or touch) -->
-    <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 p-4 text-gray-300 hover:text-hem-blue transition-colors z-50 bg-white/50 rounded-full hover:bg-gray-100 shadow-sm">
-        <i class="fas fa-chevron-left text-2xl"></i>
-    </button>
-    <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 p-4 text-gray-300 hover:text-hem-blue transition-colors z-50 bg-white/50 rounded-full hover:bg-gray-100 shadow-sm">
-        <i class="fas fa-chevron-right text-2xl"></i>
-    </button>
-
-    <!-- Slide Container -->
-    <div id="slides-container" class="w-full h-full">
-
-        <!-- SLIDE 1 -->
-        <div class="slide active flex-col justify-center items-center h-full px-20">
-            <div class="slide-content text-center max-w-5xl">
-                <div class="w-24 h-2 bg-hem-blue mx-auto mb-8 rounded-full"></div>
-                <h1 class="text-5xl font-bold text-hem-blue mb-6 leading-tight">Đề xuất cấu trúc công nghệ <br><span class="text-blue-600">Serial Number</span> cho sản phẩm động cơ</h1>
-                <h2 class="text-2xl font-semibold text-gray-600 mb-12 uppercase tracking-wide">3 lớp bảo mật - 2 lớp tiện ích - 1 lớp đọc hiểu bán công khai</h2>
+    <!-- Main Container -->
+    <main class="w-full max-w-2xl glass-panel rounded-3xl shadow-xl overflow-hidden">
+        
+        <!-- Search Section -->
+        <div class="p-6 sm:p-8 border-b border-gray-100">
+            <div class="relative">
+                <input type="text" id="serialInput" placeholder="Nhập mã Serial sản phẩm (VD: 4KAC5KGW...)" 
+                    class="w-full pl-5 pr-32 py-4 bg-gray-50 border border-gray-200 rounded-xl text-lg font-semibold text-gray-700 focus:outline-none focus:ring-2 focus:ring-hem-blue focus:border-transparent transition-all uppercase placeholder:normal-case placeholder:font-normal placeholder:text-gray-400">
                 
-                <div class="bg-blue-50 border border-blue-100 rounded-2xl p-8 text-left shadow-lg relative overflow-hidden">
-                    <div class="absolute top-0 right-0 bg-hem-blue text-white px-4 py-1 rounded-bl-xl text-sm font-semibold">Ví dụ minh họa</div>
-                    <div class="flex items-center space-x-6">
-                        <div class="text-6xl font-bold tracking-widest text-hem-blue">4KAC5ABCD</div>
-                        <div class="w-1 h-20 bg-blue-200"></div>
-                        <div class="text-lg text-gray-700 leading-relaxed">
-                            Tương đương động cơ <strong class="text-blue-800">4KA</strong>,<br>
-                            sản xuất <strong class="text-blue-800">tháng 5 năm 2026</strong>,<br>
-                            động cơ thứ <strong class="text-red-500 bg-red-50 px-2 rounded">[không thể biết được]</strong> được sản xuất trong tháng này.
-                        </div>
-                    </div>
+                <div class="absolute right-2 top-2 flex space-x-2">
+                    <button id="btnScan" class="p-2 w-12 h-11 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition flex items-center justify-center">
+                        <i class="fas fa-qrcode text-xl"></i>
+                    </button>
+                    <button id="btnSearch" class="px-4 h-11 bg-hem-blue hover:bg-hem-light text-white font-bold rounded-lg transition shadow-md flex items-center justify-center">
+                        Tìm
+                    </button>
                 </div>
+            </div>
+            
+            <p id="correctionNote" class="text-xs text-green-600 mt-2 hidden">
+                <i class="fas fa-magic mr-1"></i> Đã tự động sửa lỗi nhập liệu (0&rarr;O, 1&rarr;I, 8&rarr;B).
+            </p>
+
+            <!-- QR Reader Placeholder -->
+            <div class="mt-4 relative">
+                <div id="qr-reader"></div>
+                <button id="btnCloseScanner" class="hidden absolute top-2 right-2 bg-red-500 text-white w-8 h-8 rounded-full shadow-lg items-center justify-center z-10">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
         </div>
 
-        <!-- SLIDE 2 -->
-        <div class="slide flex-col justify-center h-full px-24">
-            <div class="slide-content max-w-6xl w-full mx-auto">
-                <div class="flex items-center mb-10">
-                    <div class="w-16 h-16 rounded-xl bg-hem-blue text-white flex items-center justify-center text-3xl shadow-lg mr-6">
-                        <i class="fas fa-eye"></i>
-                    </div>
-                    <h1 class="text-4xl font-bold text-hem-blue">Lớp Đọc Hiểu (Bán Công Khai)</h1>
+        <!-- Status / Loading Area -->
+        <div id="statusArea" class="hidden p-8 text-center">
+            <div id="loadingSpinner" class="hidden flex-col items-center">
+                <i class="fas fa-circle-notch fa-spin text-4xl text-hem-blue mb-4"></i>
+                <p class="text-gray-600 font-medium">Đang truy xuất dữ liệu & định vị...</p>
+            </div>
+            <div id="errorMessage" class="hidden flex-col items-center text-red-500">
+                <i class="fas fa-exclamation-triangle text-4xl mb-4"></i>
+                <p id="errorText" class="font-medium text-lg">Không tìm thấy mã Serial.</p>
+            </div>
+        </div>
+
+        <!-- Result Area (Product Card) -->
+        <div id="resultArea" class="hidden bg-white">
+            <!-- Product Header -->
+            <div class="p-6 sm:p-8 flex flex-col sm:flex-row items-center sm:items-start gap-6 relative">
+                <!-- Image Placeholder -->
+                <div class="w-32 h-32 shrink-0 bg-gray-50 border-2 border-dashed border-gray-300 rounded-xl flex items-center justify-center text-gray-400">
+                    <i class="fas fa-cogs text-5xl"></i>
                 </div>
                 
-                <div class="grid grid-cols-2 gap-10">
-                    <div class="space-y-6">
-                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition">
-                            <h3 class="text-xl font-bold text-blue-800 mb-2">3 Ký tự đầu</h3>
-                            <p class="text-gray-600 text-lg">Thể hiện <strong>kiểu động cơ</strong>.</p>
-                        </div>
-                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition">
-                            <h3 class="text-xl font-bold text-blue-800 mb-2">2 Ký tự thứ 4 & 5</h3>
-                            <p class="text-gray-600 text-lg">Thể hiện <strong>ngày tháng</strong> xuất xưởng.<br>
-                            <span class="text-sm text-gray-500 mt-2 block">Có khả năng thể hiện khoảng thời gian gồm năm, tháng trong hơn 30 năm.</span></p>
-                        </div>
-                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition border-l-4 border-l-yellow-400">
-                            <h3 class="text-xl font-bold text-gray-800 mb-2">Mở rộng tương lai</h3>
-                            <p class="text-gray-600 text-lg">Có thể bổ sung ký tự thứ 10 để làm rõ loại động cơ hoặc lô sản xuất khi cần thiết.</p>
-                        </div>
-                    </div>
-                    <div class="bg-gray-50 p-8 rounded-2xl border border-gray-200">
-                        <h3 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2"><i class="fas fa-code-branch text-blue-500 mr-2"></i>Ví dụ Quy ước ngầm</h3>
-                        <ul class="space-y-4 text-lg text-gray-700">
-                            <li class="flex items-center"><span class="w-16 font-mono font-bold text-hem-blue bg-blue-100 text-center rounded py-1 mr-4">A1</span> Tháng 1 năm 2024</li>
-                            <li class="flex items-center"><span class="w-16 font-mono font-bold text-hem-blue bg-blue-100 text-center rounded py-1 mr-4">A2</span> Tháng 2 năm 2024</li>
-                            <li class="flex items-center"><span class="w-16 font-mono font-bold text-hem-blue bg-blue-100 text-center rounded py-1 mr-4">...</span> ...</li>
-                            <li class="flex items-center"><span class="w-16 font-mono font-bold text-hem-blue bg-blue-100 text-center rounded py-1 mr-4">AA</span> Tháng 10 năm 2024</li>
-                            <li class="flex items-center"><span class="w-16 font-mono font-bold text-hem-blue bg-blue-100 text-center rounded py-1 mr-4">...</span> ... đến năm 2026</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- SLIDE 3 -->
-        <div class="slide flex-col justify-center h-full px-24">
-            <div class="slide-content max-w-6xl w-full mx-auto">
-                <div class="flex items-center mb-10">
-                    <div class="w-16 h-16 rounded-xl bg-green-600 text-white flex items-center justify-center text-3xl shadow-lg mr-6">
-                        <i class="fas fa-tools"></i>
-                    </div>
-                    <h1 class="text-4xl font-bold text-hem-blue">2 Lớp Tiện Ích</h1>
-                </div>
-
-                <div class="space-y-8">
-                    <!-- Tiện ích 1 -->
-                    <div class="bg-white rounded-2xl p-8 shadow-sm border border-l-8 border-l-green-500 relative">
-                        <div class="absolute top-4 right-6 text-green-100 text-6xl"><i class="fas fa-shield-alt"></i></div>
-                        <h2 class="text-2xl font-bold text-gray-800 mb-4">Tiện ích 1: Chống sai sót & Tự phục hồi</h2>
-                        <ul class="list-disc pl-6 text-lg text-gray-600 space-y-2">
-                            <li><strong>Tự động sửa lỗi nhập liệu:</strong> Hệ thống tự động map các ký tự dễ nhầm lẫn (ví dụ: <code class="bg-gray-100 px-2 rounded text-red-500">0 &rarr; O</code>, <code class="bg-gray-100 px-2 rounded text-red-500">1 &rarr; I</code>, <code class="bg-gray-100 px-2 rounded text-red-500">8 &rarr; B</code>).</li>
-                            <li><strong>Kiểm soát hỏng hóc vật lý:</strong> Khi mã QR bị hỏng, mờ, xóa hoặc cạo mất > 30% bề mặt &rarr; Thuật toán Checksum lập tức phát hiện và cảnh báo người dùng mã đã bị tác động hỏng nặng.</li>
-                        </ul>
-                    </div>
-
-                    <!-- Tiện ích 2 -->
-                    <div class="bg-white rounded-2xl p-8 shadow-sm border border-l-8 border-l-blue-500 relative">
-                        <div class="absolute top-4 right-6 text-blue-50 text-6xl"><i class="fas fa-map-marked-alt"></i></div>
-                        <h2 class="text-2xl font-bold text-gray-800 mb-4">Tiện ích 2: Định vị & Quản lý luồng hàng</h2>
-                        <div class="grid grid-cols-2 gap-8 mt-4">
-                            <div class="bg-blue-50 p-5 rounded-xl border border-blue-100">
-                                <h3 class="font-bold text-blue-800 mb-2"><i class="fas fa-map-pin mr-2"></i>Quét ngoài Công ty (GPS)</h3>
-                                <p class="text-gray-700 text-sm">Xác định ngay hàng hóa đang ở ngoài nhà máy. Hệ thống tự động đối chiếu xác nhận lượng tồn kho đại lý, đơn hàng và tình trạng giao hàng thực tế.</p>
-                            </div>
-                            <div class="bg-blue-50 p-5 rounded-xl border border-blue-100">
-                                <h3 class="font-bold text-blue-800 mb-2"><i class="fas fa-industry mr-2"></i>Quét tại Công ty (QC)</h3>
-                                <p class="text-gray-700 text-sm">QC kiểm tra lần cuối và quét mã. Kích hoạt trạng thái <em>"Sẵn sàng trong kho"</em> &rarr; Bộ phận Kinh doanh có thể tiến hành làm thủ tục xuất hàng lập tức.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- SLIDE 4 -->
-        <div class="slide flex-col justify-center h-full px-24">
-            <div class="slide-content max-w-6xl w-full mx-auto">
-                <div class="flex items-center mb-10">
-                    <div class="w-16 h-16 rounded-xl bg-red-600 text-white flex items-center justify-center text-3xl shadow-lg mr-6">
-                        <i class="fas fa-lock"></i>
-                    </div>
-                    <h1 class="text-4xl font-bold text-hem-blue">3 Lớp Bảo Mật</h1>
-                </div>
-
-                <div class="grid grid-cols-3 gap-6">
-                    <!-- Bảo mật 1 -->
-                    <div class="bg-white p-8 rounded-2xl shadow-md border-t-4 border-t-red-500 hover:-translate-y-2 transition-transform">
-                        <div class="w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-xl mb-4"><i class="fas fa-user-secret"></i></div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3">Chống Dịch Ngược</h3>
-                        <p class="text-gray-600 text-sm mb-4">Thuật toán mã hóa 1 chiều nằm ở 3 ký tự gần cuối (số thứ tự). Không thể dịch ngược từ serial ra thông tin gốc.</p>
-                        <p class="text-gray-600 text-sm font-semibold bg-gray-50 p-3 rounded">Chỉ thay đổi 1 bit đầu vào &rarr; Đầu ra thay đổi hoàn toàn. Triệt tiêu khả năng đối thủ theo dõi sản lượng & năng lực công ty.</p>
-                    </div>
-
-                    <!-- Bảo mật 2 -->
-                    <div class="bg-white p-8 rounded-2xl shadow-md border-t-4 border-t-red-500 hover:-translate-y-2 transition-transform">
-                        <div class="w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-xl mb-4"><i class="fas fa-file-signature"></i></div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3">Tính Pháp Lý</h3>
-                        <p class="text-gray-600 text-sm mb-4">Thông báo về việc bảo hành điện tử được <strong class="text-blue-800">Tổng Giám Đốc ký số ban hành, QC đính kèm tài liệu xác nhận cho từng sản phẩm</strong>, gắn liền với trang công bố thông tin.</p>
-                        <p class="text-gray-600 text-sm font-semibold bg-gray-50 p-3 rounded">Mọi người có thể tải về và được pháp luật xác thực. Có thể chủ động gỡ bỏ khi cần thiết.</p>
-                    </div>
-
-                    <!-- Bảo mật 3 -->
-                    <div class="bg-white p-8 rounded-2xl shadow-md border-t-4 border-t-red-500 hover:-translate-y-2 transition-transform">
-                        <div class="w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-xl mb-4"><i class="fas fa-exclamation-triangle"></i></div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3">Cảnh Báo Gian Lận</h3>
-                        <p class="text-gray-600 text-sm mb-4">Hệ thống theo dõi lịch sử quét mã qua Database (Google Sheets/Server).</p>
-                        <p class="text-gray-600 text-sm font-semibold bg-gray-50 p-3 rounded">Lập tức cảnh báo nguy cơ hàng giả/hàng nhái nếu phát hiện một mã QR được quét ở nhiều địa điểm khác nhau hoặc đăng ký thông tin mâu thuẫn.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- SLIDE 5 -->
-        <div class="slide flex-col justify-center h-full px-24">
-            <div class="slide-content max-w-6xl w-full mx-auto">
-                <div class="flex items-center mb-10">
-                    <div class="w-16 h-16 rounded-xl bg-hem-blue text-white flex items-center justify-center text-3xl shadow-lg mr-6">
-                        <i class="fas fa-qrcode"></i>
-                    </div>
-                    <h1 class="text-4xl font-bold text-hem-blue">Cấu trúc Serial Number Hoàn chỉnh</h1>
-                </div>
-
-                <div class="bg-white p-8 rounded-2xl shadow-xl border border-gray-200">
-                    <!-- Sơ đồ mã -->
-                    <div class="flex flex-wrap justify-center gap-4 mb-10">
-                        <div class="text-center group">
-                            <div class="w-20 h-24 bg-blue-100 rounded-lg flex items-center justify-center text-3xl font-bold font-mono text-hem-blue border-b-4 border-blue-500 group-hover:-translate-y-2 transition">4KA</div>
-                            <div class="text-xs font-bold text-gray-500 mt-2 uppercase">Kiểu SP</div>
-                        </div>
-                        <div class="text-center group">
-                            <div class="w-20 h-24 bg-indigo-100 rounded-lg flex items-center justify-center text-3xl font-bold font-mono text-indigo-700 border-b-4 border-indigo-500 group-hover:-translate-y-2 transition">C5</div>
-                            <div class="text-xs font-bold text-gray-500 mt-2 uppercase">Năm/Tháng</div>
-                        </div>
-                        <div class="text-center group">
-                            <div class="w-32 h-24 bg-red-100 rounded-lg flex items-center justify-center text-3xl font-bold font-mono text-red-600 border-b-4 border-red-500 group-hover:-translate-y-2 transition tracking-widest">KGW</div>
-                            <div class="text-xs font-bold text-gray-500 mt-2 uppercase">Mã Riêng (STT)</div>
-                        </div>
-                        <div class="text-center group">
-                            <div class="w-20 h-24 bg-green-100 rounded-lg flex items-center justify-center text-3xl font-bold font-mono text-green-700 border-b-4 border-green-500 group-hover:-translate-y-2 transition">D</div>
-                            <div class="text-xs font-bold text-gray-500 mt-2 uppercase">Checksum</div>
-                        </div>
-                    </div>
-
-                    <!-- Chi tiết -->
-                    <div class="grid grid-cols-2 gap-8 text-lg text-gray-700">
-                        <ul class="space-y-4">
-                            <li><i class="fas fa-check-circle text-blue-500 mr-2"></i> <strong>3 ký tự đầu:</strong> Kiểu động cơ.</li>
-                            <li><i class="fas fa-check-circle text-indigo-500 mr-2"></i> <strong>2 ký tự tiếp theo:</strong> Năm và Tháng sản xuất.</li>
-                            <li><i class="fas fa-check-circle text-green-500 mr-2"></i> <strong>Ký tự cuối:</strong> Checksum (Kiểm tra toàn vẹn mã).</li>
-                        </ul>
-                        <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
-                            <h4 class="font-bold text-red-600 mb-3"><i class="fas fa-random mr-2"></i>Ví dụ mã hóa Số thứ tự (3 ký tự gần cuối)</h4>
-                            <div class="grid grid-cols-2 gap-2 text-sm font-mono bg-white p-3 rounded border">
-                                <div>Số 0 &rarr; <span class="font-bold text-hem-blue">JQY</span></div>
-                                <div>Số 1 &rarr; <span class="font-bold text-hem-blue">Y5G</span></div>
-                                <div>Số 2 &rarr; <span class="font-bold text-hem-blue">NJA</span></div>
-                                <div>Số 31999 &rarr; <span class="font-bold text-hem-blue">KGW</span></div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="flex-1 text-center sm:text-left">
+                    <h2 id="resTenSP" class="text-2xl font-bold text-gray-800 mb-1">Động Cơ Điện 1 Pha</h2>
+                    <p id="resSerial" class="font-mono text-lg text-hem-blue bg-blue-50 inline-block px-3 py-1 rounded-md mb-3">SN: 4KAC5ABCD</p>
                     
-                    <div class="mt-8 text-center text-sm font-semibold text-gray-500 bg-gray-100 py-3 rounded-lg flex justify-center items-center">
-                        <i class="fas fa-info-circle mr-2"></i> Các ký tự được định dạng theo hệ số 32 chuẩn <span class="text-hem-blue font-bold ml-1 border-b border-hem-blue">RFC 4648 Base32</span>
+                    <div>
+                        <span id="badgeStatus" class="px-3 py-1 text-sm font-bold rounded-full bg-green-100 text-green-700">
+                            <i class="fas fa-check-circle mr-1"></i> Hợp lệ
+                        </span>
                     </div>
+                </div>
+            </div>
+
+            <!-- Specs Table -->
+            <div class="px-6 sm:px-8 pb-8">
+                <h3 class="text-lg font-bold text-hem-blue mb-4 border-b-2 border-hem-blue inline-block pb-1">Thông số kỹ thuật</h3>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
+                    <div class="flex justify-between py-2 border-b border-gray-100">
+                        <span class="text-gray-500">Loại động cơ</span>
+                        <span id="resLoai" class="font-semibold text-gray-800 text-right">1 Pha</span>
+                    </div>
+                    <div class="flex justify-between py-2 border-b border-gray-100">
+                        <span class="text-gray-500">Công suất</span>
+                        <span id="resCongSuat" class="font-semibold text-gray-800 text-right">0.75 kW</span>
+                    </div>
+                    <div class="flex justify-between py-2 border-b border-gray-100">
+                        <span class="text-gray-500">Tốc độ</span>
+                        <span id="resTocDo" class="font-semibold text-gray-800 text-right">1500 vòng/phút</span>
+                    </div>
+                    <div class="flex justify-between py-2 border-b border-gray-100">
+                        <span class="text-gray-500">Điện áp</span>
+                        <span id="resDienAp" class="font-semibold text-gray-800 text-right">220V</span>
+                    </div>
+                    <div class="flex justify-between py-2 border-b border-gray-100">
+                        <span class="text-gray-500">Kiểu lắp đặt</span>
+                        <span id="resKieuLap" class="font-semibold text-gray-800 text-right">Chân đế</span>
+                    </div>
+                    <div class="flex justify-between py-2 border-b border-gray-100">
+                        <span class="text-gray-500">Nhà sản xuất</span>
+                        <span id="resLogo" class="font-semibold text-gray-800 text-right">HEM EMM</span>
+                    </div>
+                </div>
+
+                <h3 class="text-lg font-bold text-hem-blue mb-4 mt-8 border-b-2 border-hem-blue inline-block pb-1">Thông tin bảo hành</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
+                    <div class="flex justify-between py-2 border-b border-gray-100">
+                        <span class="text-gray-500">Ngày xuất xưởng</span>
+                        <span id="resNgaySX" class="font-semibold text-gray-800 text-right">-</span>
+                    </div>
+                    <div class="flex justify-between py-2 border-b border-gray-100">
+                        <span class="text-gray-500">Ngày kích hoạt</span>
+                        <span id="resNgayKH" class="font-semibold text-gray-800 text-right">-</span>
+                    </div>
+                    <div class="flex justify-between py-2 border-b border-gray-100">
+                        <span class="text-gray-500">Thời hạn bảo hành</span>
+                        <span id="resThoiHan" class="font-semibold text-gray-800 text-right">-</span>
+                    </div>
+                    <div class="flex justify-between py-2 border-b border-gray-100">
+                        <span class="text-gray-500">Ngày hết hạn</span>
+                        <span id="resNgayHetHan" class="font-semibold text-gray-800 text-right text-red-600">-</span>
+                    </div>
+                </div>
+
+                <!-- Footer contact -->
+                <div class="mt-8 bg-blue-50 p-4 rounded-xl border border-blue-100 flex flex-col sm:flex-row items-center justify-between">
+                    <div class="text-sm text-gray-600 text-center sm:text-left mb-2 sm:mb-0">
+                        <p class="font-bold text-hem-blue">Công ty CP Chế tạo Điện cơ HEM</p>
+                        <p><i class="fas fa-phone-alt w-4 text-center"></i> 024 3765 5510</p>
+                    </div>
+                    <button class="px-4 py-2 bg-white border border-gray-200 shadow-sm rounded-lg text-hem-blue font-bold text-sm hover:bg-gray-50 transition">
+                        <i class="fas fa-download mr-1"></i> Tải Phiếu BH
+                    </button>
                 </div>
             </div>
         </div>
 
-        <!-- SLIDE 6 -->
-        <div class="slide flex-col justify-center h-full px-24">
-            <div class="slide-content max-w-6xl w-full mx-auto">
-                <div class="flex items-center mb-10">
-                    <div class="w-16 h-16 rounded-xl bg-purple-600 text-white flex items-center justify-center text-3xl shadow-lg mr-6">
-                        <i class="fas fa-rocket"></i>
-                    </div>
-                    <h1 class="text-4xl font-bold text-hem-blue">Khả năng Phát triển & Tương lai</h1>
-                </div>
+    </main>
 
-                <div class="grid grid-cols-2 gap-8">
-                    <!-- Tích hợp ERP -->
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-all flex items-start hover:-translate-y-1">
-                        <div class="w-14 h-14 bg-purple-50 text-purple-600 rounded-lg flex items-center justify-center text-2xl shrink-0 mr-4"><i class="fas fa-network-wired"></i></div>
-                        <div>
-                            <h3 class="text-xl font-bold text-gray-800 mb-2">Tích hợp Hệ sinh thái số</h3>
-                            <p class="text-gray-600 leading-relaxed">Dễ dàng kết nối API với hệ thống quản lý ERP/CRM nội bộ. Tự động đồng bộ luồng dữ liệu từ khâu sản xuất, xuất kho đến đại lý phân phối.</p>
-                        </div>
-                    </div>
+    <!-- Footer -->
+    <footer class="mt-8 text-center text-sm text-gray-400">
+        <p>&copy; 2026 HEM EMM. All rights reserved.</p>
+        <p>Hệ thống Xác thực Toàn vẹn (RFC 4648)</p>
+    </footer>
 
-                    <!-- Phân tích dữ liệu -->
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-all flex items-start hover:-translate-y-1">
-                        <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center text-2xl shrink-0 mr-4"><i class="fas fa-chart-pie"></i></div>
-                        <div>
-                            <h3 class="text-xl font-bold text-gray-800 mb-2">Phân tích Dữ liệu (Big Data)</h3>
-                            <p class="text-gray-600 leading-relaxed">Thống kê vòng đời sản phẩm, vẽ bản đồ nhiệt (heatmap) khu vực sử dụng. Truy xuất ngay tỷ lệ lỗi/bảo hành theo từng lô, từng tháng.</p>
-                        </div>
-                    </div>
-
-                    <!-- App CSKH -->
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-all flex items-start hover:-translate-y-1">
-                        <div class="w-14 h-14 bg-green-50 text-green-600 rounded-lg flex items-center justify-center text-2xl shrink-0 mr-4"><i class="fas fa-mobile-alt"></i></div>
-                        <div>
-                            <h3 class="text-xl font-bold text-gray-800 mb-2">Trải nghiệm Khách hàng</h3>
-                            <p class="text-gray-600 leading-relaxed">Mở rộng thành cổng thông tin đa năng: Quét mã để xem HDSD điện tử, tra cứu thông số kỹ thuật, gửi yêu cầu bảo hành nhanh 1 chạm qua App/Zalo.</p>
-                        </div>
-                    </div>
-
-                    <!-- AI -->
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-all flex items-start hover:-translate-y-1">
-                        <div class="w-14 h-14 bg-red-50 text-red-600 rounded-lg flex items-center justify-center text-2xl shrink-0 mr-4"><i class="fas fa-brain"></i></div>
-                        <div>
-                            <h3 class="text-xl font-bold text-gray-800 mb-2">Nâng cấp AI Chống giả</h3>
-                            <p class="text-gray-600 leading-relaxed">Ứng dụng Học máy (Machine Learning) để phân tích hành vi quét mã. Tự động nhận diện và khóa các cụm Serial có dấu hiệu quét bất thường/sao chép.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
+    <!-- Javascript Logic -->
     <script>
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.slide');
-        const pageNumber = document.getElementById('pageNumber');
-        const totalSlides = slides.length;
+        // ==========================================
+        // CẤU HÌNH API
+        // ==========================================
+        // Thay link API của Google Apps Script vào đây
+        const GAS_API_URL = "https://script.google.com/macros/s/AKfycby0JheJzMmaKYFUSX3Yy8vEiMYb_cyTkyLTqBOSHC-oI9L2BNrlbygRoSow5XmGIc1M0g/exec"; 
 
-        function updateSlide() {
-            // Hide all slides
-            slides.forEach(slide => {
-                slide.classList.remove('active');
-                // reset animation
-                const content = slide.querySelector('.slide-content');
-                content.style.animation = 'none';
-                content.offsetHeight; /* trigger reflow */
-                content.style.animation = null; 
+        // UI Elements
+        const inputSerial = document.getElementById('serialInput');
+        const btnSearch = document.getElementById('btnSearch');
+        const btnScan = document.getElementById('btnScan');
+        const correctionNote = document.getElementById('correctionNote');
+        
+        const statusArea = document.getElementById('statusArea');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const errorMessage = document.getElementById('errorMessage');
+        const errorText = document.getElementById('errorText');
+        const resultArea = document.getElementById('resultArea');
+        
+        let html5QrCode;
+
+        // ==========================================
+        // TIỆN ÍCH 1: CHỐNG SAI SÓT (Auto Correct)
+        // ==========================================
+        function sanitizeSerial(serial) {
+            let original = serial.toUpperCase().trim();
+            // Map 0->O, 1->I, 8->B
+            let corrected = original.replace(/0/g, 'O').replace(/1/g, 'I').replace(/8/g, 'B');
+            
+            if (original !== corrected) {
+                correctionNote.classList.remove('hidden');
+            } else {
+                correctionNote.classList.add('hidden');
+            }
+            return corrected;
+        }
+
+        // ==========================================
+        // TIỆN ÍCH 2: LẤY GPS
+        // ==========================================
+        function getGPSLocation() {
+            return new Promise((resolve) => {
+                if (!navigator.geolocation) {
+                    resolve("No GPS Support");
+                    return;
+                }
+                // Timeout 3s để không làm chậm trải nghiệm nếu người dùng không cấp quyền
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        resolve(`${position.coords.latitude},${position.coords.longitude}`);
+                    },
+                    (error) => {
+                        resolve("Denied/Failed");
+                    },
+                    { timeout: 3000 }
+                );
             });
-            
-            // Show current slide
-            slides[currentSlide].classList.add('active');
-            
-            // Update page number
-            pageNumber.innerText = `Trang ${currentSlide + 1} / ${totalSlides}`;
         }
 
-        function nextSlide() {
-            if (currentSlide < totalSlides - 1) {
-                currentSlide++;
-                updateSlide();
+        // ==========================================
+        // XỬ LÝ TRA CỨU
+        // ==========================================
+        async function handleSearch(rawSerial) {
+            if (!rawSerial) return;
+            
+            const serial = sanitizeSerial(rawSerial);
+            inputSerial.value = serial; // Update UI with corrected serial
+            
+            // Đóng QR scanner nếu đang mở
+            if (html5QrCode && html5QrCode.isScanning) {
+                stopScanner();
+            }
+
+            // Show Loading
+            resultArea.classList.add('hidden');
+            errorMessage.classList.add('hidden');
+            statusArea.classList.remove('hidden');
+            loadingSpinner.classList.remove('hidden');
+            loadingSpinner.classList.add('flex');
+
+            try {
+                // Lấy GPS & Device Info
+                const gps = await getGPSLocation();
+                const device = navigator.userAgent;
+
+                // Gọi API
+                const queryParams = new URLSearchParams({
+                    serial: serial,
+                    gps: gps,
+                    device: device
+                });
+                
+                // NẾU CHƯA CÓ LINK API, HIỂN THỊ DỮ LIỆU MẪU ĐỂ TEST GIAO DIỆN
+                if (GAS_API_URL === "YOUR_WEB_APP_URL_HERE") {
+                    setTimeout(() => renderDummyData(serial), 1000);
+                    return;
+                }
+
+                const response = await fetch(`${GAS_API_URL}?${queryParams.toString()}`);
+                const resData = await response.json();
+
+                if (resData.status === "success") {
+                    renderResult(resData.data);
+                } else {
+                    showError(resData.message || "Không tìm thấy thông tin sản phẩm.");
+                }
+
+            } catch (error) {
+                showError("Lỗi kết nối đến máy chủ. Vui lòng thử lại sau.");
+                console.error(error);
             }
         }
 
-        function prevSlide() {
-            if (currentSlide > 0) {
-                currentSlide--;
-                updateSlide();
+        function renderResult(data) {
+            loadingSpinner.classList.add('hidden');
+            loadingSpinner.classList.remove('flex');
+            statusArea.classList.add('hidden');
+            resultArea.classList.remove('hidden');
+
+            // Gán dữ liệu vào UI
+            document.getElementById('resTenSP').innerText = data.TenSanPham || "N/A";
+            document.getElementById('resSerial').innerText = `SN: ${data.Serial}`;
+            
+            document.getElementById('resLoai').innerText = data.LoaiDongCo || "-";
+            document.getElementById('resCongSuat').innerText = data.CongSuat || "-";
+            document.getElementById('resTocDo').innerText = data.TocDo || "-";
+            document.getElementById('resDienAp').innerText = data.DienAp || "-";
+            document.getElementById('resKieuLap').innerText = data.KieuLapDat || "-";
+            document.getElementById('resLogo').innerText = data.Logo || "-";
+            
+            document.getElementById('resNgaySX').innerText = data.NgaySanXuat || "-";
+            document.getElementById('resNgayKH').innerText = data.NgayKichHoat || "-";
+            document.getElementById('resThoiHan').innerText = data.ThoiHanBaoHanh || "-";
+            document.getElementById('resNgayHetHan').innerText = data.NgayHetHan || "-";
+
+            // Logic Badge Trạng thái
+            const badge = document.getElementById('badgeStatus');
+            const status = data.TrangThaiBaoHanh ? data.TrangThaiBaoHanh.toLowerCase() : "";
+            
+            if (status.includes("hết hạn")) {
+                badge.className = "px-3 py-1 text-sm font-bold rounded-full bg-red-100 text-red-700";
+                badge.innerHTML = '<i class="fas fa-times-circle mr-1"></i> Hết Hạn';
+            } else if (status.includes("từ chối")) {
+                badge.className = "px-3 py-1 text-sm font-bold rounded-full bg-gray-200 text-gray-700";
+                badge.innerHTML = '<i class="fas fa-ban mr-1"></i> Từ chối BH';
+            } else {
+                badge.className = "px-3 py-1 text-sm font-bold rounded-full bg-green-100 text-green-700";
+                badge.innerHTML = '<i class="fas fa-check-circle mr-1"></i> Hợp lệ';
             }
         }
 
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight' || e.key === ' ') {
-                nextSlide();
-            } else if (e.key === 'ArrowLeft') {
-                prevSlide();
+        function showError(msg) {
+            loadingSpinner.classList.add('hidden');
+            loadingSpinner.classList.remove('flex');
+            errorMessage.classList.remove('hidden');
+            errorMessage.classList.add('flex');
+            errorText.innerText = msg;
+        }
+
+        // ==========================================
+        // TÍNH NĂNG QUÉT QR CODE
+        // ==========================================
+        const qrContainer = document.getElementById('qr-reader');
+        const btnCloseScanner = document.getElementById('btnCloseScanner');
+
+        function startScanner() {
+            qrContainer.style.display = "block";
+            btnCloseScanner.classList.remove('hidden');
+            btnCloseScanner.classList.add('flex');
+            
+            html5QrCode = new Html5Qrcode("qr-reader");
+            
+            const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+            
+            // Ưu tiên camera sau
+            html5QrCode.start({ facingMode: "environment" }, config, 
+                (decodedText, decodedResult) => {
+                    // Quét thành công
+                    stopScanner();
+                    inputSerial.value = decodedText;
+                    handleSearch(decodedText);
+                },
+                (errorMessage) => {
+                    // Quét lỗi (xảy ra liên tục mỗi frame, bỏ qua)
+                }
+            ).catch((err) => {
+                alert("Không thể truy cập Camera. Vui lòng cấp quyền trong trình duyệt.");
+                stopScanner();
+            });
+        }
+
+        function stopScanner() {
+            if (html5QrCode && html5QrCode.isScanning) {
+                html5QrCode.stop().then(() => {
+                    qrContainer.style.display = "none";
+                    btnCloseScanner.classList.add('hidden');
+                    btnCloseScanner.classList.remove('flex');
+                });
+            }
+        }
+
+        // ==========================================
+        // EVENT LISTENERS
+        // ==========================================
+        btnSearch.addEventListener('click', () => handleSearch(inputSerial.value));
+        inputSerial.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleSearch(inputSerial.value);
+        });
+        
+        btnScan.addEventListener('click', () => {
+            if (qrContainer.style.display === "block") {
+                stopScanner();
+            } else {
+                startScanner();
             }
         });
+        
+        btnCloseScanner.addEventListener('click', stopScanner);
 
-        // Click to next (optional, clicking on background)
-        document.getElementById('slides-container').addEventListener('click', (e) => {
-            // Don't trigger if clicking buttons or selectable text
-            if(e.target.tagName !== 'BUTTON' && e.target.tagName !== 'I' && window.getSelection().toString().length === 0) {
-                nextSlide();
-            }
-        });
-
-        // Initial setup
-        updateSlide();
+        // Dummy Data để Test UI khi chưa có Link API
+        function renderDummyData(serial) {
+            renderResult({
+                Serial: serial,
+                TenSanPham: "Động Cơ Điện 3 Pha Chịu Nhiệt",
+                LoaiDongCo: "3 Pha",
+                CongSuat: "1.5 kW",
+                TocDo: "2800 vòng/phút",
+                DienAp: "380V",
+                KieuLapDat: "Mặt bích",
+                Logo: "HEM EMM",
+                NgaySanXuat: "15/05/2026",
+                NgayKichHoat: "20/05/2026",
+                ThoiHanBaoHanh: "24 Tháng",
+                NgayHetHan: "20/05/2028",
+                TrangThaiBaoHanh: "Hợp lệ"
+            });
+        }
     </script>
 </body>
 </html>

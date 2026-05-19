@@ -1,32 +1,83 @@
 # snverify
 
-Slide 1
-đề xuất cấu trúc sn gồm 9 ký tự
+📋 KẾ HOẠCH DỰ ÁN: HỆ THỐNG TRA CỨU BẢO HÀNH ĐIỆN TỬ HEM EMM
 
-3 lớp bảo mật - 2 lớp tiện ích - 1 lớp đọc hiểu bán công khai
+Kiến trúc hệ thống:
 
-Ví dụ: 4KAC5ABCD tương đương động cơ 4KA, sản xuất tháng 5 năm 2026, động cơ thứ [không thể biết được] được sản xuất trong tháng này
+Database: Google Sheets (Serverless, Miễn phí, Quản lý trực quan)
 
-Slide 2
-đọc hiểu: 3 ký tự đầu thể hiện kiểu động cơ, 2 ký tự thứ 4,5 thể hiện ngày tháng => có thể thể hiện khoảng thời gian gồm năm, tháng trong hơn 30 năm. ví dụ: quy ước ngầm AA là tháng 1 năm 2026 => A1 là tháng 1 năm 2024, A2 là tháng 2, AA là tháng 10, ... đến năm 2026  Có thể bổ sung ký tự thứ 10 để làm rõ loại động cơ hoặc lô sản xuất.
+Backend API: Google Apps Script (Tối ưu TextFinder, CacheService)
 
-Slide 3
+Frontend (UI): HTML/JS + Tailwind CSS (Host trên GitHub Pages)
 
-tiện ích 1: Chống sai sót - tự động sửa lỗi nếu người dùng nhập sai 0 => O, 1 => I, 8 => B, Khi mã QR bị hỏng - mờ xóa, cạo mất hơn 30% => lập tức checksum hoạt động, báo cho người dùng mã đã bị tác động hỏng nặng.
-tiện ích 2: Vị trí hàng hóa, Quản lý tồn kho - kích hoạt khi người dùng quét mã ngoài công ty (check qua GPS) - lập tức xác định hàng ở ngoài công ty - xác nhận lại lượng tồn kho, đơn hàng, tình trạng giao hàng. Nếu vị trí là ở Công ty, QC kiểm tra lần cuối và quét mã để kích hoạt => hàng đã sẵn sàng trong kho nào => kinh doanh có thể làm thủ tục xuất hàng
+Tính năng nổi bật: Thuật toán Serial Base32, Checksum tự sửa lỗi, GPS tracking, Chống scan spam/gian lận, Mô phỏng nhãn in thực tế.
 
-Slide 4:
-Bảo mật 1: Thuật toán bảo mật không thể dịch ngược từ serial ra thông tin gốc, chỉ cần thay đổi bất kỳ thứ gì trong đầu vào thì đầu ra sẽ bị thay đổi - nằm ở 3 ký tự gần cuối - thể hiện số lượng động cơ xuất xưởng trong tháng. => tránh đối thủ theo dõi sản lượng, năng lực công ty
-Bảo mật 2: Thông báo về việc bảo hành điện tử - anh Toàn ký số, gắn với trang công bố thông tin - tất cả mọi người có thể download về và được pháp luật xác thực. Khi cần thì gỡ bỏ.
-Bảo mật 3: Khi người dùng quét mã - cảnh báo nếu mã đã được quét ở nơi khác, đăng ký thông tin khác
+🟢 GIAI ĐOẠN 1: BÁO CÁO BAN ĐIỀU HÀNH (ĐÃ HOÀN THÀNH)
 
+Mục tiêu: Thuyết phục Ban lãnh đạo về cấu trúc mã Serial và định hướng công nghệ.
 
-Slide 5
-cấu trúc serial number hoàn chỉnh:
- - 3 ký tự đầu: kiểu động cơ
- - 2 ký tự tiếp theo: năm tháng
- - 3 ký gần cuối: mã riêng của động cơ. ví dụ: Số 0   --> Mã hóa: JQY, Số 1   --> Mã hóa: Y5G, Số 2   --> Mã hóa: NJA, Số 31999 --> Mã hóa: KGW.
- - ký tự cuối cùng: check sum
+[x] Đề xuất cấu trúc mã: [3 ký tự Kiểu máy] + [2 ký tự Năm/Tháng] + [3 ký tự STT mã hóa] + [1 Checksum].
 
-Các ký tự được định dạng theo hệ số 32 chuẩn RFC 4648 base32
+[x] Xây dựng bản Presentation HTML (6 slides) trình bày chuyên nghiệp về Tiện ích, Bảo mật và Khả năng phát triển.
 
+🟢 GIAI ĐOẠN 2: THIẾT LẬP DATABASE (ĐÃ HOÀN THÀNH)
+
+Mục tiêu: Xây dựng cấu trúc lưu trữ dữ liệu tiêu chuẩn và nhật ký hoạt động.
+
+[x] Tạo file Google Sheets.
+
+[x] Viết script Setup.gs tự động khởi tạo bảng.
+
+[x] Sheet 1: Data (20 cột) - Lưu thông tin tĩnh của động cơ (Serial, Công suất, Ngày xuất xưởng...) và biến đếm SoLanQuet.
+
+[x] Sheet 2: ScanHistory (6 cột) - Bảng nhật ký âm thầm ghi lại mọi hành vi quét mã (Thời gian, Tọa độ GPS, Thiết bị...).
+
+🟢 GIAI ĐOẠN 3: XÂY DỰNG BACKEND & API (ĐÃ HOÀN THÀNH)
+
+Mục tiêu: Tạo cầu nối (API) để Frontend có thể đọc/ghi dữ liệu vào Google Sheets an toàn và siêu tốc.
+
+[x] Viết file Code.gs xử lý logic.
+
+[x] Hàm doGet (Tra cứu): Dùng TextFinder để tìm Serial nhanh chóng trong 200.000 dòng. Cập nhật SoLanQuet và ghi log vào ScanHistory. Áp dụng Cache 10 phút.
+
+[x] Hàm doPost (Import): Cấu hình setValues để cho phép Admin chèn hàng loạt (Batch Insert) dữ liệu từ Excel vào Sheet nhanh chóng.
+
+🟡 GIAI ĐOẠN 4: XÂY DỰNG FRONTEND (ĐANG THỰC HIỆN)
+
+Mục tiêu: Lập trình giao diện tương tác cho Khách hàng và Quản trị viên.
+
+[x] Trang Admin (admin.html): Giao diện upload file, tích hợp thư viện SheetJS đọc file Excel ngay trên trình duyệt, thanh tiến trình import dữ liệu, có lớp bảo mật mật khẩu cơ bản.
+
+[x] Trang Khách hàng (Tính năng nền tảng): Giao diện Mobile-first, tích hợp quét QR Code bằng Camera, tự sửa lỗi nhập liệu (0->O), xin quyền GPS, gọi API.
+
+[ ] Trang Khách hàng (Tính năng nâng cao - Đang cập nhật): Bổ sung chức năng Vẽ lại nhãn in (Nameplate) kim loại trực quan trên màn hình. Điền động các thông số (kW, Vòng/phút, Vôn...) trả về từ Server lên đúng các ô trên tem để khách hàng đối chiếu vật lý.
+
+📍 CHÚNG TA ĐANG Ở ĐÂY: GIAI ĐOẠN 4 - HOÀN THIỆN TÍNH NĂNG NHÃN IN FRONTEND
+
+Thay vì chỉ hiển thị bảng thông số khô khan, hệ thống sẽ render ra một "Tem Động Cơ" chân thực.
+
+⏳ Các bước tiếp theo cần thực hiện:
+
+Bước 4.1: Cập nhật file index.html
+
+Viết thêm mã CSS/HTML5 mô phỏng thiết kế tem nhôm đặc trưng của Động cơ HEM EMM.
+
+Cập nhật hàm Javascript để binding (đẩy) dữ liệu từ kết quả JSON vào các ô trống trên tem ảo này.
+
+Bước 5.1: Xuất bản Backend (Lấy Link API)
+
+Mở file Google Sheets -> Tiện ích mở rộng -> Apps Script -> Deploy dưới dạng Web App để lấy Link API.
+
+Bước 5.2: Tích hợp API vào Frontend & Triển khai Internet
+
+Gắn Link API vào 2 file HTML.
+
+Đẩy toàn bộ lên GitHub Pages để có đường link truy cập chính thức.
+
+🔮 GIAI ĐOẠN 5: BẢO TRÌ & MỞ RỘNG (TƯƠNG LAI)
+
+[ ] Chỉnh sửa giao diện theo feedback thực tế của người dùng.
+
+[ ] Trỏ tên miền công ty (VD: baohanh.hem.com.vn) về GitHub Pages.
+
+[ ] Mở rộng kết nối API với hệ thống ERP nội bộ của nhà máy.
