@@ -4,7 +4,7 @@
 // ==============================================================
 
 // CẤU HÌNH API
-const GAS_API_URL = "YOUR_WEB_APP_URL_HERE"; 
+const GAS_API_URL = "https://script.google.com/macros/s/AKfycby0JheJzMmaKYFUSX3Yy8vEiMYb_cyTkyLTqBOSHC-oI9L2BNrlbygRoSow5XmGIc1M0g/exec"; 
 
 // UI Elements
 const inputSerial = document.getElementById('serialInput');

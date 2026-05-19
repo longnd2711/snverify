@@ -16,181 +16,266 @@
             theme: {
                 extend: {
                     colors: {
-                        hem: {
-                            blue: '#073763',
-                            light: '#0b5394',
-                            accent: '#3b82f6'
-                        }
+                        hem: { blue: '#2a4387', dark: '#073763', light: '#4d69b3' },
+                        hotline: { start: '#ff6b00', end: '#ff2a00' }
                     }
                 }
             }
         }
     </script>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6; }
-        .glass-panel { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
-        /* Style for QR Scanner */
-        #qr-reader { width: 100%; border-radius: 0.75rem; overflow: hidden; border: 2px solid #073763; display: none; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8fafc; }
+        
+        /* QR Scanner */
+        #qr-reader { width: 100%; border-radius: 0.75rem; overflow: hidden; border: 2px solid #2a4387; display: none; }
         #qr-reader video { object-fit: cover; }
+
+        /* Custom Table Styles based on provided image */
+        .spec-table td {
+            border: 1px solid #e2e8f0;
+            padding: 0.75rem 1rem;
+        }
+        .spec-table tr:first-child td { border-top: none; }
+        .spec-table tr td:first-child { border-left: none; }
+        .spec-table tr td:last-child { border-right: none; }
+        .spec-table-container {
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Detailed Warranty Table */
+        .detail-table th {
+            background-color: #0d325a;
+            color: white;
+            padding: 0.75rem 1rem;
+            font-weight: 600;
+            border: 1px solid #0d325a;
+        }
+        .detail-table td {
+            padding: 0.75rem 1rem;
+            border: 1px solid #e2e8f0;
+        }
+        .detail-table tr:nth-child(even) { background-color: #f8fafc; }
+        
+        /* Gradient Button */
+        .btn-hotline {
+            background: linear-gradient(to right, #ff8c00, #e62e00);
+            box-shadow: 0 4px 6px -1px rgba(230, 46, 0, 0.3);
+        }
+        .btn-hotline:hover {
+            background: linear-gradient(to right, #ff9d26, #ff3300);
+        }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center p-4 sm:p-8">
+<body class="min-h-screen flex flex-col items-center p-4 sm:p-6 lg:p-8">
 
     <!-- Header -->
-    <header class="w-full max-w-2xl mb-8 text-center mt-4">
-        <div class="inline-flex items-center justify-center w-20 h-20 bg-hem-blue text-white rounded-2xl shadow-lg mb-4">
-            <i class="fas fa-industry text-4xl"></i>
+    <header class="w-full max-w-4xl mb-6 text-center mt-2">
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-hem-dark text-white rounded-2xl shadow-lg mb-3">
+            <i class="fas fa-industry text-3xl"></i>
         </div>
-        <h1 class="text-3xl sm:text-4xl font-bold text-hem-blue tracking-tight">HEM EMM</h1>
-        <p class="text-gray-500 mt-2 font-medium">Hệ thống Tra cứu Bảo hành & Xuất xứ Điện tử</p>
+        <h1 class="text-2xl sm:text-3xl font-bold text-hem-dark tracking-tight">HEM EMM</h1>
+        <p class="text-gray-500 mt-1 font-medium text-sm sm:text-base">Hệ thống Tra cứu Bảo hành & Thông số Kỹ thuật</p>
     </header>
 
     <!-- Main Container -->
-    <main class="w-full max-w-2xl glass-panel rounded-3xl shadow-xl overflow-hidden">
+    <main class="w-full max-w-4xl bg-white rounded-2xl shadow-lg overflow-hidden mb-8 border border-gray-100">
         
         <!-- Search Section -->
-        <div class="p-6 sm:p-8 border-b border-gray-100">
-            <div class="relative">
-                <input type="text" id="serialInput" placeholder="Nhập mã Serial sản phẩm (VD: 4KAC5KGW...)" 
-                    class="w-full pl-5 pr-32 py-4 bg-gray-50 border border-gray-200 rounded-xl text-lg font-semibold text-gray-700 focus:outline-none focus:ring-2 focus:ring-hem-blue focus:border-transparent transition-all uppercase placeholder:normal-case placeholder:font-normal placeholder:text-gray-400">
+        <div class="p-5 sm:p-8 border-b border-gray-100">
+            <div class="relative max-w-2xl mx-auto">
+                <input type="text" id="serialInput" placeholder="Nhập mã Serial (VD: 4KAC5KGW)" 
+                    class="w-full pl-5 pr-32 py-4 bg-gray-50 border border-gray-200 rounded-xl text-lg font-semibold text-gray-700 focus:outline-none focus:ring-2 focus:ring-hem-blue focus:border-transparent transition-all uppercase placeholder:normal-case placeholder:font-normal placeholder:text-gray-400 shadow-inner">
                 
                 <div class="absolute right-2 top-2 flex space-x-2">
-                    <button id="btnScan" class="p-2 w-12 h-11 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition flex items-center justify-center">
+                    <button id="btnScan" class="p-2 w-12 h-11 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition flex items-center justify-center" title="Quét mã QR">
                         <i class="fas fa-qrcode text-xl"></i>
                     </button>
-                    <button id="btnSearch" class="px-4 h-11 bg-hem-blue hover:bg-hem-light text-white font-bold rounded-lg transition shadow-md flex items-center justify-center">
+                    <button id="btnSearch" class="px-5 h-11 bg-hem-dark hover:bg-blue-900 text-white font-bold rounded-lg transition shadow-md flex items-center justify-center">
                         Tìm
                     </button>
                 </div>
             </div>
             
-            <p id="correctionNote" class="text-xs text-green-600 mt-2 hidden">
-                <i class="fas fa-magic mr-1"></i> Đã tự động sửa lỗi nhập liệu (0&rarr;O, 1&rarr;I, 8&rarr;B).
-            </p>
+            <div class="text-center">
+                <p id="correctionNote" class="text-xs text-green-600 mt-3 hidden inline-block bg-green-50 px-3 py-1 rounded-full border border-green-100">
+                    <i class="fas fa-magic mr-1"></i> Đã tự động sửa lỗi nhập liệu.
+                </p>
+            </div>
 
             <!-- QR Reader Placeholder -->
-            <div class="mt-4 relative">
+            <div class="mt-4 relative max-w-md mx-auto">
                 <div id="qr-reader"></div>
-                <button id="btnCloseScanner" class="hidden absolute top-2 right-2 bg-red-500 text-white w-8 h-8 rounded-full shadow-lg items-center justify-center z-10">
+                <button id="btnCloseScanner" class="hidden absolute top-2 right-2 bg-red-500 text-white w-8 h-8 rounded-full shadow-lg items-center justify-center z-10 hover:bg-red-600 transition">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
         </div>
 
         <!-- Status / Loading Area -->
-        <div id="statusArea" class="hidden p-8 text-center">
+        <div id="statusArea" class="hidden p-12 text-center">
             <div id="loadingSpinner" class="hidden flex-col items-center">
-                <i class="fas fa-circle-notch fa-spin text-4xl text-hem-blue mb-4"></i>
-                <p class="text-gray-600 font-medium">Đang truy xuất dữ liệu & định vị...</p>
+                <i class="fas fa-circle-notch fa-spin text-5xl text-hem-blue mb-4"></i>
+                <p class="text-gray-600 font-medium mt-4">Đang truy xuất dữ liệu an toàn...</p>
             </div>
             <div id="errorMessage" class="hidden flex-col items-center text-red-500">
-                <i class="fas fa-exclamation-triangle text-4xl mb-4"></i>
+                <i class="fas fa-exclamation-triangle text-5xl mb-4"></i>
                 <p id="errorText" class="font-medium text-lg">Không tìm thấy mã Serial.</p>
+                <button onclick="resetUI()" class="mt-6 px-6 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition font-medium">Thử lại</button>
             </div>
         </div>
 
-        <!-- Result Area (Product Card) -->
-        <div id="resultArea" class="hidden bg-white">
-            <!-- Product Header -->
-            <div class="p-6 sm:p-8 flex flex-col sm:flex-row items-center sm:items-start gap-6 relative">
-                <!-- Image Placeholder -->
-                <div class="w-32 h-32 shrink-0 bg-gray-50 border-2 border-dashed border-gray-300 rounded-xl flex items-center justify-center text-gray-400">
-                    <i class="fas fa-cogs text-5xl"></i>
-                </div>
+        <!-- Result Area -->
+        <div id="resultArea" class="hidden">
+            
+            <!-- Cảnh báo gian lận -->
+            <div id="fraudWarning" class="hidden bg-red-50 border-l-4 border-red-500 text-red-700 p-4 text-sm">
+                <i class="fas fa-shield-alt mr-2"></i> <span id="fraudText" class="font-semibold"></span>
+            </div>
+
+            <!-- ============================================== -->
+            <!-- PHẦN 1: TỔNG QUAN (Layout Hình ảnh + Bảng ngắn) -->
+            <!-- ============================================== -->
+            <div class="p-6 sm:p-8 flex flex-col md:flex-row gap-8 items-start border-b border-gray-100">
                 
-                <div class="flex-1 text-center sm:text-left">
-                    <h2 id="resTenSP" class="text-2xl font-bold text-gray-800 mb-1">Động Cơ Điện 1 Pha</h2>
-                    <p id="resSerial" class="font-mono text-lg text-hem-blue bg-blue-50 inline-block px-3 py-1 rounded-md mb-3">SN: 4KAC5ABCD</p>
-                    
-                    <div>
-                        <span id="badgeStatus" class="px-3 py-1 text-sm font-bold rounded-full bg-green-100 text-green-700">
-                            <i class="fas fa-check-circle mr-1"></i> Hợp lệ
-                        </span>
+                <!-- Hình ảnh sản phẩm -->
+                <div class="w-full md:w-5/12 flex-shrink-0 flex items-center justify-center p-4">
+                    <!-- Sử dụng SVG Icon làm placeholder đẹp mắt -->
+                    <svg class="w-full h-auto max-w-[280px] text-gray-300 drop-shadow-xl" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8M12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14A2,2 0 0,0 14,12A2,2 0 0,0 12,10Z" />
+                        <path d="M19.5,12A7.5,7.5 0 0,0 12,4.5V3A9,9 0 0,1 21,12H19.5M4.5,12A7.5,7.5 0 0,0 12,19.5V21A9,9 0 0,1 3,12H4.5Z" fill="#2a4387" opacity="0.8"/>
+                    </svg>
+                </div>
+
+                <!-- Thông số cơ bản & Hotline -->
+                <div class="w-full md:w-7/12">
+                    <h2 id="resTenSP" class="text-2xl sm:text-3xl font-bold text-hem-blue mb-6 leading-tight whitespace-pre-line">
+                        Động cơ điện 1 pha<br>0.3 kW 1500 vòng/phút
+                    </h2>
+
+                    <!-- Bảng thông số ngắn gọn -->
+                    <div class="spec-table-container rounded">
+                        <table class="w-full text-left border-collapse text-[15px] spec-table">
+                            <tbody>
+                                <tr>
+                                    <td class="text-gray-600 w-2/5">Nhà sản xuất:</td>
+                                    <td id="resLogo" class="text-gray-900">HEM EMM</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-gray-600">Công suất:</td>
+                                    <td id="resCongSuat" class="text-gray-900">0.3 kW</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-gray-600">Tốc độ:</td>
+                                    <td id="resTocDo" class="text-gray-900">1500 vòng/phút</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-gray-600">Điện áp:</td>
+                                    <td id="resDienAp" class="text-gray-900">220</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-gray-600">Kiểu lắp đặt:</td>
+                                    <td id="resKieuLap" class="text-gray-900">Chân đế</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Nút Hotline -->
+                    <div class="mt-6">
+                        <p class="text-red-600 text-sm mb-2">Vui lòng liên hệ hotline bảo hành</p>
+                        <a href="tel:0369325123" class="btn-hotline inline-flex items-center justify-center text-white font-bold py-2.5 px-8 rounded-full text-lg transition-transform hover:scale-105">
+                            HOTLINE: 0369 325 123
+                        </a>
                     </div>
                 </div>
             </div>
 
-            <!-- Specs Table -->
-            <div class="px-6 sm:px-8 pb-8">
-                <h3 class="text-lg font-bold text-hem-blue mb-4 border-b-2 border-hem-blue inline-block pb-1">Thông số kỹ thuật</h3>
+            <!-- ============================================== -->
+            <!-- PHẦN 2: BẢNG CHI TIẾT BẢO HÀNH                 -->
+            <!-- ============================================== -->
+            <div class="p-6 sm:p-8">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-bold text-hem-dark">Thông tin bảo hành chi tiết</h3>
+                    <span id="badgeStatus" class="px-4 py-1.5 text-sm font-bold rounded bg-green-100 text-green-700">
+                        Hợp lệ
+                    </span>
+                </div>
                 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
-                    <div class="flex justify-between py-2 border-b border-gray-100">
-                        <span class="text-gray-500">Loại động cơ</span>
-                        <span id="resLoai" class="font-semibold text-gray-800 text-right">1 Pha</span>
-                    </div>
-                    <div class="flex justify-between py-2 border-b border-gray-100">
-                        <span class="text-gray-500">Công suất</span>
-                        <span id="resCongSuat" class="font-semibold text-gray-800 text-right">0.75 kW</span>
-                    </div>
-                    <div class="flex justify-between py-2 border-b border-gray-100">
-                        <span class="text-gray-500">Tốc độ</span>
-                        <span id="resTocDo" class="font-semibold text-gray-800 text-right">1500 vòng/phút</span>
-                    </div>
-                    <div class="flex justify-between py-2 border-b border-gray-100">
-                        <span class="text-gray-500">Điện áp</span>
-                        <span id="resDienAp" class="font-semibold text-gray-800 text-right">220V</span>
-                    </div>
-                    <div class="flex justify-between py-2 border-b border-gray-100">
-                        <span class="text-gray-500">Kiểu lắp đặt</span>
-                        <span id="resKieuLap" class="font-semibold text-gray-800 text-right">Chân đế</span>
-                    </div>
-                    <div class="flex justify-between py-2 border-b border-gray-100">
-                        <span class="text-gray-500">Nhà sản xuất</span>
-                        <span id="resLogo" class="font-semibold text-gray-800 text-right">HEM EMM</span>
-                    </div>
+                <!-- Bảng chi tiết (Header xanh đậm) -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-[15px] detail-table min-w-[500px]">
+                        <thead>
+                            <tr>
+                                <th class="w-1/2">Thông số</th>
+                                <th>Giá trị</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-gray-700 font-medium">Mã Serial Number</td>
+                                <td id="resSerial" class="font-bold text-hem-blue font-mono tracking-wide">4KAC5KGW</td>
+                            </tr>
+                            <tr>
+                                <td class="text-gray-700">Loại động cơ</td>
+                                <td id="resLoaiDongCo" class="text-gray-900">Động cơ 1 pha</td>
+                            </tr>
+                            <tr>
+                                <td class="text-gray-700">Ngày xuất xưởng</td>
+                                <td id="resNgaySX" class="text-gray-900">15/05/2026</td>
+                            </tr>
+                            <tr>
+                                <td class="text-gray-700">Ngày kích hoạt bảo hành</td>
+                                <td id="resNgayKH" class="text-gray-900">20/05/2026</td>
+                            </tr>
+                            <tr>
+                                <td class="text-gray-700">Thời hạn bảo hành</td>
+                                <td id="resThoiHan" class="text-gray-900">12 Tháng</td>
+                            </tr>
+                            <tr>
+                                <td class="text-gray-700 font-medium">Ngày hết hạn</td>
+                                <td id="resNgayHetHan" class="text-red-600 font-bold">20/05/2027</td>
+                            </tr>
+                            <tr>
+                                <td class="text-gray-700">Đại lý Phân phối</td>
+                                <td id="resDaiLy" class="text-gray-900">Đại lý HEM Cấp 1</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-
-                <h3 class="text-lg font-bold text-hem-blue mb-4 mt-8 border-b-2 border-hem-blue inline-block pb-1">Thông tin bảo hành</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
-                    <div class="flex justify-between py-2 border-b border-gray-100">
-                        <span class="text-gray-500">Ngày xuất xưởng</span>
-                        <span id="resNgaySX" class="font-semibold text-gray-800 text-right">-</span>
-                    </div>
-                    <div class="flex justify-between py-2 border-b border-gray-100">
-                        <span class="text-gray-500">Ngày kích hoạt</span>
-                        <span id="resNgayKH" class="font-semibold text-gray-800 text-right">-</span>
-                    </div>
-                    <div class="flex justify-between py-2 border-b border-gray-100">
-                        <span class="text-gray-500">Thời hạn bảo hành</span>
-                        <span id="resThoiHan" class="font-semibold text-gray-800 text-right">-</span>
-                    </div>
-                    <div class="flex justify-between py-2 border-b border-gray-100">
-                        <span class="text-gray-500">Ngày hết hạn</span>
-                        <span id="resNgayHetHan" class="font-semibold text-gray-800 text-right text-red-600">-</span>
-                    </div>
-                </div>
-
-                <!-- Footer contact -->
-                <div class="mt-8 bg-blue-50 p-4 rounded-xl border border-blue-100 flex flex-col sm:flex-row items-center justify-between">
-                    <div class="text-sm text-gray-600 text-center sm:text-left mb-2 sm:mb-0">
-                        <p class="font-bold text-hem-blue">Công ty CP Chế tạo Điện cơ HEM</p>
-                        <p><i class="fas fa-phone-alt w-4 text-center"></i> 024 3765 5510</p>
-                    </div>
-                    <button class="px-4 py-2 bg-white border border-gray-200 shadow-sm rounded-lg text-hem-blue font-bold text-sm hover:bg-gray-50 transition">
-                        <i class="fas fa-download mr-1"></i> Tải Phiếu BH
+                
+                <!-- Nút chức năng phụ -->
+                <div class="mt-6 flex flex-wrap gap-3">
+                    <button class="px-4 py-2 bg-gray-100 border border-gray-300 text-gray-700 text-sm font-semibold hover:bg-gray-200 transition rounded-md flex items-center">
+                        <i class="fas fa-print mr-2 text-gray-500"></i> In thông số
+                    </button>
+                    <button class="px-4 py-2 bg-gray-100 border border-gray-300 text-gray-700 text-sm font-semibold hover:bg-gray-200 transition rounded-md flex items-center">
+                        <i class="fas fa-file-contract mr-2 text-gray-500"></i> Tải Phiếu BH
+                    </button>
+                    <button class="px-4 py-2 bg-gray-100 border border-gray-300 text-gray-700 text-sm font-semibold hover:bg-gray-200 transition rounded-md flex items-center">
+                        <i class="fas fa-file-shield mr-2 text-gray-500"></i> Tải tài liệu QA/QC
+                    </button>
+                    <button class="px-4 py-2 bg-hem-dark text-white text-sm font-semibold hover:bg-blue-900 transition rounded-md flex items-center shadow-sm">
+                        <i class="fas fa-user-edit mr-2"></i> Nhập TT Khách hàng
                     </button>
                 </div>
             </div>
+            
         </div>
-
     </main>
 
     <!-- Footer -->
-    <footer class="mt-8 text-center text-sm text-gray-400">
+    <footer class="mb-8 text-center text-sm text-gray-400">
         <p>&copy; 2026 HEM EMM. All rights reserved.</p>
-        <p>Hệ thống Xác thực Toàn vẹn (RFC 4648)</p>
     </footer>
 
-    <!-- Javascript Logic -->
+    <!-- ============================================================== -->
+    <!-- PHẦN JAVASCRIPT ĐỂ XỬ LÝ LOGIC API                             -->
+    <!-- ============================================================== -->
     <script>
-        // ==========================================
         // CẤU HÌNH API
-        // ==========================================
-        // Thay link API của Google Apps Script vào đây
-        const GAS_API_URL = "https://script.google.com/macros/s/AKfycby0JheJzMmaKYFUSX3Yy8vEiMYb_cyTkyLTqBOSHC-oI9L2BNrlbygRoSow5XmGIc1M0g/exec"; 
+        const GAS_API_URL = "YOUR_WEB_APP_URL_HERE"; 
 
-        // UI Elements
+        // Các biến UI
         const inputSerial = document.getElementById('serialInput');
         const btnSearch = document.getElementById('btnSearch');
         const btnScan = document.getElementById('btnScan');
@@ -200,16 +285,16 @@
         const loadingSpinner = document.getElementById('loadingSpinner');
         const errorMessage = document.getElementById('errorMessage');
         const errorText = document.getElementById('errorText');
+        
         const resultArea = document.getElementById('resultArea');
+        const fraudWarning = document.getElementById('fraudWarning');
+        const fraudText = document.getElementById('fraudText');
         
         let html5QrCode;
 
-        // ==========================================
-        // TIỆN ÍCH 1: CHỐNG SAI SÓT (Auto Correct)
-        // ==========================================
+        // Auto Correct Serial
         function sanitizeSerial(serial) {
             let original = serial.toUpperCase().trim();
-            // Map 0->O, 1->I, 8->B
             let corrected = original.replace(/0/g, 'O').replace(/1/g, 'I').replace(/8/g, 'B');
             
             if (original !== corrected) {
@@ -220,43 +305,39 @@
             return corrected;
         }
 
-        // ==========================================
-        // TIỆN ÍCH 2: LẤY GPS
-        // ==========================================
+        // Lấy GPS
         function getGPSLocation() {
             return new Promise((resolve) => {
                 if (!navigator.geolocation) {
                     resolve("No GPS Support");
                     return;
                 }
-                // Timeout 3s để không làm chậm trải nghiệm nếu người dùng không cấp quyền
                 navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        resolve(`${position.coords.latitude},${position.coords.longitude}`);
-                    },
-                    (error) => {
-                        resolve("Denied/Failed");
-                    },
+                    (position) => resolve(`${position.coords.latitude},${position.coords.longitude}`),
+                    (error) => resolve("Denied/Failed"),
                     { timeout: 3000 }
                 );
             });
         }
 
-        // ==========================================
-        // XỬ LÝ TRA CỨU
-        // ==========================================
+        function resetUI() {
+            statusArea.classList.add('hidden');
+            resultArea.classList.add('hidden');
+            inputSerial.value = '';
+            inputSerial.focus();
+        }
+
+        // Logic Tìm kiếm
         async function handleSearch(rawSerial) {
             if (!rawSerial) return;
             
             const serial = sanitizeSerial(rawSerial);
-            inputSerial.value = serial; // Update UI with corrected serial
+            inputSerial.value = serial; 
             
-            // Đóng QR scanner nếu đang mở
             if (html5QrCode && html5QrCode.isScanning) {
                 stopScanner();
             }
 
-            // Show Loading
             resultArea.classList.add('hidden');
             errorMessage.classList.add('hidden');
             statusArea.classList.remove('hidden');
@@ -264,28 +345,30 @@
             loadingSpinner.classList.add('flex');
 
             try {
-                // Lấy GPS & Device Info
                 const gps = await getGPSLocation();
                 const device = navigator.userAgent;
 
-                // Gọi API
-                const queryParams = new URLSearchParams({
-                    serial: serial,
-                    gps: gps,
-                    device: device
-                });
+                const queryParams = new URLSearchParams({ serial: serial, gps: gps, device: device });
                 
-                // NẾU CHƯA CÓ LINK API, HIỂN THỊ DỮ LIỆU MẪU ĐỂ TEST GIAO DIỆN
+                // NẾU CHƯA CÓ LINK API, HIỂN THỊ DỮ LIỆU MẪU KHI NHẬP ĐÚNG MÃ, NẾU SAI SẼ BÁO LỖI
                 if (GAS_API_URL === "YOUR_WEB_APP_URL_HERE") {
-                    setTimeout(() => renderDummyData(serial), 1000);
+                    setTimeout(() => {
+                        // Chỉ thành công nếu nhập đúng mã mẫu 4KAC5KGW
+                        if (serial === "4KAC5KGW") {
+                            renderDummyData(serial);
+                        } else {
+                            showError("Không tìm thấy mã Serial này trong hệ thống. \n(Bạn đang ở chế độ Test: Chỉ hỗ trợ mã mẫu 4KAC5KGW)");
+                        }
+                    }, 800);
                     return;
                 }
 
+                // KHI ĐÃ CÓ LINK API THẬT
                 const response = await fetch(`${GAS_API_URL}?${queryParams.toString()}`);
                 const resData = await response.json();
 
                 if (resData.status === "success") {
-                    renderResult(resData.data);
+                    renderResult(resData.data, resData.cảnh_báo);
                 } else {
                     showError(resData.message || "Không tìm thấy thông tin sản phẩm.");
                 }
@@ -296,41 +379,56 @@
             }
         }
 
-        function renderResult(data) {
+        // Đẩy dữ liệu lên giao diện
+        function renderResult(data, canhBaoMsg) {
             loadingSpinner.classList.add('hidden');
             loadingSpinner.classList.remove('flex');
             statusArea.classList.add('hidden');
             resultArea.classList.remove('hidden');
 
-            // Gán dữ liệu vào UI
-            document.getElementById('resTenSP').innerText = data.TenSanPham || "N/A";
-            document.getElementById('resSerial').innerText = `SN: ${data.Serial}`;
-            
-            document.getElementById('resLoai').innerText = data.LoaiDongCo || "-";
+            // 1. Cảnh báo gian lận
+            if (canhBaoMsg && canhBaoMsg.trim() !== "") {
+                fraudWarning.classList.remove('hidden');
+                fraudText.innerText = canhBaoMsg;
+            } else {
+                fraudWarning.classList.add('hidden');
+            }
+
+            // 2. Bảng Ngắn (Tổng quan)
+            // Tách tên sản phẩm ra 2 dòng nếu có chữ kW
+            let title = data.TenSanPham || "N/A";
+            if (title.includes(" kW")) {
+                title = title.replace(/(\d+(\.\d+)?\s*kW)/i, '\n$1');
+            }
+            document.getElementById('resTenSP').innerText = title;
+            document.getElementById('resLogo').innerText = data.Logo || "HEM EMM";
             document.getElementById('resCongSuat').innerText = data.CongSuat || "-";
             document.getElementById('resTocDo').innerText = data.TocDo || "-";
             document.getElementById('resDienAp').innerText = data.DienAp || "-";
             document.getElementById('resKieuLap').innerText = data.KieuLapDat || "-";
-            document.getElementById('resLogo').innerText = data.Logo || "-";
-            
+
+            // 3. Bảng Chi tiết (Bảo hành)
+            document.getElementById('resSerial').innerText = data.Serial || "-";
+            document.getElementById('resLoaiDongCo').innerText = data.LoaiDongCo || "-";
             document.getElementById('resNgaySX').innerText = data.NgaySanXuat || "-";
             document.getElementById('resNgayKH').innerText = data.NgayKichHoat || "-";
             document.getElementById('resThoiHan').innerText = data.ThoiHanBaoHanh || "-";
             document.getElementById('resNgayHetHan').innerText = data.NgayHetHan || "-";
+            document.getElementById('resDaiLy').innerText = data.DaiLyPhanPhoi || "-";
 
-            // Logic Badge Trạng thái
+            // Xử lý Badge
             const badge = document.getElementById('badgeStatus');
             const status = data.TrangThaiBaoHanh ? data.TrangThaiBaoHanh.toLowerCase() : "";
             
             if (status.includes("hết hạn")) {
-                badge.className = "px-3 py-1 text-sm font-bold rounded-full bg-red-100 text-red-700";
-                badge.innerHTML = '<i class="fas fa-times-circle mr-1"></i> Hết Hạn';
+                badge.className = "px-4 py-1.5 text-sm font-bold rounded bg-red-100 text-red-700";
+                badge.innerText = 'Hết hạn BH';
             } else if (status.includes("từ chối")) {
-                badge.className = "px-3 py-1 text-sm font-bold rounded-full bg-gray-200 text-gray-700";
-                badge.innerHTML = '<i class="fas fa-ban mr-1"></i> Từ chối BH';
+                badge.className = "px-4 py-1.5 text-sm font-bold rounded bg-gray-200 text-gray-700";
+                badge.innerText = 'Từ chối BH';
             } else {
-                badge.className = "px-3 py-1 text-sm font-bold rounded-full bg-green-100 text-green-700";
-                badge.innerHTML = '<i class="fas fa-check-circle mr-1"></i> Hợp lệ';
+                badge.className = "px-4 py-1.5 text-sm font-bold rounded bg-green-100 text-green-700";
+                badge.innerText = 'Hợp lệ';
             }
         }
 
@@ -342,9 +440,7 @@
             errorText.innerText = msg;
         }
 
-        // ==========================================
-        // TÍNH NĂNG QUÉT QR CODE
-        // ==========================================
+        // Quét QR Code
         const qrContainer = document.getElementById('qr-reader');
         const btnCloseScanner = document.getElementById('btnCloseScanner');
 
@@ -354,20 +450,15 @@
             btnCloseScanner.classList.add('flex');
             
             html5QrCode = new Html5Qrcode("qr-reader");
-            
             const config = { fps: 10, qrbox: { width: 250, height: 250 } };
             
-            // Ưu tiên camera sau
             html5QrCode.start({ facingMode: "environment" }, config, 
-                (decodedText, decodedResult) => {
-                    // Quét thành công
+                (decodedText) => {
                     stopScanner();
                     inputSerial.value = decodedText;
                     handleSearch(decodedText);
                 },
-                (errorMessage) => {
-                    // Quét lỗi (xảy ra liên tục mỗi frame, bỏ qua)
-                }
+                (errorMessage) => {}
             ).catch((err) => {
                 alert("Không thể truy cập Camera. Vui lòng cấp quyền trong trình duyệt.");
                 stopScanner();
@@ -384,41 +475,35 @@
             }
         }
 
-        // ==========================================
-        // EVENT LISTENERS
-        // ==========================================
+        // Events
         btnSearch.addEventListener('click', () => handleSearch(inputSerial.value));
         inputSerial.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') handleSearch(inputSerial.value);
         });
-        
         btnScan.addEventListener('click', () => {
-            if (qrContainer.style.display === "block") {
-                stopScanner();
-            } else {
-                startScanner();
-            }
+            if (qrContainer.style.display === "block") stopScanner();
+            else startScanner();
         });
-        
         btnCloseScanner.addEventListener('click', stopScanner);
 
-        // Dummy Data để Test UI khi chưa có Link API
+        // DATA MẪU Khớp với dòng đầu tiên của file CSV/Markdown bạn copy vào Sheets
         function renderDummyData(serial) {
             renderResult({
                 Serial: serial,
-                TenSanPham: "Động Cơ Điện 3 Pha Chịu Nhiệt",
-                LoaiDongCo: "3 Pha",
-                CongSuat: "1.5 kW",
-                TocDo: "2800 vòng/phút",
-                DienAp: "380V",
-                KieuLapDat: "Mặt bích",
+                TenSanPham: "Động cơ điện 1 pha 0.3 kW 1500 vòng/phút",
+                LoaiDongCo: "Động cơ 1 pha",
                 Logo: "HEM EMM",
+                CongSuat: "0.3 kW",
+                TocDo: "1420 vòng/phút",
+                DienAp: "220 V",
+                KieuLapDat: "Chân đế",
                 NgaySanXuat: "15/05/2026",
                 NgayKichHoat: "20/05/2026",
-                ThoiHanBaoHanh: "24 Tháng",
-                NgayHetHan: "20/05/2028",
-                TrangThaiBaoHanh: "Hợp lệ"
-            });
+                ThoiHanBaoHanh: "12 Tháng",
+                NgayHetHan: "20/05/2027",
+                TrangThaiBaoHanh: "Hợp lệ",
+                DaiLyPhanPhoi: "Đại lý HEM Cấp 1"
+            }, ""); 
         }
     </script>
 </body>
