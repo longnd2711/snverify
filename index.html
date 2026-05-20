@@ -324,6 +324,7 @@
             statusArea.classList.add('hidden');
             resultArea.classList.add('hidden');
             inputSerial.value = '';
+            window.history.replaceState(null, null, window.location.pathname); // Xóa hash trên URL
             inputSerial.focus();
         }
 
@@ -333,6 +334,9 @@
             
             const serial = sanitizeSerial(rawSerial);
             inputSerial.value = serial; 
+            
+            // Cập nhật thanh địa chỉ URL để tiện chia sẻ (Ví dụ: sinh ra link domain.com/#4KAC5KGW)
+            window.history.replaceState(null, null, '#' + serial);
             
             if (html5QrCode && html5QrCode.isScanning) {
                 stopScanner();
@@ -485,6 +489,16 @@
             else startScanner();
         });
         btnCloseScanner.addEventListener('click', stopScanner);
+        
+        // TỰ ĐỘNG TRA CỨU TỪ LINK HASH URL (Ví dụ: /#4KAC5KGW)
+        window.addEventListener('DOMContentLoaded', () => {
+            const hash = decodeURIComponent(window.location.hash);
+            if (hash && hash.length > 1) {
+                const serialFromUrl = hash.substring(1); // Cắt bỏ dấu #
+                inputSerial.value = serialFromUrl;
+                handleSearch(serialFromUrl);
+            }
+        });
 
         // DATA MẪU Khớp với dòng đầu tiên của file CSV/Markdown bạn copy vào Sheets
         function renderDummyData(serial) {
