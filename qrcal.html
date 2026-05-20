@@ -10,6 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- QRCode.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     
     <style>
         body {
@@ -94,7 +96,7 @@
                 
                 <div class="flex flex-wrap gap-4 mt-8 justify-center">
                     <button onclick="scrollToSlide(1)" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-6 py-3 rounded-lg shadow-lg shadow-emerald-500/20 transition-all flex items-center gap-2">
-                        Bắt đầu khám phá <i class="fa-solid fa-arrow-down"></i>
+                        Giải thích công nghệ <i class="fa-solid fa-arrow-down"></i>
                     </button>
                     <button onclick="scrollToSlide(5)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold px-6 py-3 rounded-lg border border-slate-700 transition-all flex items-center gap-2">
                         Bộ tính kích thước QR <i class="fa-solid fa-calculator"></i>
@@ -171,7 +173,7 @@
                             <div class="w-full h-full bg-emerald-400"></div>
                         </div>
                         <!-- Alignment Pattern (Bottom Right) -->
-                        <div class="absolute bottom-6 right-6 w-6 h-6 border-[3px] border-sky-400 bg-slate-950 p-0.5 flex items-center justify-center">
+                        <div class="absolute bottom-6 right-6 w-6 h-6 border-[3px] border-sky-400 bg-slate-950 p-0.5 flex items-center justify-center z-10">
                             <div class="w-full h-full bg-sky-400"></div>
                         </div>
                         
@@ -185,7 +187,7 @@
                             <div class="bg-slate-800 rounded-sm"></div><div class="bg-emerald-500 rounded-sm"></div>
                             <div class="bg-slate-800 rounded-sm"></div><div class="bg-slate-800 rounded-sm"></div>
                             <div class="bg-emerald-500 rounded-sm"></div><div class="bg-slate-800 rounded-sm"></div>
-                            <div class="bg-emerald-500 rounded-sm"></div><div class="bg-slate-800 rounded-sm"></div>
+                            <div class="bg-emerald-500 rounded-sm"></div><div class="bg-emerald-500 rounded-sm"></div>
                         </div>
                     </div>
 
@@ -289,7 +291,7 @@
 
             <!-- Footer -->
             <div class="w-full max-w-7xl mx-auto flex justify-between items-center text-xs text-slate-500 border-t border-slate-800/60 pt-4">
-                <button onclick="scrollToSlide(1)" class="hover:text-emerald-400"><i class="fa-solid fa-arrow-up"></i> Trang trước</button>
+                <button onclick="scrollToSlide(2)" class="hover:text-emerald-400"><i class="fa-solid fa-arrow-up"></i> Trang trước</button>
                 <button onclick="scrollToSlide(3)" class="hover:text-emerald-400">Trang sau <i class="fa-solid fa-arrow-down"></i></button>
             </div>
         </section>
@@ -402,8 +404,8 @@
 
             <!-- Footer -->
             <div class="w-full max-w-7xl mx-auto flex justify-between items-center text-xs text-slate-500 border-t border-slate-800/60 pt-4">
-                <button onclick="scrollToSlide(2)" class="hover:text-emerald-400"><i class="fa-solid fa-arrow-up"></i> Trang trước</button>
-                <button onclick="scrollToSlide(4)" class="hover:text-emerald-400">Trang sau <i class="fa-solid fa-arrow-down"></i></button>
+                <button onclick="scrollToSlide(3)" class="hover:text-emerald-400"><i class="fa-solid fa-arrow-up"></i> Trang trước</button>
+                <button onclick="scrollToSlide(5)" class="hover:text-emerald-400">Trang sau <i class="fa-solid fa-arrow-down"></i></button>
             </div>
         </section>
 
@@ -487,7 +489,7 @@
 
             <!-- Footer -->
             <div class="w-full max-w-7xl mx-auto flex justify-between items-center text-xs text-slate-500 border-t border-slate-800/60 pt-4">
-                <button onclick="scrollToSlide(3)" class="hover:text-emerald-400"><i class="fa-solid fa-arrow-up"></i> Trang trước</button>
+                <button onclick="scrollToSlide(4)" class="hover:text-emerald-400"><i class="fa-solid fa-arrow-up"></i> Trang trước</button>
                 <button onclick="scrollToSlide(5)" class="hover:text-emerald-400">Trang sau <i class="fa-solid fa-arrow-down"></i></button>
             </div>
         </section>
@@ -604,8 +606,9 @@
                         
                         <!-- Mini visual preview representing calculated size compared to real life -->
                         <div class="mt-4 flex items-center gap-4 bg-slate-950 p-3 rounded-xl border border-slate-850">
-                            <div id="preview-square" class="bg-white rounded p-1 flex items-center justify-center transition-all" style="width: 60px; height: 60px;">
-                                <i class="fa-solid fa-qrcode text-slate-950 text-4xl"></i>
+                            <div id="preview-square" class="bg-white rounded p-1 flex items-center justify-center transition-all overflow-hidden" style="width: 60px; height: 60px;">
+                                <!-- Nơi chứa QR Code tự động tạo bằng Javascript -->
+                                <div id="qrcode" class="w-full h-full flex items-center justify-center"></div>
                             </div>
                             <div class="text-xs">
                                 <p class="text-slate-200 font-bold mb-0.5">Mô phỏng kích thước in thực tế</p>
@@ -636,7 +639,7 @@
             <!-- Content -->
             <div class="max-w-4xl mx-auto my-auto text-center">
                 <span class="text-emerald-500 text-sm font-semibold uppercase tracking-wider block mb-2">Quy tắc vàng in nhãn QR động cơ</span>
-                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-white">Cẩm Nang Triển Khai Trong Nhà Máy</h2>
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-white">Lưu ý Triển Khai Trong công nghiệp</h2>
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left mb-8">
                     <div class="bg-slate-900/50 p-5 rounded-2xl border border-slate-800">
@@ -694,6 +697,9 @@
         let simSelectedLevel = 'Q';
         let simMaxDamage = 25;
         let simCurrentDamage = 0;
+
+        // QR Code Generator global instance
+        let qrcodeInstance = null;
 
         // Handle scrolling state updates
         scrollContainer.addEventListener('scroll', () => {
@@ -956,6 +962,31 @@
             } else {
                 warningBox.className = "mt-4 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-300 flex items-start gap-2";
                 warningText.innerHTML = "<strong>Tuyệt vời:</strong> Mật độ dữ liệu (" + charCount + " ký tự) và môi trường đã chọn có sự cân bằng lý tưởng. Nhãn in kích thước này sẽ có khả năng đọc mượt mà và quét thành công rất cao.";
+            }
+
+            // Real-time QR Code Generation / Update
+            const qrContainer = document.getElementById('qrcode');
+            if (qrContainer) {
+                let qrCorrectLevel = QRCode.CorrectLevel.Q; // Default Q
+                if (env === 'standard') qrCorrectLevel = QRCode.CorrectLevel.M;
+                if (env === 'extreme') qrCorrectLevel = QRCode.CorrectLevel.H;
+
+                qrContainer.innerHTML = ""; // Clear existing QR
+                
+                qrcodeInstance = new QRCode(qrContainer, {
+                    text: customUrl || "https://company.com",
+                    width: 128,  // Canvas resolution width
+                    height: 128, // Canvas resolution height
+                    colorDark: "#020617",  // Matches slate-950 background
+                    colorLight: "#ffffff", // Crisp white background for optimal scanning
+                    correctLevel: qrCorrectLevel
+                });
+
+                // Smooth scaling within responsive visual boundaries
+                const qrImg = qrContainer.querySelector('img');
+                if (qrImg) {
+                    qrImg.className = "w-full h-full object-contain p-0.5";
+                }
             }
 
             // Adjust preview visual box to match scaling ratio
