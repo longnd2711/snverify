@@ -68,6 +68,15 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #475569; }
+        
+        /* Flow line animation for diagrams */
+        .flow-line {
+            stroke-dasharray: 10;
+            animation: flowDash 20s linear infinite;
+        }
+        @keyframes flowDash {
+            to { stroke-dashoffset: -1000; }
+        }
     </style>
 </head>
 <body class="selection:bg-emerald-500/30 selection:text-emerald-200">
@@ -91,7 +100,7 @@
                 <!-- Dots injected via JS -->
                 <div id="dot-container" class="flex gap-2 mr-4 pointer-events-auto"></div>
             </div>
-            <p id="pageNumber" class="text-sm font-mono font-semibold text-emerald-500/70 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">01 / 07</p>
+            <p id="pageNumber" class="text-sm font-mono font-semibold text-emerald-500/70 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">01 / 10</p>
         </div>
     </div>
 
@@ -206,7 +215,7 @@
                     <div class="bg-slate-900/80 border border-slate-800 hover:border-emerald-500/50 p-8 rounded-2xl transition-all hover:-translate-y-2 group relative overflow-hidden">
                         <div class="absolute top-0 right-0 w-24 h-24 bg-emerald-500/10 rounded-bl-full pointer-events-none transition-colors group-hover:bg-emerald-500/20"></div>
                         <div class="w-14 h-14 bg-slate-950 border border-slate-800 rounded-xl flex items-center justify-center text-2xl text-emerald-400 mb-6 group-hover:scale-110 transition-transform shadow-lg shadow-emerald-500/10">
-                            <i class="fa-solid fa-microchip"></i>
+                            <i class="fa-solid fa-wifi"></i>
                         </div>
                         <h3 class="text-xl font-bold text-white mb-3">RFID / NFC Hybrid</h3>
                         <p class="text-slate-400 text-sm leading-relaxed">
@@ -229,7 +238,243 @@
             </div>
         </div>
 
-        <!-- ================= SLIDE 4: PHÂN TÍCH KHẢ THI ================= -->
+        <!-- ================= SLIDE 4: CHI TIẾT GS1 ================= -->
+        <div class="slide flex-col justify-center px-16 md:px-32">
+            <div class="slide-content max-w-6xl w-full mx-auto">
+                <div class="flex items-center gap-4 mb-10">
+                    <div class="w-12 h-12 rounded-lg bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400 text-xl shadow-[0_0_15px_rgba(14,165,233,0.3)]">
+                        <i class="fa-solid fa-globe"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-white tracking-wide">Giải phẫu GS1 Digital Link</h2>
+                        <p class="text-sky-400 text-sm mt-1 font-medium">Một mã QR - Đa điểm chạm dữ liệu</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-6">
+                        <p class="text-slate-300 text-lg leading-relaxed">
+                            Khác với mã QR truyền thống chỉ chứa một URL tĩnh, <strong class="text-white">GS1 Digital Link</strong> nhúng các định danh sản phẩm chuẩn toàn cầu vào một định dạng web tiêu chuẩn, biến QR thành cổng thông tin thông minh.
+                        </p>
+                        
+                        <div class="space-y-4 mt-6">
+                            <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-xl flex gap-4 hover:border-sky-500/30 transition-colors">
+                                <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-sky-400 shrink-0"><i class="fa-solid fa-route"></i></div>
+                                <div>
+                                    <h4 class="text-white font-bold text-sm mb-1">Điều hướng theo ngữ cảnh (Contextual Routing)</h4>
+                                    <p class="text-slate-400 text-sm leading-relaxed">Khách hàng dùng camera thường sẽ mở ra trang web HDSD/Bảo hành. Trong khi đó, Kỹ thuật viên dùng App nội bộ quét cùng mã QR đó sẽ truy cập thẳng vào nhật ký bảo trì.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-xl flex gap-4 hover:border-sky-500/30 transition-colors">
+                                <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-sky-400 shrink-0"><i class="fa-solid fa-server"></i></div>
+                                <div>
+                                    <h4 class="text-white font-bold text-sm mb-1">Quản lý tập trung</h4>
+                                    <p class="text-slate-400 text-sm leading-relaxed">Khi cập nhật thông số hay tài liệu mới, chỉ cần đổi URL đích trên Server. Hoàn toàn không cần phải khắc lại nhãn kim loại trên hàng ngàn động cơ đã xuất xưởng.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- GS1 Diagram -->
+                    <div class="relative bg-slate-900 rounded-3xl border border-slate-800 p-8 flex flex-col items-center shadow-2xl h-full justify-center">
+                        <div class="absolute inset-0 bg-sky-500/5 rounded-3xl pointer-events-none"></div>
+                        
+                        <div class="relative z-10 w-full flex items-center justify-between">
+                            <!-- Input -->
+                            <div class="flex flex-col items-center">
+                                <div class="w-20 h-20 bg-white p-2 rounded-xl mb-3 shadow-lg shadow-sky-500/20 relative group">
+                                    <i class="fa-solid fa-qrcode text-6xl text-slate-900 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></i>
+                                    <div class="absolute -inset-2 bg-sky-400/20 rounded-2xl blur-md -z-10 group-hover:bg-sky-400/40 transition-all duration-500"></div>
+                                </div>
+                                <span class="text-xs font-bold text-sky-400 bg-sky-900/40 px-2 py-1 rounded">1 GS1 QR Code</span>
+                            </div>
+                            
+                            <!-- Resolver -->
+                            <div class="flex-1 flex flex-col items-center justify-center px-4">
+                                <svg width="100%" height="80" class="text-sky-500/50">
+                                    <path d="M 0,40 C 40,40 60,10 100,10" fill="none" stroke="currentColor" stroke-width="2" class="flow-line" />
+                                    <path d="M 0,40 C 50,40 50,40 100,40" fill="none" stroke="currentColor" stroke-width="2" class="flow-line" />
+                                    <path d="M 0,40 C 40,40 60,70 100,70" fill="none" stroke="currentColor" stroke-width="2" class="flow-line" />
+                                    
+                                    <!-- Central Node -->
+                                    <circle cx="20" cy="40" r="16" fill="#0f172a" stroke="#0ea5e9" stroke-width="2" />
+                                    <text x="20" y="44" font-family="FontAwesome" font-size="14" fill="#0ea5e9" text-anchor="middle">&#xf021;</text>
+                                </svg>
+                                <span class="text-[10px] text-slate-500 mt-2 uppercase tracking-widest">Resolver Server</span>
+                            </div>
+                            
+                            <!-- Outputs -->
+                            <div class="flex flex-col gap-4">
+                                <div class="flex items-center gap-3 bg-slate-950 border border-slate-800 px-4 py-2 rounded-lg relative overflow-hidden">
+                                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-amber-500"></div>
+                                    <i class="fa-solid fa-user text-amber-500"></i>
+                                    <span class="text-xs font-medium text-slate-300 whitespace-nowrap">Bảo hành (Người dùng)</span>
+                                </div>
+                                <div class="flex items-center gap-3 bg-slate-950 border border-slate-800 px-4 py-2 rounded-lg relative overflow-hidden">
+                                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-emerald-500"></div>
+                                    <i class="fa-solid fa-wrench text-emerald-500"></i>
+                                    <span class="text-xs font-medium text-slate-300 whitespace-nowrap">Nhật ký (Kỹ thuật viên)</span>
+                                </div>
+                                <div class="flex items-center gap-3 bg-slate-950 border border-slate-800 px-4 py-2 rounded-lg relative overflow-hidden">
+                                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-indigo-500"></div>
+                                    <i class="fa-solid fa-boxes-stacked text-indigo-500"></i>
+                                    <span class="text-xs font-medium text-slate-300 whitespace-nowrap">Tồn kho (Logistics)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= SLIDE 5: CHI TIẾT RFID/NFC ================= -->
+        <div class="slide flex-col justify-center px-16 md:px-32">
+            <div class="slide-content max-w-6xl w-full mx-auto">
+                <div class="flex items-center gap-4 mb-10">
+                    <div class="w-12 h-12 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xl shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+                        <i class="fa-solid fa-wifi"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-white tracking-wide">Sức mạnh của RFID & NFC Hybrid</h2>
+                        <p class="text-emerald-400 text-sm mt-1 font-medium">Vượt qua rào cản vật lý trong môi trường công nghiệp khắc nghiệt</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <!-- NFC Diagram -->
+                    <div class="relative bg-slate-900 rounded-3xl border border-slate-800 p-8 shadow-2xl h-full flex flex-col items-center justify-center overflow-hidden">
+                        <div class="absolute -right-20 -top-20 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl"></div>
+                        
+                        <h4 class="text-slate-400 text-sm font-semibold mb-8 uppercase tracking-widest text-center w-full">Cơ chế Quét Xuyên Vật Cản</h4>
+                        
+                        <div class="relative w-full max-w-sm">
+                            <!-- Scanner Device -->
+                            <div class="absolute -right-4 -top-8 w-16 h-24 bg-slate-800 rounded-xl border-2 border-slate-600 rotate-12 z-30 shadow-2xl flex flex-col items-center py-2">
+                                <div class="w-12 h-6 bg-emerald-900 rounded mb-2 border border-emerald-500/50"></div>
+                                <i class="fa-solid fa-mobile-screen text-slate-500 text-2xl"></i>
+                                <!-- Signal Waves -->
+                                <div class="absolute -bottom-8 -left-8 -rotate-45">
+                                    <i class="fa-solid fa-rss text-emerald-400 text-4xl animate-pulse"></i>
+                                </div>
+                            </div>
+
+                            <!-- Obstacles Layer -->
+                            <div class="relative z-20 w-full h-16 bg-[#3f3f46] rounded-lg border-t border-b border-[#27272a] shadow-xl flex items-center justify-center overflow-hidden mb-2">
+                                <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPjxyZWN0IHdpZHRoPSI0IiBoZWlnaHQ9IjQiIGZpbGw9IiM1MjUyNWIiPjwvcmVjdD48cGF0aCBkPSJNMCAwTDIgMloiIHN0cm9rZT0iIzNmM2YzNiIgc3Ryb2tlLXdpZHRoPSIxIj48L3BhdGg+PC9zdmc+')] opacity-50"></div>
+                                <span class="text-white font-bold relative z-10 drop-shadow-md text-sm"><i class="fa-solid fa-droplet text-amber-600 mr-2"></i>LỚP BÙN ĐẤT / DẦU MỠ DÀY ĐẶC</span>
+                            </div>
+                            
+                            <!-- Hybrid Tag -->
+                            <div class="relative z-10 w-3/4 mx-auto h-20 bg-slate-200 rounded-lg flex items-center justify-between px-4 border-2 border-slate-400 shadow-inner">
+                                <div class="w-12 h-12 bg-white flex items-center justify-center">
+                                    <i class="fa-solid fa-qrcode text-3xl text-slate-800"></i>
+                                </div>
+                                <div class="flex-1 text-center flex flex-col items-center">
+                                    <i class="fa-solid fa-microchip text-2xl text-emerald-600 mb-1"></i>
+                                    <span class="text-[9px] font-bold text-slate-600 uppercase">Chip RFID/NFC ẩn</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <p class="text-slate-300 text-lg leading-relaxed">
+                            Công nghệ Hybrid tích hợp song song <strong class="text-white">Mã QR quang học (bề mặt)</strong> và <strong class="text-emerald-400">Chip sóng vô tuyến RFID/NFC (bên trong)</strong>. Đây là giải pháp "kép" để thích ứng hoàn hảo với môi trường động cơ điện.
+                        </p>
+                        
+                        <div class="grid grid-cols-1 gap-4 mt-4">
+                            <div class="bg-slate-900/60 border-l-4 border-slate-500 p-4 rounded-r-xl">
+                                <h4 class="text-slate-300 font-bold mb-1 flex items-center"><i class="fa-solid fa-eye text-slate-500 w-6"></i> Nhãn QR (Quang học)</h4>
+                                <p class="text-slate-400 text-sm">Sử dụng cho điều kiện bình thường. Ai cũng có thể quét bằng camera điện thoại cơ bản mà không cần thiết bị chuyên dụng.</p>
+                            </div>
+                            <div class="bg-slate-900/60 border-l-4 border-emerald-500 p-4 rounded-r-xl">
+                                <h4 class="text-white font-bold mb-1 flex items-center"><i class="fa-solid fa-rss text-emerald-500 w-6"></i> Chip NFC/RFID (Vô tuyến)</h4>
+                                <p class="text-slate-400 text-sm">Phát huy tác dụng khi động cơ phủ kín dầu mỡ, bụi than. Kỹ thuật viên không cần tốn thời gian cạo sạch bề mặt tem; sóng radio sẽ xuyên qua lớp bẩn để lấy định danh ngay lập tức.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= SLIDE 6: CHI TIẾT BLOCKCHAIN ================= -->
+        <div class="slide flex-col justify-center px-16 md:px-32">
+            <div class="slide-content max-w-6xl w-full mx-auto">
+                <div class="flex items-center gap-4 mb-10">
+                    <div class="w-12 h-12 rounded-lg bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 text-xl shadow-[0_0_15px_rgba(168,85,247,0.3)]">
+                        <i class="fa-solid fa-link"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-white tracking-wide">Blockchain Digital Twin</h2>
+                        <p class="text-purple-400 text-sm mt-1 font-medium">Bản sao số vĩnh cửu & Sổ cái không thể thay đổi</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-6 text-lg text-slate-300 leading-relaxed">
+                        <p>
+                            <strong>Digital Twin (Bản sao số)</strong> là việc tạo ra một hồ sơ ảo phản ánh chính xác trạng thái vật lý của động cơ điện (linh kiện cấu thành, thông số test xuất xưởng, vị trí địa lý).
+                        </p>
+                        <p>
+                            Khi kết hợp với <strong class="text-purple-400">Blockchain</strong>, bản sao số này được lưu trữ trên một sổ cái phân tán.
+                        </p>
+                        
+                        <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-5 mt-4 relative overflow-hidden group hover:border-purple-500/50 transition-colors">
+                            <div class="absolute -left-10 top-1/2 -translate-y-1/2 text-[80px] text-purple-500/10 group-hover:text-purple-500/20 transition-colors"><i class="fa-solid fa-shield-halved"></i></div>
+                            <h4 class="text-white font-bold mb-3 relative z-10 text-base">Tại sao không ai có thể làm giả?</h4>
+                            <ul class="text-sm text-slate-400 space-y-3 relative z-10">
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-circle-check text-purple-500 mt-1"></i> Dữ liệu bảo trì / thay thế linh kiện được ghi thành các "khối" (block).</li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-circle-check text-purple-500 mt-1"></i> Khối sau chứa mã băm (Hash) của khối trước, tạo thành chuỗi.</li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-circle-check text-purple-500 mt-1"></i> Mọi nỗ lực sửa đổi quá khứ (ví dụ: tua số giờ chạy, thay đổi lịch sử hỏng hóc) sẽ làm sai lệch toàn bộ chuỗi và bị hệ thống từ chối.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Blockchain Diagram -->
+                    <div class="relative bg-slate-900 rounded-3xl border border-slate-800 p-6 flex flex-col justify-center shadow-2xl h-full">
+                        <div class="flex items-center justify-between gap-2 relative">
+                            <!-- Line connecting blocks -->
+                            <div class="absolute top-1/2 left-0 right-0 h-1 bg-slate-800 -translate-y-1/2 z-0"></div>
+                            
+                            <!-- Block 1 -->
+                            <div class="relative z-10 w-[30%] bg-slate-950 border border-slate-700 rounded-lg p-3 flex flex-col shadow-lg shadow-purple-500/5">
+                                <div class="bg-purple-900/30 text-purple-400 text-[10px] font-mono px-2 py-0.5 rounded text-center mb-2 border border-purple-500/20">Block #1: KCS</div>
+                                <div class="text-[10px] text-slate-400 mb-1"><i class="fa-regular fa-clock w-3"></i> 10/2023</div>
+                                <div class="text-[10px] text-white font-semibold mb-2"><i class="fa-solid fa-industry w-3"></i> Xuất xưởng</div>
+                                <div class="bg-slate-900 p-1 rounded text-[8px] font-mono text-slate-500 truncate border border-slate-800">Hash: 0x8F9B...</div>
+                            </div>
+                            
+                            <i class="fa-solid fa-link text-purple-500 z-10"></i>
+
+                            <!-- Block 2 -->
+                            <div class="relative z-10 w-[30%] bg-slate-950 border border-slate-700 rounded-lg p-3 flex flex-col shadow-lg shadow-purple-500/10 scale-105 border-purple-500/30">
+                                <div class="bg-purple-900/30 text-purple-400 text-[10px] font-mono px-2 py-0.5 rounded text-center mb-2 border border-purple-500/20">Block #2: Bảo trì</div>
+                                <div class="text-[10px] text-slate-400 mb-1"><i class="fa-regular fa-clock w-3"></i> 05/2024</div>
+                                <div class="text-[10px] text-white font-semibold mb-2"><i class="fa-solid fa-screwdriver-wrench w-3"></i> Thay vòng bi</div>
+                                <div class="bg-slate-900 p-1 rounded text-[8px] font-mono text-slate-500 truncate border border-slate-800">Hash: 0xA1C3...</div>
+                            </div>
+
+                            <i class="fa-solid fa-link text-purple-500 z-10"></i>
+                            
+                            <!-- Block 3 -->
+                            <div class="relative z-10 w-[30%] bg-slate-950 border border-slate-700 rounded-lg p-3 flex flex-col opacity-60">
+                                <div class="bg-slate-800 text-slate-400 text-[10px] font-mono px-2 py-0.5 rounded text-center mb-2">Block #3: Tương lai</div>
+                                <div class="text-[10px] text-slate-500 mb-1"><i class="fa-regular fa-clock w-3"></i> ---</div>
+                                <div class="text-[10px] text-slate-400 font-semibold mb-2"><i class="fa-solid fa-gears w-3"></i> Sự kiện mới</div>
+                                <div class="bg-slate-900 p-1 rounded text-[8px] font-mono text-slate-600 truncate border border-slate-800">Đang chờ...</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 text-center bg-purple-500/10 border border-purple-500/20 py-2 rounded-lg text-sm text-purple-300 font-medium">
+                            <i class="fa-solid fa-fingerprint mr-2"></i> Mỗi động cơ HEM là một thực thể số độc nhất
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= SLIDE 7: PHÂN TÍCH KHẢ THI (Trước đây là Slide 4) ================= -->
         <div class="slide flex-col justify-center px-16 md:px-24">
             <div class="slide-content max-w-7xl w-full mx-auto">
                 <div class="flex items-center gap-4 mb-8">
@@ -326,7 +571,7 @@
             </div>
         </div>
 
-        <!-- ================= SLIDE 5: CỐT LÕI LỰA CHỌN ================= -->
+        <!-- ================= SLIDE 8: CỐT LÕI LỰA CHỌN ================= -->
         <div class="slide flex-col justify-center items-center px-20 text-center">
             <div class="slide-content max-w-4xl mx-auto">
                 <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-emerald-500/10 border-4 border-emerald-500/30 text-5xl text-emerald-400 mb-8 shadow-[0_0_40px_rgba(16,185,129,0.2)]">
@@ -355,7 +600,7 @@
             </div>
         </div>
 
-        <!-- ================= SLIDE 6: ỨNG DỤNG THỰC TẾ ================= -->
+        <!-- ================= SLIDE 9: ỨNG DỤNG THỰC TẾ ================= -->
         <div class="slide flex-col justify-center px-12 md:px-20">
             <div class="slide-content max-w-7xl w-full mx-auto">
                 <div class="flex items-center gap-4 mb-10">
@@ -424,7 +669,7 @@
             </div>
         </div>
 
-        <!-- ================= SLIDE 7: OUTRO ================= -->
+        <!-- ================= SLIDE 10: OUTRO ================= -->
         <div class="slide flex-col justify-center items-center px-20">
             <div class="slide-content text-center max-w-3xl mx-auto border border-slate-800 bg-slate-900/50 p-12 rounded-3xl backdrop-blur-sm relative overflow-hidden">
                 <!-- Decorative effects -->
@@ -490,7 +735,7 @@
             // Show current slide
             slides[currentSlide].classList.add('active');
             
-            // Update page number formatting (01 / 07)
+            // Update page number formatting (01 / 10)
             const formattedCurrent = String(currentSlide + 1).padStart(2, '0');
             const formattedTotal = String(totalSlides).padStart(2, '0');
             pageNumber.innerText = `${formattedCurrent} / ${formattedTotal}`;
