@@ -78,6 +78,8 @@
             margin: 0; 
         }
     </style>
+    <!-- Thêm thư viện SheetJS để hỗ trợ xuất file Excel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body class="selection:bg-emerald-500/30 selection:text-emerald-200">
 
@@ -379,7 +381,7 @@
             <div class="slide-content max-w-6xl w-full mx-auto">
                 <div class="flex items-center gap-4 mb-8">
                     <div class="w-12 h-12 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xl shadow-[0_0_15px_rgba(245,158,11,0.3)]">
-                        <i class="fa-solid fa-file-csv"></i>
+                        <i class="fa-solid fa-file-excel"></i>
                     </div>
                     <div>
                         <h2 class="text-3xl font-bold text-white tracking-wide">Xuất Dữ Liệu Bàn Giao</h2>
@@ -397,14 +399,14 @@
                                 Công cụ này sẽ áp dụng <strong class="text-amber-400">Bộ Khóa Bí Mật hiện tại</strong> để tính toán ngay lập tức toàn bộ không gian số từ 1 đến 32,768.
                             </p>
                             <p class="text-slate-300 text-sm leading-relaxed mb-6">
-                                Đầu ra là một file định dạng <strong>CSV (Comma-Separated Values)</strong> gồm 2 cột, có thể mở trực tiếp bằng Excel hoặc import vào Database / ERP nội bộ để chuẩn bị cho sản xuất lô hàng mới.
+                                Đầu ra là một file định dạng <strong>Excel (.xlsx)</strong> gồm 2 cột, dễ dàng lưu trữ hoặc import trực tiếp vào Database / ERP nội bộ để chuẩn bị cho sản xuất lô hàng mới.
                             </p>
                         </div>
 
-                        <button onclick="downloadCSV()" class="relative group w-full bg-amber-600 hover:bg-amber-500 text-white font-bold py-4 px-6 rounded-xl transition-all shadow-[0_0_20px_rgba(245,158,11,0.2)] hover:shadow-[0_0_30px_rgba(245,158,11,0.4)] overflow-hidden">
+                        <button onclick="downloadExcel()" class="relative group w-full bg-amber-600 hover:bg-amber-500 text-white font-bold py-4 px-6 rounded-xl transition-all shadow-[0_0_20px_rgba(245,158,11,0.2)] hover:shadow-[0_0_30px_rgba(245,158,11,0.4)] overflow-hidden">
                             <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
                             <span class="flex items-center justify-center gap-3">
-                                <i class="fa-solid fa-download text-xl"></i> TẢI XUỐNG FILE .CSV (32,768 DÒNG)
+                                <i class="fa-solid fa-download text-xl"></i> TẢI XUỐNG FILE EXCEL (32,768 DÒNG)
                             </span>
                         </button>
                     </div>
@@ -636,24 +638,31 @@
             previewContainer.innerHTML = html;
         }
 
-        function downloadCSV() {
+        function downloadExcel() {
             const conf = getConfig();
-            let csvContent = "STT,SerialNumber\n";
             
-            // Generate full 32768 records
+            // Khởi tạo mảng dữ liệu cho Excel (Dòng đầu tiên là Header)
+            let excelData = [
+                ["Số Thứ Tự (STT)", "Mã Serial (Base32)"]
+            ];
+            
+            // Tính toán 32,768 dòng records
             for (let i = 1; i <= MODULUS; i++) {
-                csvContent += `${i},${encodeSerial(i, conf)}\n`;
+                excelData.push([i, encodeSerial(i, conf)]);
             }
             
-            // Create Blob and trigger download
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement("a");
-            link.setAttribute("href", url);
-            link.setAttribute("download", `HEM_EMM_Dictionary_XOR${conf.XOR_KEY}_MUL${conf.MULTIPLIER}.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            // Tạo Workbook và Worksheet bằng SheetJS
+            const ws = XLSX.utils.aoa_to_sheet(excelData);
+            
+            // Căn chỉnh chiều rộng các cột cho hiển thị đẹp mắt
+            ws['!cols'] = [{ wch: 18 }, { wch: 25 }];
+            
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Dictionary_Data");
+            
+            // Xuất file .xlsx
+            const fileName = `HEM_EMM_Dictionary_XOR${conf.XOR_KEY}_MUL${conf.MULTIPLIER}.xlsx`;
+            XLSX.writeFile(wb, fileName);
         }
 
         function runAll() {
