@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lộ Trình Triển Khai QR Code 2D - Động Cơ Điện</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #020617; /* slate-950 */
+            color: #f1f5f9;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            height: 100vh;
+            width: 100vw;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        .slide.active {
+            display: flex;
+            opacity: 1;
+            z-index: 10;
+        }
+
+        .slide-content {
+            animation: slideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(30px);
+            width: 100%;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Text Gradients */
+        .text-gradient-emerald {
+            background: linear-gradient(to right, #34d399, #059669);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .text-gradient-sky {
+            background: linear-gradient(to right, #38bdf8, #0284c7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Decorative Background */
+        .bg-grid {
+            background-image: radial-gradient(#1e293b 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="selection:bg-emerald-500/30 selection:text-emerald-200">
+
+    <!-- Global Background Elements -->
+    <div class="fixed inset-0 z-0 bg-grid opacity-20 pointer-events-none"></div>
+    <div class="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-emerald-900/10 blur-[120px] pointer-events-none z-0"></div>
+    <div class="fixed bottom-[-20%] right-[-10%] w-[40%] h-[40%] rounded-full bg-sky-900/10 blur-[120px] pointer-events-none z-0"></div>
+
+    <!-- Global Header -->
+    <div class="fixed top-0 right-0 p-6 z-50 pointer-events-none flex items-center gap-3">
+        <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+        <p class="text-xs font-bold text-slate-500 tracking-widest uppercase">STRATEGIC ROADMAP</p>
+    </div>
+
+    <!-- Global Footer -->
+    <div class="fixed bottom-0 left-0 p-4 md:p-6 z-50 pointer-events-none w-full flex flex-col md:flex-row justify-between items-center gap-2 md:gap-0">
+        <p class="text-xs font-medium text-slate-500 text-center md:text-left">Chuyển Đổi Số Sản Phẩm: Ứng dụng QR Code Chuẩn GS1</p>
+        <div class="flex items-center gap-4">
+            <div id="dot-container" class="flex gap-2 mr-0 md:mr-4 pointer-events-auto"></div>
+            <p id="pageNumber" class="text-sm font-mono font-semibold text-emerald-500/70 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">01 / 06</p>
+        </div>
+    </div>
+
+    <!-- Navigation Controls -->
+    <button onclick="prevSlide()" class="fixed left-2 md:left-6 top-1/2 -translate-y-1/2 p-3 md:p-4 text-slate-600 hover:text-emerald-400 transition-all z-50 bg-slate-900/50 border border-slate-800 rounded-full hover:bg-slate-800 hover:scale-110 shadow-lg backdrop-blur-sm group">
+        <i class="fas fa-chevron-left text-lg md:text-xl group-hover:-translate-x-1 transition-transform"></i>
+    </button>
+    <button onclick="nextSlide()" class="fixed right-2 md:right-6 top-1/2 -translate-y-1/2 p-3 md:p-4 text-slate-600 hover:text-emerald-400 transition-all z-50 bg-slate-900/50 border border-slate-800 rounded-full hover:bg-slate-800 hover:scale-110 shadow-lg backdrop-blur-sm group">
+        <i class="fas fa-chevron-right text-lg md:text-xl group-hover:translate-x-1 transition-transform"></i>
+    </button>
+
+    <!-- ================= SLIDES CONTAINER ================= -->
+    <div id="slides-container" class="relative w-full h-full z-10">
+
+        <!-- SLIDE 1: BÌA -->
+        <div class="slide active flex-col justify-center items-center px-12 md:px-24">
+            <div class="slide-content text-center max-w-5xl mx-auto flex flex-col items-center">
+                <div class="inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-slate-800 border border-slate-700 shadow-2xl shadow-emerald-500/10 mb-6 md:mb-8">
+                    <i class="fa-solid fa-qrcode text-4xl md:text-5xl text-emerald-400"></i>
+                </div>
+                <div class="inline-block px-4 py-1.5 rounded-full bg-slate-800/80 border border-slate-700 text-emerald-400 text-[10px] md:text-xs font-bold uppercase tracking-widest mb-6 backdrop-blur-sm">
+                    Kế Hoạch Hành Động (Action Plan)
+                </div>
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white mb-6 leading-tight tracking-tight">
+                    Lộ Trình Triển Khai <br> <span class="text-gradient-emerald">Mã Vạch 2D (QR Code)</span>
+                </h1>
+                <div class="w-24 h-1.5 bg-gradient-to-r from-emerald-500 to-sky-500 mx-auto rounded-full mb-8"></div>
+                <p class="text-base md:text-lg text-slate-400 leading-relaxed max-w-3xl mb-10 md:mb-12">
+                    Chiến lược đi tắt đón đầu: Bỏ qua hoàn toàn mã vạch 1D truyền thống, áp dụng trực tiếp mã QR chuẩn Web (GS1 Digital Link) lên tem nhãn động cơ điện.
+                </p>
+                <button onclick="nextSlide()" class="group flex items-center gap-3 px-6 md:px-8 py-3 md:py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-full transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)]">
+                    Bắt đầu Lộ trình
+                    <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: BỐI CẢNH & ĐIỂM XUẤT PHÁT -->
+        <div class="slide flex-col justify-center px-12 md:px-32">
+            <div class="slide-content max-w-6xl w-full mx-auto">
+                <div class="flex items-center gap-4 mb-8 md:mb-10">
+                    <div class="w-10 h-10 md:w-12 md:h-12 rounded-lg bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400 text-lg md:text-xl shadow-[0_0_15px_rgba(14,165,233,0.3)]">
+                        <i class="fa-solid fa-rocket"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-bold text-white tracking-wide">Lợi Thế Kẻ Đi Sau</h2>
+                        <p class="text-slate-400 text-xs md:text-sm mt-1 font-medium">Bỏ qua công nghệ cũ - Bắt nhịp tương lai Sunrise 2027</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+                    <div class="space-y-4 md:space-y-6 text-base md:text-lg text-slate-300 leading-relaxed">
+                        <p>
+                            Doanh nghiệp chúng ta đang ở vị thế thuận lợi: <strong class="text-white">Chưa từng sử dụng mã QR hay mã vạch 1D (UPC/EAN)</strong> trên sản phẩm. 
+                        </p>
+                        <p>
+                            Điều này giúp chúng ta không tốn chi phí chuyển đổi hệ thống cũ, mà có thể áp dụng ngay lập tức cấu trúc <strong class="text-sky-400">GS1 Digital Link (Web URI)</strong> - tiêu chuẩn tương lai của ngành công nghiệp.
+                        </p>
+                        <div class="bg-slate-900/60 border border-slate-800 p-4 md:p-5 rounded-2xl flex items-start gap-4">
+                            <i class="fa-solid fa-circle-check text-emerald-500 text-xl md:text-2xl mt-1"></i>
+                            <div>
+                                <h4 class="text-white font-bold text-sm md:text-base mb-1">Mục tiêu cốt lõi:</h4>
+                                <p class="text-slate-400 text-xs md:text-sm">Một mã QR duy nhất thay thế hàng loạt giấy tờ: Sách HDSD, Thẻ bảo hành, Sơ đồ đấu dây hộp cực, và Hồ sơ quản lý sản xuất.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visual Comparison -->
+                    <div class="flex flex-col gap-4 md:gap-6">
+                        <!-- Old way -->
+                        <div class="bg-slate-900/40 border border-slate-800/50 p-4 md:p-6 rounded-2xl flex items-center gap-4 md:gap-6 opacity-50 grayscale">
+                            <div class="w-12 md:w-16 flex flex-col items-center gap-1">
+                                <i class="fa-solid fa-barcode text-3xl md:text-4xl text-slate-500"></i>
+                                <span class="text-[8px] md:text-[10px] text-slate-500 font-bold">1D UPC</span>
+                            </div>
+                            <div>
+                                <h4 class="text-slate-300 font-bold text-sm md:text-base line-through">Quá khứ: Mã vạch tĩnh</h4>
+                                <p class="text-slate-500 text-[10px] md:text-xs mt-1">Chỉ chứa mã số, yêu cầu máy quét chuyên dụng, không thể kết nối internet.</p>
+                            </div>
+                        </div>
+                        <!-- New way -->
+                        <div class="bg-slate-900/80 border border-emerald-500/50 p-4 md:p-6 rounded-2xl flex items-center gap-4 md:gap-6 shadow-[0_0_30px_rgba(16,185,129,0.1)] relative overflow-hidden group">
+                            <div class="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-transparent"></div>
+                            <div class="w-12 md:w-16 flex flex-col items-center gap-1 relative z-10">
+                                <i class="fa-solid fa-qrcode text-4xl md:text-5xl text-emerald-400 group-hover:scale-110 transition-transform"></i>
+                                <span class="text-[8px] md:text-[10px] text-emerald-400 font-bold mt-1">2D GS1</span>
+                            </div>
+                            <div class="relative z-10">
+                                <h4 class="text-white font-bold text-sm md:text-lg">Hiện tại & Tương lai: Digital Link</h4>
+                                <p class="text-emerald-100/70 text-xs md:text-sm mt-1">Quét bằng mọi Smartphone. Dẫn trực tiếp đến dữ liệu động, truy xuất nguồn gốc và KCS.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: GIAI ĐOẠN 1 - BÒ -->
+        <div class="slide flex-col justify-center px-12 md:px-32">
+            <div class="slide-content max-w-6xl w-full mx-auto">
+                <div class="flex items-center gap-4 md:gap-6 mb-6 md:mb-10">
+                    <div class="text-4xl md:text-6xl font-extrabold text-slate-800">01</div>
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-bold text-white tracking-wide">Giai Đoạn CRAWL (Bò)</h2>
+                        <p class="text-emerald-400 text-xs md:text-sm mt-1 font-medium">Thiết lập nền tảng QR trên Nhãn Động Cơ</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+                    <div class="col-span-1 lg:col-span-2 space-y-4 md:space-y-6">
+                        <div class="bg-slate-900/80 border border-slate-800 p-4 md:p-6 rounded-2xl hover:border-emerald-500/30 transition-colors">
+                            <h3 class="text-base md:text-lg font-bold text-white mb-2 flex items-center gap-2"><i class="fa-solid fa-crosshairs text-emerald-400"></i> Trọng tâm</h3>
+                            <p class="text-slate-400 text-xs md:text-sm">Cung cấp thông tin số hóa cơ bản cho người dùng cuối (Khách hàng/Thợ lắp đặt) nhằm tăng độ tin cậy của Thương hiệu.</p>
+                        </div>
+                        
+                        <div class="bg-slate-900/80 border border-slate-800 p-4 md:p-6 rounded-2xl">
+                            <h3 class="text-base md:text-lg font-bold text-white mb-4 flex items-center gap-2"><i class="fa-solid fa-list-check text-sky-400"></i> Các bước hành động</h3>
+                            <ul class="space-y-3 md:space-y-4">
+                                <li class="flex items-start gap-3">
+                                    <div class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 text-[10px] md:text-xs font-bold mt-0.5">1</div>
+                                    <p class="text-slate-300 text-xs md:text-sm"><strong class="text-white">Thiết kế lại tem nhôm (Nameplate):</strong> Bố trí một khoảng không gian chuẩn (đảm bảo vùng trống Quiet Zone) để in mã QR.</p>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 text-[10px] md:text-xs font-bold mt-0.5">2</div>
+                                    <p class="text-slate-300 text-xs md:text-sm"><strong class="text-white">Tạo QR Code cấp nhãn:</strong> In mã QR định dạng GS1 Digital Link (hoặc URL tĩnh trỏ về Server) chứa mã GTIN/Mã SP.</p>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 text-[10px] md:text-xs font-bold mt-0.5">3</div>
+                                    <p class="text-slate-300 text-xs md:text-sm"><strong class="text-white">Số hóa tài liệu:</strong> Khi quét mã, khách hàng xem được: Thông số kỹ thuật chi tiết, Chứng nhận xuất xưởng (KCS), Hướng dẫn đấu nối và Giao diện kích hoạt bảo hành.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 hidden md:flex flex-col items-center justify-center relative shadow-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-emerald-500/10 to-transparent rounded-2xl pointer-events-none"></div>
+                        <i class="fa-solid fa-mobile-screen text-6xl text-slate-700 mb-6"></i>
+                        <div class="w-32 h-32 bg-white rounded-xl p-2 flex items-center justify-center mb-6 shadow-xl shadow-emerald-500/20">
+                            <i class="fa-solid fa-qrcode text-[100px] text-slate-900"></i>
+                        </div>
+                        <div class="text-center w-full">
+                            <span class="bg-emerald-500/20 text-emerald-400 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest">Giai đoạn cơ bản</span>
+                            <p class="text-xs text-slate-400 mt-3 font-mono border-t border-slate-800 pt-3">https://domain.vn/01/123456</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: GIAI ĐOẠN 2 - ĐI -->
+        <div class="slide flex-col justify-center px-12 md:px-32">
+            <div class="slide-content max-w-6xl w-full mx-auto">
+                <div class="flex items-center gap-4 md:gap-6 mb-6 md:mb-10">
+                    <div class="text-4xl md:text-6xl font-extrabold text-slate-800">02</div>
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-bold text-white tracking-wide">Giai Đoạn WALK (Đi)</h2>
+                        <p class="text-sky-400 text-xs md:text-sm mt-1 font-medium">Khám phá Dữ liệu Động (GTIN+) & Quản trị Nội bộ</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-10">
+                    <div class="space-y-4 md:space-y-6">
+                        <div class="bg-slate-900/80 border border-slate-800 p-4 md:p-6 rounded-2xl hover:border-sky-500/30 transition-colors">
+                            <h3 class="text-base md:text-lg font-bold text-white mb-2 flex items-center gap-2"><i class="fa-solid fa-crosshairs text-sky-400"></i> Trọng tâm</h3>
+                            <p class="text-slate-400 text-xs md:text-sm">Quản lý vòng đời từng động cơ riêng biệt, chống gian lận bảo hành, bắt đầu thu thập dữ liệu (Data Analytics).</p>
+                        </div>
+                        
+                        <div class="bg-slate-900/80 border border-slate-800 p-4 md:p-6 rounded-2xl">
+                            <h3 class="text-base md:text-lg font-bold text-white mb-4 flex items-center gap-2"><i class="fa-solid fa-cogs text-sky-400"></i> Các bước hành động</h3>
+                            <ul class="space-y-3 md:space-y-4">
+                                <li class="flex items-start gap-3">
+                                    <div class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-sky-500/20 text-sky-400 flex items-center justify-center shrink-0 text-[10px] md:text-xs font-bold mt-0.5"><i class="fa-solid fa-check"></i></div>
+                                    <p class="text-slate-300 text-xs md:text-sm"><strong class="text-white">In dữ liệu động (Dynamic Printing):</strong> Nâng cấp máy khắc Laser để in mã QR chứa dữ liệu riêng cho từng máy (Serial Number, Mã Lô, Ngày SX).</p>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-sky-500/20 text-sky-400 flex items-center justify-center shrink-0 text-[10px] md:text-xs font-bold mt-0.5"><i class="fa-solid fa-check"></i></div>
+                                    <p class="text-slate-300 text-xs md:text-sm"><strong class="text-white">Tối ưu Bao bì:</strong> Giảm bớt các thông số in thừa trên vỏ thùng carton/tem kim loại, đưa toàn bộ dữ liệu phụ vào QR.</p>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <div class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-sky-500/20 text-sky-400 flex items-center justify-center shrink-0 text-[10px] md:text-xs font-bold mt-0.5"><i class="fa-solid fa-check"></i></div>
+                                    <p class="text-slate-300 text-xs md:text-sm"><strong class="text-white">Khai thác Data Analytics:</strong> Phân tích tọa độ quét mã (GPS), thời gian kích hoạt bảo hành để vẽ bản đồ phân phối sản phẩm thực tế.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Analytics visual -->
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 hidden md:flex flex-col justify-center relative shadow-lg overflow-hidden group">
+                        <div class="absolute inset-0 bg-gradient-to-br from-sky-500/5 to-transparent"></div>
+                        <h4 class="text-white font-bold mb-6 text-center relative z-10">Bảng điều khiển Dữ liệu (Dashboard)</h4>
+                        
+                        <div class="space-y-4 relative z-10">
+                            <!-- Bar chart sim -->
+                            <div class="space-y-2">
+                                <div class="flex justify-between text-xs text-slate-400"><span class="text-sky-400 font-bold">Quét bảo hành</span><span>68%</span></div>
+                                <div class="w-full bg-slate-800 rounded-full h-2"><div class="bg-sky-500 h-2 rounded-full" style="width: 68%"></div></div>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between text-xs text-slate-400"><span class="text-emerald-400 font-bold">Lịch sử bảo trì</span><span>42%</span></div>
+                                <div class="w-full bg-slate-800 rounded-full h-2"><div class="bg-emerald-500 h-2 rounded-full" style="width: 42%"></div></div>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 pt-6 border-t border-slate-800 flex items-center gap-4 relative z-10">
+                            <div class="w-12 h-12 bg-slate-950 rounded-lg flex items-center justify-center text-amber-500 border border-slate-800 shrink-0"><i class="fa-solid fa-shield-halved"></i></div>
+                            <p class="text-xs text-slate-400 leading-relaxed">Hệ thống phát hiện ngay lập tức nếu một Serial Number động cơ bị quét ở 2 vị trí địa lý khác nhau (Cảnh báo hàng giả).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: GIAI ĐOẠN 3 - CHẠY -->
+        <div class="slide flex-col justify-center px-12 md:px-32">
+            <div class="slide-content max-w-6xl w-full mx-auto">
+                <div class="flex items-center gap-4 md:gap-6 mb-6 md:mb-10">
+                    <div class="text-4xl md:text-6xl font-extrabold text-slate-800">03</div>
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-bold text-white tracking-wide">Giai Đoạn RUN (Chạy)</h2>
+                        <p class="text-amber-400 text-xs md:text-sm mt-1 font-medium">Vận hành toàn diện, Quy mô lớn & Công nghệ đỉnh cao</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+                    <div class="bg-slate-900/80 border border-slate-800 p-6 md:p-8 rounded-2xl relative overflow-hidden group">
+                        <div class="absolute -right-4 -top-4 md:-right-6 md:-top-6 text-[80px] md:text-[100px] text-emerald-500/5 group-hover:text-emerald-500/10 transition-colors pointer-events-none"><i class="fa-solid fa-server"></i></div>
+                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-lg md:text-xl mb-4 md:mb-6"><i class="fa-solid fa-network-wired"></i></div>
+                        <h3 class="text-lg md:text-xl font-bold text-white mb-2 md:mb-3">Tích hợp ERP Sâu</h3>
+                        <p class="text-slate-400 text-xs md:text-sm leading-relaxed">
+                            Mã QR kết nối trực tiếp với phần mềm quản lý kho/ERP. Kỹ thuật viên quét mã tại xưởng để xác nhận hoàn thành công đoạn, cập nhật "Sẵn sàng xuất kho" tự động.
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-900/80 border border-slate-800 p-6 md:p-8 rounded-2xl relative overflow-hidden group">
+                        <div class="absolute -right-4 -top-4 md:-right-6 md:-top-6 text-[80px] md:text-[100px] text-amber-500/5 group-hover:text-amber-500/10 transition-colors pointer-events-none"><i class="fa-solid fa-print"></i></div>
+                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-lg md:text-xl mb-4 md:mb-6"><i class="fa-solid fa-microchip"></i></div>
+                        <h3 class="text-lg md:text-xl font-bold text-white mb-2 md:mb-3">RFID / NFC Hybrid</h3>
+                        <p class="text-slate-400 text-xs md:text-sm leading-relaxed">
+                            Đánh giá sử dụng thêm công nghệ sóng vô tuyến (RFID/NFC) gắn dưới nhãn. Cho phép quét dữ liệu xuyên qua lớp dầu mỡ dày đặc trên thân động cơ mà không cần lau chùi.
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-900/80 border border-slate-800 p-6 md:p-8 rounded-2xl relative overflow-hidden group">
+                        <div class="absolute -right-4 -top-4 md:-right-6 md:-top-6 text-[80px] md:text-[100px] text-rose-500/5 group-hover:text-rose-500/10 transition-colors pointer-events-none"><i class="fa-solid fa-shield-virus"></i></div>
+                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center text-lg md:text-xl mb-4 md:mb-6"><i class="fa-solid fa-lock"></i></div>
+                        <h3 class="text-lg md:text-xl font-bold text-white mb-2 md:mb-3">Bảo trì Dự đoán (AI)</h3>
+                        <p class="text-slate-400 text-xs md:text-sm leading-relaxed">
+                            Nhật ký sửa chữa của từng mã QR được đưa vào AI phân tích. Hệ thống tự động nhắc nhở khách hàng: <em>"Động cơ đã chạy 5000h, vui lòng tra mỡ vòng bi"</em>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: TỔNG KẾT ROADMAP -->
+        <div class="slide flex-col justify-center items-center px-12 md:px-24 text-center">
+            <div class="slide-content w-full max-w-6xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-8 md:mb-12 tracking-wide">Tóm Tắt Lộ Trình Triển Khai</h2>
+                
+                <div class="relative flex flex-col md:flex-row justify-between items-center gap-6 md:gap-0 mt-6 md:mt-10">
+                    <!-- Progress Line background -->
+                    <div class="absolute hidden md:block top-1/2 left-0 w-full h-1 bg-slate-800 -translate-y-1/2 z-0"></div>
+                    
+                    <!-- Crawl -->
+                    <div class="relative z-10 w-full md:w-[30%] flex flex-col items-center">
+                        <div class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-slate-950 border-4 border-slate-700 flex items-center justify-center text-xl md:text-2xl text-slate-500 mb-3 md:mb-4 shadow-xl">
+                            <i class="fa-solid fa-baby"></i>
+                        </div>
+                        <div class="bg-slate-900 border border-slate-800 p-4 md:p-6 rounded-2xl w-full text-center hover:border-emerald-500/50 transition-colors">
+                            <h3 class="text-emerald-400 font-bold uppercase tracking-widest mb-1 md:mb-2 text-sm md:text-base">1. Bò (Crawl)</h3>
+                            <h4 class="text-white font-semibold mb-2 md:mb-3 text-sm md:text-base">Mã QR Định Danh Chung</h4>
+                            <p class="text-[10px] md:text-xs text-slate-400">1 QR code chung cho 1 dòng SP. Cung cấp HDSD, thông số kỹ thuật số hóa.</p>
+                        </div>
+                    </div>
+
+                    <!-- Line active segment -->
+                    <div class="hidden md:block absolute top-1/2 left-[15%] w-[35%] h-1 bg-gradient-to-r from-slate-700 to-sky-500 -translate-y-1/2 z-0 opacity-50"></div>
+
+                    <!-- Walk -->
+                    <div class="relative z-10 w-full md:w-[30%] flex flex-col items-center">
+                        <div class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-slate-950 border-4 border-sky-500 flex items-center justify-center text-xl md:text-2xl text-sky-400 mb-3 md:mb-4 shadow-[0_0_20px_rgba(14,165,233,0.3)] md:scale-110">
+                            <i class="fa-solid fa-person-walking"></i>
+                        </div>
+                        <div class="bg-slate-900 border border-sky-500/30 p-4 md:p-6 rounded-2xl w-full text-center shadow-lg">
+                            <h3 class="text-sky-400 font-bold uppercase tracking-widest mb-1 md:mb-2 text-sm md:text-base">2. Đi (Walk)</h3>
+                            <h4 class="text-white font-semibold mb-2 md:mb-3 text-sm md:text-base">Mã QR Serial Động</h4>
+                            <p class="text-[10px] md:text-xs text-slate-400">Mỗi động cơ 1 mã QR duy nhất (STT/Ngày SX). Quản lý bảo hành, chống hàng giả.</p>
+                        </div>
+                    </div>
+
+                    <!-- Line active segment 2 -->
+                    <div class="hidden md:block absolute top-1/2 left-[50%] w-[35%] h-1 bg-gradient-to-r from-sky-500 to-amber-500 -translate-y-1/2 z-0 opacity-20"></div>
+
+                    <!-- Run -->
+                    <div class="relative z-10 w-full md:w-[30%] flex flex-col items-center opacity-70 hover:opacity-100 transition-opacity">
+                        <div class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-slate-950 border-4 border-slate-700 flex items-center justify-center text-xl md:text-2xl text-slate-500 mb-3 md:mb-4 shadow-xl">
+                            <i class="fa-solid fa-person-running"></i>
+                        </div>
+                        <div class="bg-slate-900 border border-slate-800 p-4 md:p-6 rounded-2xl w-full text-center hover:border-amber-500/50 transition-colors">
+                            <h3 class="text-amber-400 font-bold uppercase tracking-widest mb-1 md:mb-2 text-sm md:text-base">3. Chạy (Run)</h3>
+                            <h4 class="text-white font-semibold mb-2 md:mb-3 text-sm md:text-base">Hệ Sinh Thái Tự Động</h4>
+                            <p class="text-[10px] md:text-xs text-slate-400">Tích hợp sâu ERP, theo dõi vòng đời, kết hợp chip NFC cho môi trường khắc nghiệt.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-10 md:mt-16 flex justify-center pb-12 md:pb-0">
+                    <button onclick="scrollToSlide(0)" class="text-xs md:text-sm px-5 py-2 md:px-6 md:py-2.5 rounded-full border border-slate-700 text-slate-400 hover:text-white hover:bg-slate-800 transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-rotate-left"></i> Về trang bìa
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Script điều khiển Slide -->
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const pageNumber = document.getElementById('pageNumber');
+        const dotContainer = document.getElementById('dot-container');
+        const totalSlides = slides.length;
+
+        // Khởi tạo chấm tròn điều hướng
+        for(let i=0; i<totalSlides; i++) {
+            const dot = document.createElement('button');
+            dot.className = `w-1.5 h-1.5 md:w-2 md:h-2 rounded-full transition-all duration-300 ${i === 0 ? 'bg-emerald-500 w-3 md:w-4 shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 'bg-slate-700 hover:bg-slate-500'}`;
+            dot.onclick = () => scrollToSlide(i);
+            dotContainer.appendChild(dot);
+        }
+        const dots = dotContainer.children;
+
+        function updateSlide() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                
+                // Hack để reset animation
+                const content = slide.querySelector('.slide-content');
+                if(content) {
+                    content.style.animation = 'none';
+                    content.offsetHeight; 
+                    content.style.animation = null; 
+                }
+
+                // Cập nhật trạng thái chấm tròn
+                if(dots[index]) {
+                    dots[index].className = `w-1.5 h-1.5 md:w-2 md:h-2 rounded-full transition-all duration-300 ${index === currentSlide ? 'bg-emerald-500 w-3 md:w-4 shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 'bg-slate-700 hover:bg-slate-500'}`;
+                }
+            });
+            
+            // Hiển thị slide hiện tại
+            slides[currentSlide].classList.add('active');
+            
+            // Cập nhật số trang
+            const formattedCurrent = String(currentSlide + 1).padStart(2, '0');
+            const formattedTotal = String(totalSlides).padStart(2, '0');
+            pageNumber.innerText = `${formattedCurrent} / ${formattedTotal}`;
+        }
+
+        function scrollToSlide(index) {
+            if(index >= 0 && index < totalSlides) {
+                currentSlide = index;
+                updateSlide();
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        // Điều khiển bằng bàn phím
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                prevSlide();
+            }
+        });
+
+        // Điều khiển bằng chuột (cuộn)
+        let isScrolling = false;
+        window.addEventListener('wheel', (e) => {
+            if (isScrolling) return;
+            isScrolling = true;
+            
+            if (e.deltaY > 0) {
+                nextSlide();
+            } else if (e.deltaY < 0) {
+                prevSlide();
+            }
+            
+            // Debounce để tránh nhảy quá nhanh
+            setTimeout(() => {
+                isScrolling = false;
+            }, 800); 
+        });
+
+        // Click vào nền (trừ button/link) để sang trang
+        document.getElementById('slides-container').addEventListener('click', (e) => {
+            if(e.target.tagName !== 'BUTTON' && 
+               e.target.tagName !== 'I' && 
+               e.target.tagName !== 'A' &&
+               !e.target.closest('button') &&
+               window.getSelection().toString().length === 0) {
+                nextSlide();
+            }
+        });
+
+        // Hỗ trợ vuốt (swipe) trên điện thoại
+        let touchstartX = 0;
+        let touchendX = 0;
+        
+        document.addEventListener('touchstart', e => {
+            touchstartX = e.changedTouches[0].screenX;
+        }, {passive: true});
+
+        document.addEventListener('touchend', e => {
+            touchendX = e.changedTouches[0].screenX;
+            checkDirection();
+        }, {passive: true});
+
+        function checkDirection() {
+            if (touchendX < touchstartX - 50) nextSlide(); // Vuốt trái -> next
+            if (touchendX > touchstartX + 50) prevSlide(); // Vuốt phải -> prev
+        }
+
+        // Khởi động
+        updateSlide();
+        
+        // Cố gắng focus vào window để nhận phím tắt ngay lập tức
+        window.focus();
+    </script>
+</body>
+</html>
