@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chuẩn hóa Mã Định Danh Động Cơ | HEM EMM</title>
+    <title>Đề xuất cấu trúc Mã Định Danh Động Cơ | HEM EMM</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
@@ -83,7 +83,7 @@
 
     <!-- Global Footer (Page Number) -->
     <div class="fixed bottom-0 left-0 p-6 z-50 pointer-events-none w-full flex justify-between items-center">
-        <p class="text-xs font-medium text-slate-500">Chuẩn hóa: Serial Number & Product Type & Stock Keeping Unit</p>
+        <p class="text-xs font-medium text-slate-500">Chuẩn hóa: Mã định danh - Serial Number - cho sản phẩm Động cơ</p>
         <div class="flex items-center gap-4">
             <div class="flex gap-1">
                 <!-- Dots injected via JS -->
@@ -115,11 +115,11 @@
                     Đề xuất Ứng dụng
                 </div>
                 <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-6 leading-tight tracking-tight">
-                    Chuẩn hóa Kiến trúc <br> <span class="text-gradient">Mã Định Danh Động Cơ</span>
+                    Chuẩn hóa Cấu trúc <br> <span class="text-gradient">Mã Định Danh Động Cơ</span>
                 </h1>
                 <div class="w-24 h-1.5 bg-gradient-to-r from-sky-500 to-emerald-500 mx-auto rounded-full mb-8"></div>
                 <p class="text-lg md:text-xl text-slate-400 leading-relaxed font-light max-w-3xl">
-                    Chuẩn hóa và Tách bạch rõ ràng vai trò của Mã Serial (Truy xuất), Type (Kỹ thuật) và SKU (Quản lý kho vận) nhằm tối ưu hóa vận hành, kho bãi, vận chuyển và hệ thống tra cứu thông tin điện tử.
+                    Tách bạch rõ ràng vai trò của Mã Serial (Truy xuất), Type (Kỹ thuật) và SKU (Quản lý kho vận) nhằm tối ưu hóa vận hành, kho bãi, vận chuyển và hệ thống tra cứu thông tin điện tử.
                 </p>
                 <button onclick="nextSlide()" class="mt-12 group flex items-center gap-3 px-6 py-3 bg-sky-600 hover:bg-sky-500 text-white font-bold rounded-full transition-all shadow-[0_0_20px_rgba(14,165,233,0.3)]">
                     Nội dung chi tiết
@@ -128,53 +128,233 @@
             </div>
         </div>
 
-        <!-- ================= SLIDE 2: MỤC TIÊU VÀ TIÊU CHUẨN ================= -->
-        <div class="slide flex-col justify-center items-center px-16 md:px-32 text-center">
-            <div class="slide-content max-w-5xl mx-auto border border-slate-800 bg-slate-900/50 p-12 rounded-3xl backdrop-blur-sm relative overflow-hidden">
-                <div class="absolute -top-1/2 -right-1/2 w-full h-full bg-gradient-to-bl from-sky-500/10 to-transparent rotate-12 blur-2xl pointer-events-none"></div>
-                
-                <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-slate-800 border border-slate-700 text-4xl text-sky-400 mb-8 relative z-10 shadow-lg">
-                    <i class="fa-solid fa-globe"></i>
+        <!-- ================= SLIDE 2: FORMAT SERIAL NUMBER ================= -->
+        <div class="slide flex-col justify-center px-16 md:px-32">
+            <div class="slide-content max-w-6xl w-full mx-auto">
+                <div class="flex items-center gap-4 mb-10">
+                    <div class="w-12 h-12 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xl shadow-[0_0_15px_rgba(245,158,11,0.3)]">
+                        <i class="fa-solid fa-qrcode"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-white tracking-wide">Đề xuất Cấu trúc Serial (10 Ký tự)</h2>
+                        <p class="text-slate-500 text-sm mt-1">Format: <strong class="text-white font-mono bg-slate-800 px-2 py-0.5 rounded ml-1">TTTT Y M III C</strong></p>
+                    </div>
                 </div>
-                
-                <h2 class="text-3xl md:text-4xl font-bold text-white mb-6 leading-relaxed relative z-10">Đề xuất dựa trên các <span class="text-sky-400">tiêu chuẩn quốc tế</span><br> phổ biến và hiện đại nhất hiện nay.</h2>
-                
-                <div class="w-16 h-1 bg-sky-500 mx-auto rounded-full mb-8 relative z-10"></div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10 text-left">
-                    <div class="bg-slate-950/80 p-5 rounded-2xl border border-slate-800 flex items-start gap-4 hover:border-sky-500/50 transition-colors">
-                        <div class="w-12 h-12 rounded-xl bg-sky-500/10 flex items-center justify-center text-sky-400 shrink-0 text-2xl"><i class="fa-solid fa-globe"></i></div>
-                        <div>
-                            <h3 class="text-white font-bold mb-1 text-base">GS1 Toàn cầu</h3>
-                            <p class="text-sm text-slate-400 leading-relaxed">Ứng dụng <strong class="text-sky-400">GS1 Digital Link</strong> & GTIN để định danh, kết nối và phân luồng dữ liệu thông minh trên đa nền tảng.</p>
+
+                <div class="bg-slate-900/80 border border-slate-800 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden backdrop-blur text-center">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-sky-500 via-emerald-500 to-rose-500"></div>
+                    
+                    <!-- Code Blocks -->
+                    <div class="flex flex-wrap justify-center gap-3 md:gap-6 mb-12">
+                        <!-- TTTT -->
+                        <div class="flex flex-col items-center group cursor-default">
+                            <div class="flex">
+                                <div class="w-12 h-16 md:w-16 md:h-20 bg-sky-900/40 border-2 border-sky-500/50 rounded-l-lg flex items-center justify-center text-2xl md:text-4xl font-bold font-mono text-sky-400 group-hover:bg-sky-500/20 transition-colors">3</div>
+                                <div class="w-12 h-16 md:w-16 md:h-20 bg-sky-900/40 border-y-2 border-r-2 border-sky-500/50 flex items-center justify-center text-2xl md:text-4xl font-bold font-mono text-sky-400 group-hover:bg-sky-500/20 transition-colors">K</div>
+                                <div class="w-12 h-16 md:w-16 md:h-20 bg-sky-900/40 border-y-2 border-r-2 border-sky-500/50 flex items-center justify-center text-2xl md:text-4xl font-bold font-mono text-sky-400 group-hover:bg-sky-500/20 transition-colors">H</div>
+                                <div class="w-12 h-16 md:w-16 md:h-20 bg-sky-900/40 border-y-2 border-r-2 border-sky-500/50 rounded-r-lg flex items-center justify-center text-2xl md:text-4xl font-bold font-mono text-sky-400 group-hover:bg-sky-500/20 transition-colors">T</div>
+                            </div>
+                            <div class="mt-4 text-xs font-bold text-sky-400 uppercase tracking-widest bg-sky-500/10 px-3 py-1 rounded">Loại Động Cơ</div>
+                        </div>
+
+                        <!-- Y M -->
+                        <div class="flex flex-col items-center group cursor-default">
+                            <div class="flex gap-1">
+                                <div class="w-12 h-16 md:w-16 md:h-20 bg-emerald-900/40 border-2 border-emerald-500/50 rounded-lg flex items-center justify-center text-2xl md:text-4xl font-bold font-mono text-emerald-400 group-hover:bg-emerald-500/20 transition-colors">6</div>
+                                <div class="w-12 h-16 md:w-16 md:h-20 bg-emerald-900/40 border-2 border-emerald-500/50 rounded-lg flex items-center justify-center text-2xl md:text-4xl font-bold font-mono text-emerald-400 group-hover:bg-emerald-500/20 transition-colors">B</div>
+                            </div>
+                            <div class="mt-4 text-xs font-bold text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-3 py-1 rounded">Năm/Tháng</div>
+                        </div>
+
+                        <!-- III -->
+                        <div class="flex flex-col items-center group cursor-default">
+                            <div class="flex">
+                                <div class="w-12 h-16 md:w-16 md:h-20 bg-amber-900/40 border-2 border-amber-500/50 rounded-l-lg flex items-center justify-center text-2xl md:text-4xl font-bold font-mono text-amber-400 group-hover:bg-amber-500/20 transition-colors">M</div>
+                                <div class="w-12 h-16 md:w-16 md:h-20 bg-amber-900/40 border-y-2 border-r-2 border-amber-500/50 flex items-center justify-center text-2xl md:text-4xl font-bold font-mono text-amber-400 group-hover:bg-amber-500/20 transition-colors">4</div>
+                                <div class="w-12 h-16 md:w-16 md:h-20 bg-amber-900/40 border-y-2 border-r-2 border-amber-500/50 rounded-r-lg flex items-center justify-center text-2xl md:text-4xl font-bold font-mono text-amber-400 group-hover:bg-amber-500/20 transition-colors">P</div>
+                            </div>
+                            <div class="mt-4 text-xs font-bold text-amber-400 uppercase tracking-widest bg-amber-500/10 px-3 py-1 rounded">Mã STT (RFC 4648)</div>
+                        </div>
+
+                        <!-- C -->
+                        <div class="flex flex-col items-center group cursor-default">
+                            <div class="w-12 h-16 md:w-16 md:h-20 bg-rose-900/40 border-2 border-rose-500/50 rounded-lg flex items-center justify-center text-2xl md:text-4xl font-bold font-mono text-rose-400 group-hover:bg-rose-500/20 transition-colors">X</div>
+                            <div class="mt-4 text-xs font-bold text-rose-400 uppercase tracking-widest bg-rose-500/10 px-3 py-1 rounded">Checksum</div>
                         </div>
                     </div>
-                    <div class="bg-slate-950/80 p-5 rounded-2xl border border-slate-800 flex items-start gap-4 hover:border-amber-500/50 transition-colors">
-                        <div class="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 shrink-0 text-2xl"><i class="fa-solid fa-microchip"></i></div>
-                        <div>
-                            <h3 class="text-white font-bold mb-1 text-base">IETF (RFC 4648)</h3>
-                            <p class="text-sm text-slate-400 leading-relaxed">Áp dụng chuẩn <strong class="text-amber-400">Base32</strong> mã hóa an toàn, loại bỏ ký tự nhầm lẫn cho chuỗi ID Serial và thuật toán Checksum.</p>
-                        </div>
+
+                    <div class="bg-slate-950 p-4 rounded-xl inline-block border border-slate-800 shadow-inner">
+                        <p class="text-slate-300">Ý nghĩa: Động cơ <strong class="text-sky-400">3K Chịu Nhiệt</strong> sản xuất <strong class="text-emerald-400">Tháng 12/2026</strong>. <br>Mã hóa số thứ tự là <strong class="text-amber-400">M4P</strong>, Checksum hợp lệ <strong class="text-rose-400">X</strong>.</p>
                     </div>
-                    <div class="bg-slate-950/80 p-5 rounded-2xl border border-slate-800 flex items-start gap-4 hover:border-rose-500/50 transition-colors">
-                        <div class="w-12 h-12 rounded-xl bg-rose-500/10 flex items-center justify-center text-rose-400 shrink-0 text-2xl"><i class="fa-solid fa-bolt"></i></div>
-                        <div>
-                            <h3 class="text-white font-bold mb-1 text-base">IEC / NEMA</h3>
-                            <p class="text-sm text-slate-400 leading-relaxed">Bám sát <strong class="text-rose-400">IEC 60034 & 60529</strong> trong quy ước Type: Công suất (kW), Cực từ (P), Cấp bảo vệ (IP) và Cách điện.</p>
-                        </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= SLIDE 3: BẢNG QUY ƯỚC SERIAL ================= -->
+        <div class="slide flex-col justify-center px-16 md:px-32">
+            <div class="slide-content max-w-6xl w-full mx-auto">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="w-12 h-12 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xl">
+                        <i class="fa-solid fa-table-list"></i>
                     </div>
-                    <div class="bg-slate-950/80 p-5 rounded-2xl border border-slate-800 flex items-start gap-4 hover:border-emerald-500/50 transition-colors">
-                        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 shrink-0 text-2xl"><i class="fa-solid fa-qrcode"></i></div>
-                        <div>
-                            <h3 class="text-white font-bold mb-1 text-base">ISO/IEC 18004</h3>
-                            <p class="text-sm text-slate-400 leading-relaxed">Quy chuẩn <strong class="text-emerald-400">Mã QR Code 2D</strong> kết hợp thuật toán tự động sửa lỗi (Reed-Solomon) chuyên dụng trong công nghiệp.</p>
+                    <div>
+                        <h2 class="text-3xl font-bold text-white tracking-wide">Bảng Quy Ước Mã Ký Tự</h2>
+                        <p class="text-slate-500 text-sm mt-1">Áp dụng cho Tiền tố (Prefix) và Thời gian (Năm/Tháng) của chuỗi Serial</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Bảng Prefix -->
+                    <div class="bg-slate-900/80 rounded-2xl border border-slate-800 overflow-hidden backdrop-blur">
+                        <div class="bg-slate-800/50 p-4 border-b border-slate-700">
+                            <h3 class="font-bold text-sky-400 flex items-center gap-2"><i class="fa-solid fa-tag"></i> 4 Ký tự Loại Động cơ (TTTT)</h3>
+                        </div>
+                        <table class="w-full text-left">
+                            <thead>
+                                <tr class="text-xs uppercase text-slate-500 bg-slate-950">
+                                    <th class="p-3 pl-6">Mã (Prefix)</th>
+                                    <th class="p-3">Diễn giải (Đọc hiểu)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm divide-y divide-slate-800/50 text-slate-300">
+                                <tr class="hover:bg-slate-800/30">
+                                    <td class="p-3 pl-6 font-mono font-bold text-white">3KST</td>
+                                    <td class="p-3">3K Standard (Tiêu chuẩn)</td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/30">
+                                    <td class="p-3 pl-6 font-mono font-bold text-white">3KHT</td>
+                                    <td class="p-3">3K Heat Resistant (Chịu nhiệt)</td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/30 border-b-2 border-slate-700">
+                                    <td class="p-3 pl-6 font-mono font-bold text-white">3K2S</td>
+                                    <td class="p-3">3K Two Speed (2 Tốc độ)</td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/30">
+                                    <td class="p-3 pl-6 font-mono font-bold text-white">4KST</td>
+                                    <td class="p-3">4KA Standard (Tiêu chuẩn)</td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/30 border-b-2 border-slate-700">
+                                    <td class="p-3 pl-6 font-mono font-bold text-white">4KHT</td>
+                                    <td class="p-3">4KA Heat Resistant (Chịu nhiệt)</td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/30">
+                                    <td class="p-3 pl-6 font-mono font-bold text-white">3PEX</td>
+                                    <td class="p-3">3PN Explosion Proof (Phòng nổ)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Bảng Thời gian -->
+                    <div class="flex flex-col gap-6">
+                        <div class="bg-slate-900/80 rounded-2xl border border-slate-800 overflow-hidden backdrop-blur flex-1">
+                            <div class="bg-slate-800/50 p-4 border-b border-slate-700">
+                                <h3 class="font-bold text-emerald-400 flex items-center gap-2"><i class="fa-solid fa-calendar-days"></i> Ký tự Năm & Tháng (Y M)</h3>
+                            </div>
+                            <div class="grid grid-cols-2">
+                                <div class="border-r border-slate-800 p-4">
+                                    <h4 class="text-xs text-slate-500 uppercase mb-3 font-bold">Năm (Y)</h4>
+                                    <div class="grid grid-cols-2 gap-2 text-sm text-slate-300">
+                                        <div><span class="font-mono text-white bg-slate-800 px-1.5 rounded mr-1">5</span> 2025</div>
+                                        <div><span class="font-mono text-white bg-slate-800 px-1.5 rounded mr-1">6</span> 2026</div>
+                                        <div><span class="font-mono text-white bg-slate-800 px-1.5 rounded mr-1">7</span> 2027</div>
+                                        <div><span class="font-mono text-white bg-slate-800 px-1.5 rounded mr-1">8</span> 2028</div>
+                                        <div><span class="font-mono text-white bg-slate-800 px-1.5 rounded mr-1">9</span> 2029</div>
+                                        <div><span class="font-mono text-white bg-slate-800 px-1.5 rounded mr-1">0</span> 2030</div>
+                                    </div>
+                                </div>
+                                <div class="p-4">
+                                    <h4 class="text-xs text-slate-500 uppercase mb-3 font-bold">Tháng (M)</h4>
+                                    <div class="grid grid-cols-2 gap-2 text-sm text-slate-300">
+                                        <div><span class="font-mono text-white bg-slate-800 px-1.5 rounded mr-1">1-9</span> T1-T9</div>
+                                        <div><span class="font-mono text-white bg-slate-800 px-1.5 rounded mr-1">0</span> T10</div>
+                                        <div><span class="font-mono text-white bg-slate-800 px-1.5 rounded mr-1">A</span> T11</div>
+                                        <div><span class="font-mono text-white bg-slate-800 px-1.5 rounded mr-1">B</span> T12</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-900/80 rounded-2xl border border-slate-800 p-5 backdrop-blur flex items-start gap-4">
+                            <i class="fa-solid fa-triangle-exclamation text-amber-500 text-2xl mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-white mb-1">Mã hóa RFC 4648 (Cho ID & Checksum)</h4>
+                                <p class="text-xs text-slate-400">Sử dụng bộ ký tự chuẩn <code class="text-amber-400 bg-slate-950 px-1 rounded font-mono">ABCDEFGHIJKLMNOPQRSTUVWXYZ234567</code>. <br>Loại bỏ các số 0, 1, 8, 9 để tránh nhầm lẫn khi đọc bằng mắt thường.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ================= SLIDE 3: KIẾN TRÚC 3 LỚP ================= -->
+        <!-- ================= SLIDE 4: CHUẨN HÓA TỪ KHI BẮT ĐẦU ================= -->
+        <div class="slide flex-col justify-center px-16 md:px-32">
+            <div class="slide-content max-w-6xl w-full mx-auto">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="w-12 h-12 rounded-lg bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400 text-xl shadow-[0_0_15px_rgba(244,63,94,0.3)]">
+                        <i class="fa-solid fa-ruler-combined"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-white tracking-wide">Chuẩn hóa từ khi bắt đầu</h2>
+                        <p class="text-slate-500 text-sm mt-1">Mục tiêu: Đi đúng hướng từ đầu, phù hợp với các tiêu chuẩn hiện đại. Tránh tình trạng khó xử như với kiểu động cơ (Type) và mã SKU (3S ERP).</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <!-- Type Format -->
+                    <div class="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 relative overflow-hidden backdrop-blur shadow-lg flex flex-col">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-sky-500"></div>
+                        <h3 class="text-xl font-bold text-white mb-2"><i class="fa-solid fa-file-contract text-sky-400 mr-2"></i> Mã Kiểu (TYPE)</h3>
+                        
+                        <div class="bg-rose-500/10 border border-rose-500/20 rounded-lg p-3 mb-4">
+                            <p class="text-sm text-rose-300"><i class="fa-solid fa-triangle-exclamation mr-1"></i> <strong>Thực trạng:</strong> Chưa có quy định chặt chẽ từ đầu. Tham khảo 2 Catalog (Tiêu chuẩn & Phòng nổ) cho thấy sự thiếu đồng nhất.</p>
+                        </div>
+                        
+                        <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 text-center mb-4 flex-1 flex flex-col justify-center relative">
+                            <p class="text-slate-500 text-xs uppercase font-bold tracking-widest mb-3">Ví dụ thực tế từ Catalog</p>
+                            <span class="text-2xl font-mono font-bold text-white block mb-2">3K225M-4 <span class="text-sm text-slate-400 font-sans font-normal">(Dòng 3K)</span></span>
+                            <span class="text-2xl font-mono font-bold text-white block border-t border-slate-800 pt-2 mt-2">3PN400(MS) <span class="text-sm text-slate-400 font-sans font-normal">(Phòng nổ)</span></span>
+                        </div>
+                        
+                        <div class="bg-sky-500/10 p-3 rounded-lg border border-sky-500/20 flex gap-3 items-start">
+                            <i class="fa-solid fa-circle-info text-sky-400 mt-0.5"></i>
+                            <p class="text-sm text-slate-300 leading-relaxed">
+                                Việc tùy hứng sử dụng kích cỡ thân hay chiều dài trục và không có quy tắc về độ dài khiến mã Type lộn xộn, gây khó khăn cho tất cả hoạt động chuyển đổi số về sau.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- SKU Format -->
+                    <div class="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 relative overflow-hidden backdrop-blur shadow-lg flex flex-col border-r-4 border-r-emerald-500">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-emerald-500"></div>
+                        <h3 class="text-xl font-bold text-white mb-2"><i class="fa-solid fa-database text-emerald-400 mr-2"></i> Mã SKU (3S ERP)</h3>
+                        
+                        <div class="bg-rose-500/10 border border-rose-500/20 rounded-lg p-3 mb-4">
+                            <p class="text-sm text-rose-300"><i class="fa-solid fa-triangle-exclamation mr-1"></i> <strong>Thực trạng:</strong> Đã có quy tắc (chữ + số) nhưng sai lệch nhiều. Hạn chế của 3S ERP khiến dữ liệu cũ rất khó sửa.</p>
+                        </div>
+                        
+                        <div class="bg-slate-950 border border-emerald-900/50 rounded-xl p-4 text-center mb-4 flex-1 flex flex-col justify-center relative">
+                            <p class="text-slate-500 text-xs uppercase font-bold tracking-widest mb-3">Mã SKU trong file 3S ERP hiện tại</p>
+                            <span class="text-3xl font-mono font-bold text-rose-400 block mb-2 line-through decoration-rose-500/50">HC02211</span>
+                            <span class="text-3xl font-mono font-bold text-rose-400 block border-t border-slate-800 pt-2 mt-2 line-through decoration-rose-500/50">BBC3K132</span>
+                        </div>
+                        
+                        <div class="bg-emerald-500/10 p-3 rounded-lg border border-emerald-500/20 flex gap-3 items-start">
+                            <i class="fa-solid fa-circle-info text-emerald-400 mt-0.5"></i>
+                            <p class="text-sm text-slate-300 leading-relaxed">
+                                Hầu hết SP thương mại dùng mã số thuần (được thống nhất thành <strong>GTIN</strong>). Việc sử dụng cả chữ và số không phù hợp với xu hướng, khi đã phát sinh giao dịch trên ERP thì <strong>gần như không thể sửa lại</strong>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center bg-amber-500/10 border border-amber-500/20 py-3 rounded-xl text-sm text-amber-300 font-medium">
+                    <i class="fa-solid fa-lightbulb mr-2 text-amber-400 animate-pulse"></i> <strong>Bài học:</strong> Cả 2 trường hợp này đều có các tiêu chuẩn toàn cầu thực tế để tham khảo, nhưng đã không được áp dụng triệt để từ đầu.
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= SLIDE 5: KIẾN TRÚC 3 LỚP ================= -->
         <div class="slide flex-col justify-center px-16 md:px-32">
             <div class="slide-content max-w-6xl w-full mx-auto">
                 <div class="flex items-center gap-4 mb-12">
@@ -182,8 +362,8 @@
                         <i class="fa-solid fa-layer-group"></i>
                     </div>
                     <div>
-                        <h2 class="text-3xl font-bold text-white tracking-wide">Kiến trúc Quản lý 3 Lớp</h2>
-                        <p class="text-slate-500 text-sm mt-1">Không nhồi nhét mọi thứ vào một mã. Phân tách để tối ưu.</p>
+                        <h2 class="text-3xl font-bold text-white tracking-wide">Giải pháp: Quản lý 3 Lớp</h2>
+                        <p class="text-slate-500 text-sm mt-1">Đưa cả 3 loại mã vào trong cơ sở dữ liệu quản lý tập trung.</p>
                     </div>
                 </div>
                 
@@ -209,10 +389,10 @@
                             <i class="fa-solid fa-file-contract"></i>
                         </div>
                         <h3 class="text-xl font-bold text-white mb-2">PRODUCT TYPE</h3>
-                        <div class="text-xs font-bold text-sky-500/70 bg-sky-500/10 inline-block px-2 py-1 rounded mb-4">In trên Tem / Catalog</div>
+                        <div class="text-xs font-bold text-sky-500/70 bg-sky-500/10 inline-block px-2 py-1 rounded mb-4">Kế thừa Mã Catalog hiện tại</div>
                         <ul class="text-slate-400 text-sm leading-relaxed space-y-3">
-                            <li class="flex gap-2 items-start"><i class="fa-solid fa-check text-sky-500 mt-1"></i> <span>Mục đích: <strong>Thống nhất</strong> Tiêu chuẩn và Thông số kỹ thuật.</span></li>
-                            <li class="flex gap-2 items-start"><i class="fa-solid fa-check text-sky-500 mt-1"></i> <span>Đặc điểm: Truy xuất thông tin kỹ thuật: công suất, số cực, tính năng, ... . Phục vụ thiết kế, kỹ thuật, đấu thầu.</span></li>
+                            <li class="flex gap-2 items-start"><i class="fa-solid fa-check text-sky-500 mt-1"></i> <span>Mục đích: <strong>Xác định Thông số kỹ thuật</strong>. Kế thừa hệ thống mã hiện tại.</span></li>
+                            <li class="flex gap-2 items-start"><i class="fa-solid fa-check text-sky-500 mt-1"></i> <span>Đặc điểm: Dùng hệ thống mã truyền thống (VD: 3K225M-4). Phục vụ thiết kế, kỹ thuật, lắp đặt.</span></li>
                         </ul>
                     </div>
 
@@ -223,17 +403,17 @@
                             <i class="fa-solid fa-database"></i>
                         </div>
                         <h3 class="text-xl font-bold text-white mb-2">SKU</h3>
-                        <div class="text-xs font-bold text-emerald-500/70 bg-emerald-500/10 inline-block px-2 py-1 rounded mb-4">Phần mềm nội bộ (ERP)</div>
+                        <div class="text-xs font-bold text-emerald-500/70 bg-emerald-500/10 inline-block px-2 py-1 rounded mb-4">ERP, kho vận, xuất/nhập khẩu</div>
                         <ul class="text-slate-400 text-sm leading-relaxed space-y-3">
-                            <li class="flex gap-2 items-start"><i class="fa-solid fa-check text-emerald-500 mt-1"></i> <span>Mục đích: <strong>Quản lý kho vận</strong>. Gắn liền với ERP, liên kết GS1.</span></li>
-                            <li class="flex gap-2 items-start"><i class="fa-solid fa-check text-emerald-500 mt-1"></i> <span>Đặc điểm: Chỉ dùng 4 chữ số (0001 - 9999). Ổn định, dễ gõ trên bàn phím số, không cần "đọc hiểu".</span></li>
+                            <li class="flex gap-2 items-start"><i class="fa-solid fa-check text-emerald-500 mt-1"></i> <span>Mục đích: <strong>Quản lý kho vận</strong>. Gắn liền với các hệ thống ERP.</span></li>
+                            <li class="flex gap-2 items-start"><i class="fa-solid fa-check text-emerald-500 mt-1"></i> <span>Đặc điểm: Mã sản phẩm chỉ nên gồm các chữ số (0001 - 9999). Cần có bảng ánh xạ sang mã trên 3S ERP. </span></li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ================= SLIDE 4: MỐI LIÊN HỆ & GS1 DIGITAL LINK ================= -->
+        <!-- ================= SLIDE 6: MỐI LIÊN HỆ & GS1 DIGITAL LINK ================= -->
         <div class="slide flex-col justify-center px-16 md:px-32">
             <div class="slide-content max-w-6xl w-full mx-auto">
                 <div class="flex items-center gap-4 mb-8">
@@ -251,7 +431,7 @@
                     <div class="lg:col-span-5 space-y-6">
                         <div class="bg-slate-900/80 border-l-4 border-sky-500 p-5 rounded-r-2xl shadow-lg">
                             <h3 class="text-white font-bold mb-1 flex items-center gap-2"><i class="fa-solid fa-file-contract text-sky-400"></i> Mã Type (Kỹ thuật)</h3>
-                            <p class="text-sm text-slate-400">Định danh cấu trúc cơ khí. VD: <code class="text-sky-300">3K-5.5-4P-EX</code> => Series 3K - công suất 5,5kW - 4 cực (1500 vòng /phút) - loại Phòng nổ.</p>
+                            <p class="text-sm text-slate-400">Định nghĩa cấu trúc cơ khí. VD: <code class="text-sky-300 font-mono">3K225M-4</code> => Series 3K - Cỡ thân 225M - 4 Cực (1500 vg/ph).</p>
                         </div>
                         <div class="bg-slate-900/80 border-l-4 border-emerald-500 p-5 rounded-r-2xl shadow-lg">
                             <h3 class="text-white font-bold mb-1 flex items-center gap-2"><i class="fa-solid fa-box text-emerald-400"></i> Mã SKU (Tồn kho)</h3>
@@ -265,7 +445,7 @@
                         <h4 class="text-center text-emerald-400 font-bold mb-6 tracking-widest uppercase text-sm">Cấu trúc URL Chuẩn GS1</h4>
                         
                         <div class="bg-slate-950 border border-slate-800 rounded-xl p-5 flex flex-col gap-3 font-mono text-sm shadow-inner break-all">
-                            <div class="text-slate-500">https://dongco.vn/</div>
+                            <div class="text-slate-500">https://tracuu.hem.com.vn/</div>
                             <div class="flex items-center gap-2 pl-4">
                                 <span class="text-emerald-500 font-bold text-lg">01/</span> 
                                 <span class="text-white text-lg">08930001234567</span> 
@@ -286,7 +466,7 @@
             </div>
         </div>
 
-        <!-- ================= SLIDE 5: TRẢI NGHIỆM ĐA LUỒNG ================= -->
+        <!-- ================= SLIDE 7: TRẢI NGHIỆM ĐA LUỒNG ================= -->
         <div class="slide flex-col justify-center px-16 md:px-32">
             <div class="slide-content max-w-6xl w-full mx-auto">
                 <div class="flex items-center gap-4 mb-10">
@@ -365,7 +545,7 @@
                                 <i class="fa-solid fa-bolt text-purple-400 mt-1"></i>
                                 <div>
                                     <h4 class="text-white text-sm font-semibold mb-1">Tự động hóa ERP</h4>
-                                    <p class="text-xs text-slate-400 leading-relaxed">Dữ liệu số tiêu chuẩn cho SAP/Odoo: Nhận diện sản phẩm -> Cập nhật kho vận</p>
+                                    <p class="text-xs text-slate-400 leading-relaxed">Dữ liệu Tiêu chuẩn ERP cho SAP/Odoo: Nhận diện sản phẩm -> Cập nhật kho vận</p>
                                 </div>
                             </div>
                             <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex gap-3">
@@ -381,227 +561,51 @@
             </div>
         </div>
 
-        <!-- ================= SLIDE 6: FORMAT SERIAL NUMBER ================= -->
+        <!-- ================= SLIDE 8: LỢI ÍCH SERIAL NUMBER MỚI ================= -->
         <div class="slide flex-col justify-center px-16 md:px-32">
             <div class="slide-content max-w-6xl w-full mx-auto">
-                <div class="flex items-center gap-4 mb-10">
-                    <div class="w-12 h-12 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xl shadow-[0_0_15px_rgba(245,158,11,0.3)]">
-                        <i class="fa-solid fa-qrcode"></i>
-                    </div>
-                    <div>
-                        <h2 class="text-3xl font-bold text-white tracking-wide">Cấu trúc Serial Number (10 Ký tự)</h2>
-                        <p class="text-slate-500 text-sm mt-1">Format: <strong class="text-white font-mono bg-slate-800 px-2 py-0.5 rounded ml-1">TTTT Y M III C</strong></p>
-                    </div>
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white tracking-wide mb-3">Phân tích Lợi ích: Cấu trúc <span class="text-amber-400">Serial Number</span> mới</h2>
+                    <p class="text-lg font-mono bg-slate-900 border border-slate-800 text-slate-300 inline-block px-4 py-2 rounded-xl shadow-inner">
+                        <i class="fa-solid fa-shield-halved text-emerald-400 mr-2"></i> MÃ HÓA THÔNG MINH - DỄ DÀNG ĐỌC HIỂU - BẢO MẬT CHỐNG GIẢ
+                    </p>
                 </div>
 
-                <div class="bg-slate-900/80 border border-slate-800 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden backdrop-blur text-center">
-                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-sky-500 via-emerald-500 to-rose-500"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <!-- KCS -->
+                    <div class="bg-slate-900/60 border border-slate-800 p-6 rounded-2xl hover:bg-slate-800/80 transition-colors flex gap-4">
+                        <div class="w-14 h-14 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center text-2xl shrink-0"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white mb-2">KCS & Truy xuất Nguồn gốc</h3>
+                            <p class="text-sm text-slate-400 leading-relaxed">Dễ dàng nhận biết thời gian xuất xưởng, kiểm tra và truy xuất thông tin sản xuât.</p>
+                        </div>
+                    </div>
                     
-                    <!-- Code Blocks -->
-                    <div class="flex flex-wrap justify-center gap-3 md:gap-6 mb-12">
-                        <!-- TTTT -->
-                        <div class="flex flex-col items-center group cursor-default">
-                            <div class="flex">
-                                <div class="w-12 h-16 md:w-16 md:h-20 bg-sky-900/40 border-2 border-sky-500/50 rounded-l-lg flex items-center justify-center text-2xl md:text-4xl font-bold font-mono text-sky-400 group-hover:bg-sky-500/20 transition-colors">3</div>
-                                <div class="w-12 h-16 md:w-16 md:h-20 bg-sky-900/40 border-y-2 border-r-2 border-sky-500/50 flex items-center justify-center text-2xl md:text-4xl font-bold font-mono text-sky-400 group-hover:bg-sky-500/20 transition-colors">K</div>
-                                <div class="w-12 h-16 md:w-16 md:h-20 bg-sky-900/40 border-y-2 border-r-2 border-sky-500/50 flex items-center justify-center text-2xl md:text-4xl font-bold font-mono text-sky-400 group-hover:bg-sky-500/20 transition-colors">H</div>
-                                <div class="w-12 h-16 md:w-16 md:h-20 bg-sky-900/40 border-y-2 border-r-2 border-sky-500/50 rounded-r-lg flex items-center justify-center text-2xl md:text-4xl font-bold font-mono text-sky-400 group-hover:bg-sky-500/20 transition-colors">T</div>
-                            </div>
-                            <div class="mt-4 text-xs font-bold text-sky-400 uppercase tracking-widest bg-sky-500/10 px-3 py-1 rounded">Loại Động Cơ</div>
-                        </div>
-
-                        <!-- Y M -->
-                        <div class="flex flex-col items-center group cursor-default">
-                            <div class="flex gap-1">
-                                <div class="w-12 h-16 md:w-16 md:h-20 bg-emerald-900/40 border-2 border-emerald-500/50 rounded-lg flex items-center justify-center text-2xl md:text-4xl font-bold font-mono text-emerald-400 group-hover:bg-emerald-500/20 transition-colors">6</div>
-                                <div class="w-12 h-16 md:w-16 md:h-20 bg-emerald-900/40 border-2 border-emerald-500/50 rounded-lg flex items-center justify-center text-2xl md:text-4xl font-bold font-mono text-emerald-400 group-hover:bg-emerald-500/20 transition-colors">B</div>
-                            </div>
-                            <div class="mt-4 text-xs font-bold text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-3 py-1 rounded">Năm/Tháng</div>
-                        </div>
-
-                        <!-- III -->
-                        <div class="flex flex-col items-center group cursor-default">
-                            <div class="flex">
-                                <div class="w-12 h-16 md:w-16 md:h-20 bg-amber-900/40 border-2 border-amber-500/50 rounded-l-lg flex items-center justify-center text-2xl md:text-4xl font-bold font-mono text-amber-400 group-hover:bg-amber-500/20 transition-colors">M</div>
-                                <div class="w-12 h-16 md:w-16 md:h-20 bg-amber-900/40 border-y-2 border-r-2 border-amber-500/50 flex items-center justify-center text-2xl md:text-4xl font-bold font-mono text-amber-400 group-hover:bg-amber-500/20 transition-colors">4</div>
-                                <div class="w-12 h-16 md:w-16 md:h-20 bg-amber-900/40 border-y-2 border-r-2 border-amber-500/50 rounded-r-lg flex items-center justify-center text-2xl md:text-4xl font-bold font-mono text-amber-400 group-hover:bg-amber-500/20 transition-colors">P</div>
-                            </div>
-                            <div class="mt-4 text-xs font-bold text-amber-400 uppercase tracking-widest bg-amber-500/10 px-3 py-1 rounded">Mã STT (Base32)</div>
-                        </div>
-
-                        <!-- C -->
-                        <div class="flex flex-col items-center group cursor-default">
-                            <div class="w-12 h-16 md:w-16 md:h-20 bg-rose-900/40 border-2 border-rose-500/50 rounded-lg flex items-center justify-center text-2xl md:text-4xl font-bold font-mono text-rose-400 group-hover:bg-rose-500/20 transition-colors">X</div>
-                            <div class="mt-4 text-xs font-bold text-rose-400 uppercase tracking-widest bg-rose-500/10 px-3 py-1 rounded">Checksum</div>
+                    <!-- Kỹ thuật -->
+                    <div class="bg-slate-900/60 border border-slate-800 p-6 rounded-2xl hover:bg-slate-800/80 transition-colors flex gap-4">
+                        <div class="w-14 h-14 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-2xl shrink-0"><i class="fa-solid fa-compass-drafting"></i></div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white mb-2">Phòng Kỹ Thuật & Thiết Kế</h3>
+                            <p class="text-sm text-slate-400 leading-relaxed">Mỗi mã sản phẩm gắn liền với bộ thông số kỹ thuật chuẩn, BOM chuẩn, quá trình sửa chữa bảo dưỡng.</p>
                         </div>
                     </div>
 
-                    <div class="bg-slate-950 p-4 rounded-xl inline-block border border-slate-800 shadow-inner">
-                        <p class="text-slate-300">Ý nghĩa: Động cơ <strong class="text-sky-400">3K Chịu Nhiệt</strong> sản xuất <strong class="text-emerald-400">Tháng 12/2026</strong>. <br>Mã hóa số thứ tự là <strong class="text-amber-400">M4P</strong>, Checksum hợp lệ <strong class="text-rose-400">X</strong>.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ================= SLIDE 7: BẢNG QUY ƯỚC SERIAL ================= -->
-        <div class="slide flex-col justify-center px-16 md:px-32">
-            <div class="slide-content max-w-6xl w-full mx-auto">
-                <div class="flex items-center gap-4 mb-8">
-                    <div class="w-12 h-12 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xl">
-                        <i class="fa-solid fa-table-list"></i>
-                    </div>
-                    <div>
-                        <h2 class="text-3xl font-bold text-white tracking-wide">Bảng Quy Ước Mã Ký Tự</h2>
-                        <p class="text-slate-500 text-sm mt-1">Áp dụng cho Tiền tố (Prefix) và Thời gian (Năm/Tháng)</p>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <!-- Bảng Prefix -->
-                    <div class="bg-slate-900/80 rounded-2xl border border-slate-800 overflow-hidden backdrop-blur">
-                        <div class="bg-slate-800/50 p-4 border-b border-slate-700">
-                            <h3 class="font-bold text-sky-400 flex items-center gap-2"><i class="fa-solid fa-tag"></i> 4 Ký tự Loại Động cơ (TTTT)</h3>
-                        </div>
-                        <table class="w-full text-left">
-                            <thead>
-                                <tr class="text-xs uppercase text-slate-500 bg-slate-950">
-                                    <th class="p-3 pl-6">Mã (Prefix)</th>
-                                    <th class="p-3">Diễn giải (Đọc hiểu)</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-sm divide-y divide-slate-800/50 text-slate-300">
-                                <tr class="hover:bg-slate-800/30">
-                                    <td class="p-3 pl-6 font-mono font-bold text-white">3KST</td>
-                                    <td class="p-3">3K Standard (Tiêu chuẩn)</td>
-                                </tr>
-                                <tr class="hover:bg-slate-800/30">
-                                    <td class="p-3 pl-6 font-mono font-bold text-white">3KHT</td>
-                                    <td class="p-3">3K Heat Resistant (Chịu nhiệt)</td>
-                                </tr>
-                                <tr class="hover:bg-slate-800/30 border-b-2 border-slate-700">
-                                    <td class="p-3 pl-6 font-mono font-bold text-white">3K2S</td>
-                                    <td class="p-3">3K Two Speed (2 Tốc độ)</td>
-                                </tr>
-                                <tr class="hover:bg-slate-800/30">
-                                    <td class="p-3 pl-6 font-mono font-bold text-white">4KST</td>
-                                    <td class="p-3">4KA Standard (Tiêu chuẩn)</td>
-                                </tr>
-                                <tr class="hover:bg-slate-800/30">
-                                    <td class="p-3 pl-6 font-mono font-bold text-white">4KHT</td>
-                                    <td class="p-3">4KA Heat Resistant (Chịu nhiệt)</td>
-                                </tr>
-                                <tr class="hover:bg-slate-800/30 border-b-2 border-slate-700">
-                                    <td class="p-3 pl-6 font-mono font-bold text-white">4K2S</td>
-                                    <td class="p-3">4KA Two Speed (2 Tốc độ)</td>
-                                </tr>
-                                <tr class="hover:bg-slate-800/30">
-                                    <td class="p-3 pl-6 font-mono font-bold text-white">1PST</td>
-                                    <td class="p-3">1 Phase Standard (1 Pha)</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Bảng Thời gian -->
-                    <div class="flex flex-col gap-6">
-                        <div class="bg-slate-900/80 rounded-2xl border border-slate-800 overflow-hidden backdrop-blur flex-1">
-                            <div class="bg-slate-800/50 p-4 border-b border-slate-700">
-                                <h3 class="font-bold text-emerald-400 flex items-center gap-2"><i class="fa-solid fa-calendar-days"></i> Ký tự Năm & Tháng (Y M)</h3>
-                            </div>
-                            <div class="grid grid-cols-2">
-                                <div class="border-r border-slate-800 p-4">
-                                    <h4 class="text-xs text-slate-500 uppercase mb-3 font-bold">Năm (Y)</h4>
-                                    <div class="grid grid-cols-2 gap-2 text-sm text-slate-300">
-                                        <div><span class="font-mono text-white bg-slate-800 px-1.5 rounded mr-1">5</span> 2025</div>
-                                        <div><span class="font-mono text-white bg-slate-800 px-1.5 rounded mr-1">6</span> 2026</div>
-                                        <div><span class="font-mono text-white bg-slate-800 px-1.5 rounded mr-1">7</span> 2027</div>
-                                        <div><span class="font-mono text-white bg-slate-800 px-1.5 rounded mr-1">8</span> 2028</div>
-                                        <div><span class="font-mono text-white bg-slate-800 px-1.5 rounded mr-1">9</span> 2029</div>
-                                        <div><span class="font-mono text-white bg-slate-800 px-1.5 rounded mr-1">0</span> 2030</div>
-                                    </div>
-                                </div>
-                                <div class="p-4">
-                                    <h4 class="text-xs text-slate-500 uppercase mb-3 font-bold">Tháng (M)</h4>
-                                    <div class="grid grid-cols-2 gap-2 text-sm text-slate-300">
-                                        <div><span class="font-mono text-white bg-slate-800 px-1.5 rounded mr-1">1-9</span> T1-T9</div>
-                                        <div><span class="font-mono text-white bg-slate-800 px-1.5 rounded mr-1">0</span> T10</div>
-                                        <div><span class="font-mono text-white bg-slate-800 px-1.5 rounded mr-1">A</span> T11</div>
-                                        <div><span class="font-mono text-white bg-slate-800 px-1.5 rounded mr-1">B</span> T12</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-slate-900/80 rounded-2xl border border-slate-800 p-5 backdrop-blur flex items-start gap-4">
-                            <i class="fa-solid fa-triangle-exclamation text-amber-500 text-2xl mt-1"></i>
-                            <div>
-                                <h4 class="font-bold text-white mb-1">Mã hóa RFC 4648 (Cho ID & Checksum)</h4>
-                                <p class="text-xs text-slate-400">Sử dụng bộ ký tự chuẩn <code class="text-amber-400 bg-slate-950 px-1 rounded font-mono">ABCDEFGHIJKLMNOPQRSTUVWXYZ234567</code>. <br>Loại bỏ các số 0, 1, 8, 9 để tránh nhầm lẫn khi đọc bằng mắt thường.</p>
-                            </div>
+                    <!-- CSKH -->
+                    <div class="bg-slate-900/60 border border-slate-800 p-6 rounded-2xl hover:bg-slate-800/80 transition-colors flex gap-4">
+                        <div class="w-14 h-14 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-2xl shrink-0"><i class="fa-solid fa-users"></i></div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white mb-2">Quan hệ khách hàng</h3>
+                            <p class="text-sm text-slate-400 leading-relaxed">Kết nối trực tiếp với khách hàng là người sử dụng cuối cùng(thu thập và quản lý thông tin).</p>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- ================= SLIDE 8: FORMAT TYPE CHUẨN QT ================= -->
-        <div class="slide flex-col justify-center px-16 md:px-32">
-            <div class="slide-content max-w-6xl w-full mx-auto">
-                <div class="flex items-center gap-4 mb-10">
-                    <div class="w-12 h-12 rounded-lg bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400 text-xl shadow-[0_0_15px_rgba(244,63,94,0.3)]">
-                        <i class="fa-solid fa-file-contract"></i>
-                    </div>
-                    <div>
-                        <h2 class="text-3xl font-bold text-white tracking-wide">Cấu trúc PRODUCT TYPE (Kỹ thuật)</h2>
-                        <p class="text-slate-500 text-sm mt-1">Mỗi mã Product Type tương ứng với bộ thông số kỹ thuật đặc trưng</p>
-                    </div>
-                </div>
-
-                <div class="bg-slate-900/80 border border-slate-800 rounded-3xl p-8 md:p-10 shadow-2xl relative overflow-hidden backdrop-blur text-center mb-8">
-                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-rose-500 to-purple-500"></div>
-                    <p class="text-slate-400 mb-6 font-medium">Format: <strong class="text-white text-xl ml-2 tracking-widest">[Series] - [Power] - [Pole] - [Feature] - [Option]</strong></p>
-                    
-                    <div class="inline-flex items-center justify-center bg-slate-950 border border-slate-800 rounded-xl px-8 py-6 mb-4 shadow-inner">
-                        <span class="text-4xl font-mono font-bold text-white">4K<span class="text-slate-600 mx-2">-</span>7.5<span class="text-slate-600 mx-2">-</span>4P<span class="text-slate-600 mx-2">-</span>HT</span>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-4 gap-4">
-                    <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
-                        <h4 class="text-xs uppercase font-bold text-slate-500 mb-2 border-b border-slate-800 pb-2">1. Series</h4>
-                        <ul class="text-sm text-slate-300 space-y-1">
-                            <li><strong class="text-white font-mono">1F</strong>: 1 pha</li>
-                            <li><strong class="text-white font-mono">3K</strong>: 3K</li>
-                            <li><strong class="text-white font-mono">4K</strong>: 4K</li>
-                            <li><strong class="text-white font-mono">PN/EX</strong>: Phòng nổ</li>
-                        </ul>
-                    </div>
-                    <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
-                        <h4 class="text-xs uppercase font-bold text-slate-500 mb-2 border-b border-slate-800 pb-2">2. Power (Công suất)</h4>
-                        <ul class="text-sm text-slate-300 space-y-1">
-                            <li>Tính bằng <strong class="text-white">kW</strong></li>
-                            <li>VD: <strong class="font-mono text-white">1.5</strong></li>
-                            <li>VD: <strong class="font-mono text-white">7.5</strong></li>
-                            <li>VD: <strong class="font-mono text-white">5.5/11</strong> (cho 2 tốc)</li>
-                        </ul>
-                    </div>
-                    <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
-                        <h4 class="text-xs uppercase font-bold text-slate-500 mb-2 border-b border-slate-800 pb-2">3. Pole (Số cực)</h4>
-                        <ul class="text-sm text-slate-300 space-y-1">
-                            <li><strong class="text-white font-mono">2P</strong>: ~3000 rpm</li>
-                            <li><strong class="text-white font-mono">4P</strong>: ~1500 rpm</li>
-                            <li><strong class="text-white font-mono">6P</strong>: ~1000 rpm</li>
-                            <li><strong class="text-white font-mono">4/2P</strong>: Đổi cực</li>
-                        </ul>
-                    </div>
-                    <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
-                        <h4 class="text-xs uppercase font-bold text-slate-500 mb-2 border-b border-slate-800 pb-2">4. Feature (Tính năng)</h4>
-                        <ul class="text-sm text-slate-300 space-y-1">
-                            <li><strong class="text-white font-mono">ST</strong>: Standard (Thường)</li>
-                            <li><strong class="text-white font-mono">HT</strong>: Heat Res. (Chịu nhiệt)</li>
-                            <li><strong class="text-white font-mono">2S</strong>: Two Speed</li>
-                            <li><strong class="text-white font-mono">TEFC</strong>: Kín hoàn toàn</li>
-                        </ul>
+                    <!-- Số hóa -->
+                    <div class="bg-slate-900/60 border border-slate-800 p-6 rounded-2xl hover:bg-slate-800/80 transition-colors flex gap-4">
+                        <div class="w-14 h-14 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center text-2xl shrink-0"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white mb-2">Số hóa & hệ thống GS1</h3>
+                            <p class="text-sm text-slate-400 leading-relaxed">Số hóa thông tin, đáp ứng tiêu chuẩn vận hành cùng các hệ thống khác.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -615,16 +619,16 @@
                         <i class="fa-solid fa-object-group"></i>
                     </div>
                     <div>
-                        <h2 class="text-3xl font-bold text-white tracking-wide">Ví dụ Bộ dữ liệu</h2>
-                        <p class="text-slate-500 text-sm mt-1">Kết hợp tiêu chuẩn quốc tế giữa 3 lớp dữ liệu</p>
+                        <h2 class="text-3xl font-bold text-white tracking-wide">Ví dụ Kết cấu Bộ dữ liệu Thực tế</h2>
+                        <p class="text-slate-500 text-sm mt-1">Sự kết hợp hoàn hảo giữa Serial Truy xuất, Type Kỹ thuật và SKU ERP</p>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <!-- Example 1 -->
-                    <div class="bg-slate-900/80 border border-slate-800 rounded-2xl overflow-hidden hover:border-slate-600 transition-colors shadow-lg">
+                    <div class="bg-slate-900/80 border border-slate-800 rounded-2xl overflow-hidden hover:border-slate-600 transition-colors shadow-lg relative">
                         <div class="bg-slate-800/80 p-4 border-b border-slate-700 flex justify-between items-center">
-                            <h3 class="font-bold text-white flex items-center gap-2"><i class="fa-solid fa-gear text-slate-400"></i> Động cơ 3K 2 tốc độ (5.5kW)</h3>
+                            <h3 class="font-bold text-white flex items-center gap-2"><i class="fa-solid fa-gear text-slate-400"></i> Động cơ 3K (5.5kW) - Tiêu chuẩn</h3>
                             <span class="text-xs bg-slate-700 text-white px-2 py-1 rounded">SX Tháng 05/2025</span>
                         </div>
                         <div class="p-6 space-y-4">
@@ -634,29 +638,32 @@
                             </div>
                             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
                                 <span class="text-sm text-slate-400">Mã Kỹ thuật (TYPE)</span>
-                                <span class="font-mono font-bold text-lg text-sky-400">3K-5.5/11-4/2P-2S</span>
+                                <span class="font-mono font-bold text-lg text-sky-400">3K132M-4</span>
                             </div>
                             <div class="flex justify-between items-center">
                                 <span class="text-sm text-slate-400">Mã Truy xuất (SERIAL)</span>
-                                <span class="font-mono font-bold text-xl text-amber-400 tracking-wider">3K2S55M4PX</span>
+                                <span class="font-mono font-bold text-xl text-amber-400 tracking-wider">3KST55M4PX</span>
                             </div>
                         </div>
                     </div>
 
                     <!-- Example 2 -->
-                    <div class="bg-slate-900/80 border border-slate-800 rounded-2xl overflow-hidden hover:border-slate-600 transition-colors shadow-lg">
-                        <div class="bg-slate-800/80 p-4 border-b border-slate-700 flex justify-between items-center">
-                            <h3 class="font-bold text-white flex items-center gap-2"><i class="fa-solid fa-fire-flame-curved text-rose-400"></i> Động cơ 4KA Chịu nhiệt (30kW)</h3>
+                    <div class="bg-slate-900/80 border border-sky-800 rounded-2xl overflow-hidden hover:border-sky-500 transition-colors shadow-[0_0_20px_rgba(14,165,233,0.1)] relative">
+                        <div class="absolute top-0 right-0 overflow-hidden w-16 h-16">
+                            <div class="bg-sky-500 text-white text-[10px] font-bold py-1 w-24 text-center transform rotate-45 translate-x-4 translate-y-2 shadow-sm">ĐẶC BIỆT</div>
+                        </div>
+                        <div class="bg-slate-800/80 p-4 border-b border-sky-900/50 flex justify-between items-center pr-16">
+                            <h3 class="font-bold text-white flex items-center gap-2"><i class="fa-solid fa-fire-flame-curved text-rose-400"></i> Động cơ 4KA (30kW) - Đặc biệt</h3>
                             <span class="text-xs bg-slate-700 text-white px-2 py-1 rounded">SX Tháng 11/2026</span>
                         </div>
                         <div class="p-6 space-y-4">
                             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
                                 <span class="text-sm text-slate-400">Mã Quản lý ERP (SKU)</span>
-                                <span class="font-mono font-bold text-lg text-emerald-400">2048</span>
+                                <span class="font-mono font-bold text-lg text-emerald-400">2049</span>
                             </div>
                             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
                                 <span class="text-sm text-slate-400">Mã Kỹ thuật (TYPE)</span>
-                                <span class="font-mono font-bold text-lg text-sky-400">4K-30-2P-HT</span>
+                                <span class="font-mono font-bold text-lg text-sky-400">4KA200L2.DH123</span>
                             </div>
                             <div class="flex justify-between items-center">
                                 <span class="text-sm text-slate-400">Mã Truy xuất (SERIAL)</span>
@@ -667,7 +674,7 @@
                 </div>
 
                 <div class="mt-8 text-center bg-sky-500/10 border border-sky-500/20 py-3 rounded-xl text-sm text-sky-300 font-medium">
-                    <i class="fa-solid fa-lightbulb mr-2 text-amber-400 animate-pulse"></i> Thiết kế này giúp KD, QC đọc Serial là biết ngày tháng, Kỹ thuật đọc Type là biết thông số, Kế toán gõ SKU là xuất được kho!
+                    <i class="fa-solid fa-lightbulb mr-2 text-amber-400 animate-pulse"></i> Thiết kế này giúp KD, QC đọc Serial là biết ngày tháng, Kỹ thuật đọc Type là biết thông số & bản vẽ, Kế toán gõ SKU là xuất đúng hàng!
                 </div>
             </div>
         </div>
@@ -686,7 +693,7 @@
                 <div class="w-16 h-1 bg-emerald-500 mx-auto rounded-full mb-6 relative z-10"></div>
                 
                 <p class="text-lg text-slate-300 leading-relaxed relative z-10 mb-8 max-w-3xl mx-auto">
-                    Cấu trúc định danh mới sẵn sàng để áp dụng vào hệ thống ERP, sinh mã QR in tem và triển khai Module Bảo hành điện tử cho HEM EMM.
+                    Việc ban hành và tuân thủ <strong>quy ước định danh chính thức</strong> là yêu cầu tối thiểu và bắt buộc để chuyển đổi số, làm tiền đề áp dụng ERP, sinh mã QR in tem và triển khai Bảo hành điện tử cho HEM EMM.
                 </p>
                 
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-4 relative z-10 text-left mb-8">
@@ -708,11 +715,11 @@
                     </div>
                     <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex items-center gap-3 hover:border-purple-500/50 transition-colors">
                         <div class="w-10 h-10 rounded-full bg-purple-500/10 flex items-center justify-center shrink-0"><i class="fa-solid fa-boxes-stacked text-purple-400 text-lg"></i></div>
-                        <span class="text-sm text-slate-300 font-semibold">Quản lý kho</span>
+                        <span class="text-sm text-slate-300 font-semibold">Quản lý kho (SKU)</span>
                     </div>
                     <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex items-center gap-3 hover:border-indigo-500/50 transition-colors">
                         <div class="w-10 h-10 rounded-full bg-indigo-500/10 flex items-center justify-center shrink-0"><i class="fa-solid fa-book-open text-indigo-400 text-lg"></i></div>
-                        <span class="text-sm text-slate-300 font-semibold">Catalog kỹ thuật & Mở rộng</span>
+                        <span class="text-sm text-slate-300 font-semibold">Định chuẩn 1 Type = 1 Bản vẽ</span>
                     </div>
                 </div>
                 
